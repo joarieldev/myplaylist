@@ -1,23 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { motion } from "motion/react";
 import { Heart } from "../assets/icons/Heart";
 
-export const Thumbnail = ({ video }: { video: any }) => {
+interface Props {
+  track: any;
+  handleTrack: (data: any) => void;
+}
+
+export const Thumbnail = ({ track }: { track: any }) => {
   return (
-    <div
+    <motion.div
+      layoutId={`track-thumbnail-${track.id}`}
       className="bg-gray-500 w-32 h-16 rounded-md"
-      style={{ backgroundColor: video.image }}
-    ></div>
+      style={{ backgroundColor: track.image }}
+    />
   );
 };
 
-export const Track = ({ video }: { video: any }) => {
+export const TrackInfo = ({ track }: { track: any }) => {
   return (
-    <article className="flex gap-2 items-center cursor-pointer hover:bg-gray-800 p-2 rounded-lg">
-      <Thumbnail video={video} />
-      <div className="w-full">
-        <h1 className="font-bold">{video.title}</h1>
-        <p className="text-sm">{video.description}</p>
-      </div>
+    <motion.div className="w-full" layout="position" layoutId={`track-info-${track.id}`}>
+      <h1 className="font-bold">{track.title}</h1>
+      <p className="text-sm">{track.description}</p>
+    </motion.div>
+  );
+};
+
+export const Track = ({ track, handleTrack }: Props) => {
+  return (
+    <article
+      className="flex gap-2 items-center cursor-pointer hover:bg-gray-800 p-2 rounded-lg"
+      onClick={() => handleTrack(track)}
+    >
+      <Thumbnail track={track} />
+      <TrackInfo track={track} />
       <button className="cursor-pointer p-1 hover:bg-gray-700 rounded-full active:scale-105">
         <Heart />
       </button>

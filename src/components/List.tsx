@@ -1,55 +1,60 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Track } from "./Track";
 
-const videos = [
+const tracks = [
   {
     id: "1",
-    title: "First video",
-    description: "Video description",
+    title: "First Track",
+    description: "Track description",
     image: "blue",
   },
   {
     id: "2",
-    title: "Second video",
-    description: "Video description",
+    title: "Second Track",
+    description: "Track description",
     image: "red",
   },
   {
     id: "3",
-    title: "Third video",
-    description: "Video description",
+    title: "Third Track",
+    description: "Track description",
     image: "green",
   },
   {
     id: "4",
-    title: "Fourth video",
-    description: "Video description",
+    title: "Fourth Track",
+    description: "Track description",
     image: "purple",
   },
   {
     id: "5",
-    title: "Fifth video",
-    description: "Video description",
+    title: "Fifth Track",
+    description: "Track description",
     image: "yellow",
   },
   {
     id: "6",
-    title: "Sixth video",
-    description: "Video description",
+    title: "Sixth Track",
+    description: "Track description",
     image: "gray",
   },
   {
     id: "7",
-    title: "Seventh video",
-    description: "Video description",
+    title: "Seventh Track",
+    description: "Track description",
     image: "orange",
   },
 ];
 
-export const List = () => {
+interface Props {
+  handleTrack: (data: any) => void;
+}
+
+export const List = ({ handleTrack }: Props) => {
   return (
     <div>
-      {videos.map((video) => (
-        <Track key={video.id} video={video} />
+      {tracks.map((track) => (
+        <Track key={track.id} track={track} handleTrack={handleTrack} />
       ))}
     </div>
   );

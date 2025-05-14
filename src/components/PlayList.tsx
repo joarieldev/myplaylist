@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft } from "@/assets/icons/ChevronLeft";
 import { Layout } from "./Layout";
 import { LIst } from "@/assets/icons/LIst";
@@ -12,12 +13,13 @@ import { Favorites } from "./Favorites";
 import { Trending } from "./Trending";
 
 interface Props {
-  onClick: () => void;
+  onExit: () => void;
+  handleTrack: (data:any) => void;
 }
 
 type Tabs = "list" | "local" | "trending" | "favorites";
 
-export const PlayList = ({ onClick }: Props) => {
+export const PlayList = ({ onExit, handleTrack }: Props) => {
   const [selectedTab, setSelectedTab] = useState<Tabs>("list");
 
   return (
@@ -25,7 +27,7 @@ export const PlayList = ({ onClick }: Props) => {
       heading={
         <nav className="flex justify-between pb-2 pr-1 font-bold">
           <button
-            onClick={onClick}
+            onClick={onExit}
             className="cursor-pointer active:text-gray-300 flex text-sm justify-center items-center"
           >
             <ChevronLeft /> Volver
@@ -55,8 +57,8 @@ export const PlayList = ({ onClick }: Props) => {
         </nav>
       }
     >
-      <section className="overflow-auto h-full">
-        {selectedTab === "list" && <List />}
+      <section className="overflow-y-auto overflow-x-hidden h-full">
+        {selectedTab === "list" && <List handleTrack={handleTrack} />}
         {selectedTab === "local" && <Local />}
         {selectedTab === "trending" && <Trending />}
         {selectedTab === "favorites" && <Favorites />}
