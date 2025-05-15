@@ -1,7 +1,6 @@
 import { ITrending } from "@/interfaces/Trending";
 import { useTracksStore } from "@/store/tracks-store";
 import { useTabStore } from "@/store/tab-store";
-import React from "react";
 import { getTracks } from "@/actions/get-tracks";
 
 interface Props {

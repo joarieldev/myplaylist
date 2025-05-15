@@ -1,32 +1,24 @@
-"use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GridList } from "./GridList";
-import { ITrending } from "@/interfaces/Trending";
 import clsx from "clsx";
 import { getTrending } from "@/actions/get-trending";
 import { X } from "@/assets/icons/X";
+import { Reload } from "@/assets/icons/Reload";
+import { useQuery } from "@tanstack/react-query";
 
 export const Trending = () => {
-  const [trending, setTrending] = useState<ITrending[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [loadingTracks, setLoadingTracks] = useState<boolean>(false);
   const [errorTracks, setErrorTracks] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    getTrending()
-      .then(({ ok, data, message }) => {
-        if (!ok) {
-          setError(message ?? null);
-          return;
-        }
-        setTrending(data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const {
+    isPending: loading,
+    error,
+    refetch,
+    data: trending,
+  } = useQuery({
+    queryKey: ["queryTrending"],
+    queryFn: getTrending,
+    retry: false,
+  });
 
   if (loading) {
     return (
@@ -39,7 +31,15 @@ export const Trending = () => {
   if (error) {
     return (
       <div className="size-full grid place-items-center">
-        <p className="text-center">{error}</p>
+        <p className="flex justify-center items-center flex-col gap-1">
+          {error.message}
+          <button
+            onClick={() => refetch()}
+            className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
+          >
+            <Reload />
+          </button>
+        </p>
       </div>
     );
   }
@@ -63,11 +63,11 @@ export const Trending = () => {
       )}
       {errorTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center">
-          <p className="text-center flex flex-col gap-1">
-            {errorTracks}{" "}
+          <p className="flex justify-center items-center flex-col gap-1">
+            {errorTracks}
             <button
               onClick={() => setErrorTracks(null)}
-              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full flex justify-center items-center"
+              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full"
             >
               <X />
             </button>
