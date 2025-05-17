@@ -4,6 +4,8 @@ import { PlayList } from "@/assets/icons/PlayList";
 import { motion } from "motion/react";
 import { useWindowStore } from "@/store/window-store";
 import { useTabStore } from "@/store/tab-store";
+import { BtnPlayers } from "./BtnPlayers";
+import { Progress } from "./Progress";
 
 interface Props {
   onClick: () => void;
@@ -35,6 +37,7 @@ export const Main = ({ onClick }: Props) => {
         <div className="flex justify-center py-4">
           {selectedTrack ? (
             <motion.div
+              key={`thumbnail-${selectedTrack.id}`}
               layoutId={`track-thumbnail-${selectedTrack.id}`}
               className="size-48 rounded-md cursor-pointer overflow-hidden"
               onClick={handleTabWindow}
@@ -52,6 +55,7 @@ export const Main = ({ onClick }: Props) => {
         <div className="h-full flex flex-col items-center justify-center">
           {selectedTrack ? (
             <motion.div
+              key={`info-${selectedTrack.id}`}
               layout="position"
               layoutId={`track-info-${selectedTrack.id}`}
               className="flex flex-col items-center cursor-pointer"
@@ -66,15 +70,14 @@ export const Main = ({ onClick }: Props) => {
             </motion.div>
           ) : (
             <div className="text-center">
-              <h1 className="font-family-montserrat font-bold text-lg">
-                Lorem ipsum dolor sit amet
-              </h1>
-              <p className="text-sm font-medium">Porro quisquam est</p>
+              <h1 className="font-family-montserrat font-bold text-lg">-</h1>
+              <p className="text-sm font-medium">-</p>
             </div>
           )}
         </div>
-        <div className="h-full flex justify-center items-end">
-          <p className="text-sm"> 00:12 - 03:38</p>
+        <div className="size-full flex flex-col justify-center items-center gap-2">
+          <BtnPlayers />
+          <Progress />
         </div>
       </section>
     </Layout>

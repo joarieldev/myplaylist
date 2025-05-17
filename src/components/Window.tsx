@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Main } from "./Main";
 import { PlayList } from "./PlayList";
 import { useWindowStore } from "@/store/window-store";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ export const Window = () => {
         {window === "main" && <Main onClick={() => setWindow("playlist")} />}
         {window === "playlist" && <PlayList onExit={() => setWindow("main")} />}
       </QueryClientProvider>
+      <Toaster />
     </>
   );
 };

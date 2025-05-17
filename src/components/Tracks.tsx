@@ -3,12 +3,13 @@ import { useTracksStore } from "@/store/tracks-store";
 import { useEffect } from "react";
 import { useWindowStore } from "@/store/window-store";
 import clsx from "clsx";
+import { usePlayTrack } from "@/hooks/usePlayTrack";
 
 export const Tracks = () => {
   const tracks = useTracksStore((state) => state.tracks);
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
   const setWindow = useWindowStore((state) => state.setWindow);
+  const { playTrack } = usePlayTrack();
 
   useEffect(() => {
     if (!selectedTrack) return;
@@ -27,7 +28,7 @@ export const Tracks = () => {
 
   return (
     <ul className="flex flex-col">
-      {tracks.map((track) => (
+      {tracks.map((track, index) => (
         <li key={track.id}>
           <article
             className={clsx(
@@ -37,12 +38,13 @@ export const Tracks = () => {
                 : "hover:bg-gray-800/50"
             )}
             onClick={() => {
-              setSelectedTrack(track);
+              playTrack(track, index);
               setWindow("main");
             }}
             id={`track-${track.id}`}
           >
             <motion.div
+              key={`thumbnail-${track.id}`}
               layoutId={`track-thumbnail-${track.id}`}
               className="bg-gray-500 w-32 rounded-lg overflow-hidden"
             >
@@ -53,6 +55,7 @@ export const Tracks = () => {
               />
             </motion.div>
             <motion.div
+              key={`info-${track.id}`}
               className="flex flex-col overflow-hidden w-full"
               layout="position"
               layoutId={`track-info-${track.id}`}
