@@ -17,12 +17,12 @@ export const BtnPlayers = () => {
   return (
     <div
       className={clsx(
-        "size-full flex flex-row justify-center items-center gap-1",
+        "flex flex-row justify-center items-center gap-1",
         !selectedTrack && "pointer-events-none opacity-50"
       )}
     >
       <button
-        className=" p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
+        className="p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
         onClick={() =>
           prev(tracks.findIndex((track) => track.id === selectedTrack?.id))
         }

@@ -4,7 +4,9 @@ import caratula from "@/assets/caratula-vacia.webp";
 import { motion } from "motion/react";
 
 export const ThumbnailLocal = () => {
-  const selectedTrackLocal = useWindowStore((state) => state.selectedTrackLocal);
+  const selectedTrackLocal = useWindowStore(
+    (state) => state.selectedTrackLocal
+  );
   const setWindow = useWindowStore((state) => state.setWindow);
   const setTab = useTabStore((state) => state.setTab);
 
@@ -15,18 +17,19 @@ export const ThumbnailLocal = () => {
 
   return (
     <>
-      <div className="flex justify-center py-4">
+      <div className="flex justify-center items-center h-96 py-4">
         {selectedTrackLocal ? (
           <motion.div
             key={`thumbnail-${selectedTrackLocal.id}`}
             layoutId={`track-thumbnail-${selectedTrackLocal.id}`}
-            className="size-48 rounded-md cursor-pointer overflow-hidden"
+            className="size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
             <img
-              src={selectedTrackLocal?.metadata.cover?? caratula.src}
+              src={selectedTrackLocal?.metadata.cover ?? caratula.src}
               alt={selectedTrackLocal.metadata.title}
-              className="size-full object-cover"
+              className="max-w-full max-h-full rounded-xl"
+              title={selectedTrackLocal.metadata.title}
             />
           </motion.div>
         ) : (
@@ -42,7 +45,10 @@ export const ThumbnailLocal = () => {
             className="flex flex-col items-center cursor-pointer"
             onClick={handleTabWindow}
           >
-            <h1 className="font-family-montserrat w-80 font-bold text-lg truncate text-center">
+            <h1
+              className="font-family-montserrat w-80 font-bold text-lg truncate text-center"
+              title={selectedTrackLocal.metadata.title}
+            >
               {selectedTrackLocal.metadata.title}
             </h1>
             <p className="text-sm font-medium w-48 truncate text-center">

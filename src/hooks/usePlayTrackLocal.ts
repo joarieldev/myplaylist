@@ -1,6 +1,7 @@
 import { IFile } from "@/interfaces/File";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useFilesStore } from "@/store/files-store";
+import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
 import { useWindowStore } from "@/store/window-store";
 import { toast } from "sonner";
 
@@ -18,13 +19,17 @@ export const usePlayTrackLocal = () => {
   const setSelectedTrackLocal = useWindowStore((state) => state.setSelectedTrackLocal);
   const selectedTrackLocal = useWindowStore((state) => state.selectedTrackLocal);
   const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
+  const visualizer = useModalVisualizerStore((state) => state.visualizer);
+  const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
+  const isMuted = useAudioContextStore((state) => state.isMuted);
+  const volume = useAudioContextStore((state) => state.volume);
 
   const playTrack = async (file: IFile, index: number) => {
     if (audioContext && audioContext.state !== "closed") {
       await audioContext.close();
       setAudioContext(null);
     }
-    
+
     if (audioElement) {
       audioElement.pause();
       audioElement.src = '';
@@ -43,6 +48,8 @@ export const usePlayTrackLocal = () => {
 
     newAudioElement.onloadedmetadata = () => {
       setDuration(newAudioElement.duration);
+      if (isMuted) newAudioElement.muted = true;
+      newAudioElement.volume = volume / 100;
     }
 
     newAudioElement.ontimeupdate = () => {
@@ -56,6 +63,8 @@ export const usePlayTrackLocal = () => {
     const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
     setSourceNode(newSourceNode);
     newSourceNode.connect(newAudioContext.destination);
+
+    if (visualizer !== "none") analyserVisualizer(newAudioContext, newSourceNode);
 
     newAudioContext.resume()
     newAudioElement.play();
@@ -122,6 +131,13 @@ export const usePlayTrackLocal = () => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+
+  const analyserVisualizer = (audio: AudioContext, source: MediaElementAudioSourceNode) => {
+    const analyserNode = audio.createAnalyser();
+    analyserNode.fftSize = 256;
+    source.connect(analyserNode);
+    setAnalyserNode(analyserNode)
   }
 
   return {

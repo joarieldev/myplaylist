@@ -15,18 +15,19 @@ export const Thumbnail = () => {
 
   return (
     <>
-      <div className="flex justify-center py-4">
+      <div className="flex justify-center items-center h-96 py-4">
         {selectedTrack ? (
           <motion.div
             key={`thumbnail-${selectedTrack.id}`}
             layoutId={`track-thumbnail-${selectedTrack.id}`}
-            className="size-48 rounded-md cursor-pointer overflow-hidden"
+            className="size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
             <img
-              src={selectedTrack.artwork["150x150"]}
+              src={selectedTrack.artwork["480x480"] ?? caratula.src}
               alt={selectedTrack.title}
-              className="size-full object-cover"
+              className="max-w-full max-h-full rounded-xl"
+              title={selectedTrack.title}
             />
           </motion.div>
         ) : (
@@ -42,7 +43,10 @@ export const Thumbnail = () => {
             className="flex flex-col items-center cursor-pointer"
             onClick={handleTabWindow}
           >
-            <h1 className="font-family-montserrat w-80 font-bold text-lg truncate text-center">
+            <h1
+              className="font-family-montserrat w-80 font-bold text-lg truncate text-center"
+              title={selectedTrack.title}
+            >
               {selectedTrack.title}
             </h1>
             <p className="text-sm font-medium w-48 truncate text-center">

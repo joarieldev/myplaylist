@@ -17,7 +17,7 @@ export const BtnPlayersLocal = () => {
   return (
     <div
       className={clsx(
-        "size-full flex flex-row justify-center items-center gap-1",
+        "flex flex-row justify-center items-center gap-1",
         !selectedTrackLocal && "pointer-events-none opacity-50"
       )}
     >
