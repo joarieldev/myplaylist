@@ -5,6 +5,7 @@ import { Main } from "./Main";
 import { PlayList } from "./PlayList";
 import { useWindowStore } from "@/store/window-store";
 import { Toaster } from "sonner";
+import { Upload } from "./Upload";
 
 const queryClient = new QueryClient();
 
@@ -15,10 +16,11 @@ export const Window = () => {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        {window === "main" && <Main onClick={() => setWindow("playlist")} />}
+        {window === "main" && <Main />}
         {window === "playlist" && <PlayList onExit={() => setWindow("main")} />}
       </QueryClientProvider>
-      <Toaster />
+      <Toaster position="top-right" />
+      <Upload />
     </>
   );
 };

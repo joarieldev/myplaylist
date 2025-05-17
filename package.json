@@ -12,10 +12,13 @@
     "@tanstack/react-query": "^5.76.1",
     "clsx": "^2.1.1",
     "motion": "^12.11.3",
+    "music-metadata": "^11.2.2",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-file-drop": "^3.1.6",
     "sonner": "^2.0.3",
+    "uuid": "^11.1.0",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

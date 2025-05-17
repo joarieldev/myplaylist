@@ -1,4 +1,3 @@
-import { ChevronLeft } from "@/assets/icons/ChevronLeft";
 import { Layout } from "./Layout";
 import { LIst } from "@/assets/icons/LIst";
 import { Folder } from "@/assets/icons/Folder";
@@ -11,6 +10,7 @@ import { Favorites } from "./Favorites";
 import { Trending } from "./Trending";
 import { useTabStore } from "@/store/tab-store";
 import { motion, AnimatePresence } from "motion/react";
+import { ArrowBackUp } from "@/assets/icons/ArrowBackUp";
 
 interface Props {
   onExit: () => void;
@@ -27,8 +27,9 @@ export const PlayList = ({ onExit }: Props) => {
           <button
             onClick={onExit}
             className="cursor-pointer active:text-gray-300 flex text-sm justify-center items-center"
+            title="atrás"
           >
-            <ChevronLeft /> Volver
+            <ArrowBackUp />
           </button>
           <ul className="flex gap-3 text-sm text-gray-400">
             <li>

@@ -35,7 +35,7 @@ export const Tracks = () => {
               "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg",
               selectedTrack?.id === track.id
                 ? "bg-gray-800"
-                : "hover:bg-gray-800/50"
+                : "hover:bg-neutral-700/50"
             )}
             onClick={() => {
               playTrack(track, index);

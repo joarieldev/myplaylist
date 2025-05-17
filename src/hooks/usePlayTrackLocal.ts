@@ -1,11 +1,10 @@
-import { getStream } from "@/actions/get-stream";
-import { ITrack } from "@/interfaces/Track";
+import { IFile } from "@/interfaces/File";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useTracksStore } from "@/store/tracks-store";
+import { useFilesStore } from "@/store/files-store";
 import { useWindowStore } from "@/store/window-store";
 import { toast } from "sonner";
 
-export const usePlayTrack = () => {
+export const usePlayTrackLocal = () => {
   const audioElement = useAudioContextStore((state) => state.audioElement);
   const audioContext = useAudioContextStore((state) => state.audioContext);
   const setAudioElement = useAudioContextStore((state) => state.setAudioElement);
@@ -15,12 +14,12 @@ export const usePlayTrack = () => {
   const setCurrentTime = useAudioContextStore((state) => state.setCurrentTime);
   const setDuration = useAudioContextStore((state) => state.setDuration);
   const reset = useAudioContextStore((state) => state.reset);
-  const tracks = useTracksStore((state) => state.tracks);
-  const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const files = useFilesStore((state) => state.files);
   const setSelectedTrackLocal = useWindowStore((state) => state.setSelectedTrackLocal);
+  const selectedTrackLocal = useWindowStore((state) => state.selectedTrackLocal);
+  const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
 
-  const playTrack = async (track: ITrack, index: number) => {
+  const playTrack = async (file: IFile, index: number) => {
     if (audioContext && audioContext.state !== "closed") {
       await audioContext.close();
       setAudioContext(null);
@@ -31,14 +30,14 @@ export const usePlayTrack = () => {
       audioElement.src = '';
       audioElement.load();
       setAudioElement(null);
-      setSelectedTrackLocal(null);
+      setSelectedTrack(null);
     }
 
-    setSelectedTrack(track);
+    setSelectedTrackLocal(file);
     reset()
 
-    const url = await getStream(track.id);
-    const newAudioElement = new Audio(url);
+    // const url = await getStream(track.id);
+    const newAudioElement = new Audio(URL.createObjectURL(file.file));
     newAudioElement.crossOrigin = "anonymous";
     setAudioElement(newAudioElement)
 
@@ -68,8 +67,8 @@ export const usePlayTrack = () => {
 
   const playNextTrack = async (i: number, auxAudioContext: AudioContext, auxAudioElement: HTMLAudioElement) => {
     const nextTrackIndex = i + 1;
-    if (nextTrackIndex < tracks.length) {
-      playTrack(tracks[nextTrackIndex], nextTrackIndex);
+    if (nextTrackIndex < files.length) {
+      playTrack(files[nextTrackIndex], nextTrackIndex);
     } else {
       if (auxAudioContext && auxAudioContext.state !== "closed") {
         await auxAudioContext.close();
@@ -94,9 +93,9 @@ export const usePlayTrack = () => {
 
   const play = () => {
     if (!audioElement) {
-      if (selectedTrack) playTrack(selectedTrack, tracks.findIndex((track) => track.id === selectedTrack.id));
+      if (selectedTrackLocal) playTrack(selectedTrackLocal, selectedTrackLocal.index);
       return
-    };
+    }
     audioElement.play();
     setIsPaused(false);
   }
@@ -104,7 +103,7 @@ export const usePlayTrack = () => {
   const prev = (i: number) => {
     const prevTrackIndex = i - 1;
     if (prevTrackIndex >= 0) {
-      playTrack(tracks[prevTrackIndex], prevTrackIndex);
+      playTrack(files[prevTrackIndex], prevTrackIndex);
     } else {
       toast.info("Inicio de la lista");
     }
@@ -112,14 +111,14 @@ export const usePlayTrack = () => {
 
   const next = (i: number) => {
     const nextTrackIndex = i + 1;
-    if (nextTrackIndex < tracks.length) {
-      playTrack(tracks[nextTrackIndex], nextTrackIndex);
+    if (nextTrackIndex < files.length) {
+      playTrack(files[nextTrackIndex], nextTrackIndex);
     } else {
       toast.info("Fin de la lista");
     }
   }
 
-   const formatTime = (time: number) => {
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
