@@ -1,16 +1,16 @@
-import { ITrending } from "@/interfaces/Trending";
 import { useTracksStore } from "@/store/tracks-store";
 import { useTabStore } from "@/store/tab-store";
 import { getTracks } from "@/actions/get-tracks";
+import { IList } from "@/interfaces/List";
 
 interface Props {
-  trendign: ITrending[];
+  list: IList[];
   setLoadingTracks: React.Dispatch<React.SetStateAction<boolean>>;
   setErrorTracks: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const GridList = ({
-  trendign,
+  list,
   setLoadingTracks,
   setErrorTracks,
 }: Props) => {
@@ -35,7 +35,7 @@ export const GridList = ({
 
   return (
     <ul className="grid grid-cols-3 gap-2">
-      {trendign.map((item) => (
+      {list.map((item) => (
         <li key={item.id}>
           <div
             className="hover:bg-gray-800 cursor-pointer p-2 gap-4 flex flex-col items-center rounded-md"

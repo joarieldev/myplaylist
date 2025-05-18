@@ -1,4 +1,4 @@
-export interface ITrending {
+export interface IList {
   artwork: Artwork
   description: string
   permalink: string

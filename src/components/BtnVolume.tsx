@@ -76,7 +76,7 @@ export const BtnVolume = () => {
           max="100"
           value={volume}
           onChange={handleChange}
-          className="cursor-pointer bg-gray-200 w-16 accent-gray-400"
+          className="cursor-pointer w-16 accent-gray-200"
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ export const getTracks = async(id: string) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error("Tracks: Something went wrong");
+      throw new Error("Tracks: Algo salió mal");
     }
 
     return {

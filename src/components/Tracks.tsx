@@ -23,7 +23,11 @@ export const Tracks = () => {
   }, []);
 
   if (tracks.length === 0) {
-    return <p>No hay música disponible</p>;
+    return (
+      <div className="size-full grid place-items-center">
+        <p className="text-center">Playlist no seleccionada</p>
+      </div>
+    );
   }
 
   return (
@@ -34,7 +38,7 @@ export const Tracks = () => {
             className={clsx(
               "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg",
               selectedTrack?.id === track.id
-                ? "bg-gray-800"
+                ? "bg-gray-700/75"
                 : "hover:bg-neutral-700/50"
             )}
             onClick={() => {

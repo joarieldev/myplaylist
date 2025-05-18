@@ -47,27 +47,29 @@ export const usePlayTrack = () => {
     newAudioElement.crossOrigin = "anonymous";
     setAudioElement(newAudioElement)
 
-    newAudioElement.onloadedmetadata = () => {
-      setDuration(newAudioElement.duration);
-      if (isMuted) newAudioElement.muted = true;
-      newAudioElement.volume = volume / 100;
-    }
-
     newAudioElement.ontimeupdate = () => {
       setCurrentTime(newAudioElement.currentTime);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    setAudioContext(newAudioContext);
 
-    const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
-    setSourceNode(newSourceNode);
-    newSourceNode.connect(newAudioContext.destination);
+    newAudioElement.onloadedmetadata = () => {
+      setDuration(newAudioElement.duration);
+      if (isMuted) newAudioElement.muted = true;
+      newAudioElement.volume = volume / 100;
 
-    if (visualizer !== "none") analyserVisualizer(newAudioContext, newSourceNode);
+      setAudioContext(newAudioContext);
 
-    newAudioContext.resume()
+      const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
+      setSourceNode(newSourceNode);
+      newSourceNode.connect(newAudioContext.destination);
+
+      if (visualizer !== "none") analyserVisualizer(newAudioContext, newSourceNode);
+
+      newAudioContext.resume()
+    }
+
     newAudioElement.play();
 
     newAudioElement.onended = () => {

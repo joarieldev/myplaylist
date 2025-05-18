@@ -23,7 +23,7 @@ export const Progress = () => {
         <progress
           max={duration}
           value={currentTime}
-          className="absolute w-full h-full opacity-70 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-gray-500 [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-gray-300"
+          className="absolute w-full h-full opacity-75 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-gray-500 [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-gray-200"
         />
         <input
           type="range"
@@ -32,7 +32,7 @@ export const Progress = () => {
           step={0.01}
           value={currentTime}
           onChange={handleSeek}
-          className="absolute w-full h-full cursor-pointer opacity-0 transition-opacity duration-200 accent-gray-400 group-hover:opacity-100"
+          className="absolute w-full h-full cursor-pointer opacity-0 transition-opacity duration-200 accent-gray-200 group-hover:opacity-100"
         />
       </div>
       <p className="text-sm pb-4">
