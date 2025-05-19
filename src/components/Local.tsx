@@ -59,8 +59,8 @@ export const Local = () => {
                   className={clsx(
                     "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg ",
                     selectedTrackLocal?.id === item.id
-                      ? "bg-gray-800"
-                      : "hover:bg-neutral-700/50"
+                      ? "bg-gray-700/75"
+                      : "hover:bg-neutral-700/75"
                   )}
                   onClick={() => {
                     playTrack(item, item.index);

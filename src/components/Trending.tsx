@@ -12,6 +12,8 @@ import { IList } from "@/interfaces/List";
 export const Trending = () => {
   const [loadingTracks, setLoadingTracks] = useState<boolean>(false);
   const [errorTracks, setErrorTracks] = useState<string | null>(null);
+  const [change, setChange] = useState<number>(0);
+
   const {
     isPending: loading,
     error,
@@ -59,11 +61,13 @@ export const Trending = () => {
           </div>
         )}
         {!loading && !error && (
-          <div className="overflow-x-hidden h-full w-full overflow-y-auto">
+          <div className="overflow-y-auto h-[calc(100%-40px)]">
+            <label className="sr-only">{change}</label>
             <GridList
               list={trending}
               setLoadingTracks={setLoadingTracks}
               setErrorTracks={setErrorTracks}
+              setChange={setChange}
             />
           </div>
         )}
@@ -98,11 +102,13 @@ export const Trending = () => {
                 <p className="text-center">Lista vacía</p>
               </div>
             ) : (
-              <div className="overflow-x-hidden h-full w-full overflow-y-auto">
+              <div className="overflow-y-auto h-[calc(100%-40px)]">
+                <label className="sr-only">{change}</label>
                 <GridList
                   list={searches}
                   setLoadingTracks={setLoadingTracks}
                   setErrorTracks={setErrorTracks}
+                  setChange={setChange}
                 />
               </div>
             )}
@@ -115,6 +121,7 @@ export const Trending = () => {
   return (
     <div className="relative size-full overflow-hidden">
       <SearchForm fetchSearch={refetchSearch} />
+      {/* <div className="size-full bg-red-500">hola</div> */}
       {!searchText ? handleTrending() : handleSearch()}
       {loadingTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">

@@ -32,7 +32,6 @@ export const Upload = () => {
               }
             }
             fileInputRef.current.files = dataTransfer.files;
-            console.log(dataTransfer.files)
           }
           setFrameDrag(false);
           handleFileChange();

@@ -20,7 +20,6 @@ export const SearchForm = ({ fetchSearch }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submit");
     fetchSearch();
   };
 

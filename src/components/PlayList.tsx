@@ -14,9 +14,10 @@ import { ArrowBackUp } from "@/assets/icons/ArrowBackUp";
 
 interface Props {
   onExit: () => void;
+  refetch: () => void;
 }
 
-export const PlayList = ({ onExit }: Props) => {
+export const PlayList = ({ onExit, refetch }: Props) => {
   const tab = useTabStore((state) => state.tab);
   const setTab = useTabStore((state) => state.setTab);
 
@@ -91,12 +92,12 @@ export const PlayList = ({ onExit }: Props) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 10, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="size-full overflow-y-auto overflow-x-hidden "
+          className="size-full overflow-y-auto"
         >
           {tab === "tracks" && <Tracks />}
           {tab === "local" && <Local />}
           {tab === "top" && <Trending />}
-          {tab === "favorites" && <Favorites />}
+          {tab === "favorites" && <Favorites refetch={refetch} />}
         </motion.section>
       </AnimatePresence>
     </Layout>

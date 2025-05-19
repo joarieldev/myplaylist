@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.16.0",
+    "@clerk/nextjs": "^6.19.4",
+    "@clerk/themes": "^2.2.45",
     "@tanstack/react-query": "^5.76.1",
     "clsx": "^2.1.1",
+    "mongoose": "^8.15.0",
     "motion": "^12.11.3",
     "music-metadata": "^11.2.2",
     "next": "15.3.2",
