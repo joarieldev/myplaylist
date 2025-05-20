@@ -1,7 +1,9 @@
 {
   "name": "myplaylist",
   "version": "0.1.0",
-  "private": true,
+  "description": "Escucha las mejores playlist sin interrupciones",
+  "author": "joariel",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
