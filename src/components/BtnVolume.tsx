@@ -6,13 +6,11 @@ import clsx from "clsx";
 import { useState } from "react";
 
 export const BtnVolume = () => {
-  // const [volume, setVolume] = useState(100);
   const volume =  useAudioContextStore((state) => state.volume);
   const setVolume = useAudioContextStore((state) => state.setVolume);
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const [volumeShow, setVolumeShow] = useState(false);
-  // const [isMuted, setIsMuted] = useState(false);
   const audioElement = useAudioContextStore((state) => state.audioElement);
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const selectedTrackLocal = useWindowStore(

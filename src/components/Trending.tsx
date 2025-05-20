@@ -44,12 +44,12 @@ export const Trending = () => {
       <>
         {loading && (
           <div className="size-full grid place-items-center">
-            <p className="text-center">Cargando...</p>
+            <p className="text-center text-sm text-gray-300">Cargando...</p>
           </div>
         )}
         {error && (
           <div className="size-full grid place-items-center">
-            <p className="flex justify-center items-center flex-col gap-1">
+            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
               {error.message}
               <button
                 onClick={() => refetch()}
@@ -79,12 +79,12 @@ export const Trending = () => {
       <>
         {isFetchingSearch && (
           <div className="size-full grid place-items-center">
-            <p className="text-center">Cargando...</p>
+            <p className="text-center text-sm text-gray-300">Cargando...</p>
           </div>
         )}
         {errorSearch && (
           <div className="size-full grid place-items-center">
-            <p className="flex justify-center items-center flex-col gap-1">
+            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
               {errorSearch.message}
               <button
                 onClick={() => refetchSearch()}
@@ -99,7 +99,7 @@ export const Trending = () => {
           <>
             {!searches ? (
               <div className="size-full grid place-items-center">
-                <p className="text-center">Lista vacía</p>
+                <p className="text-center text-sm text-gray-300">Lista vacía</p>
               </div>
             ) : (
               <div className="overflow-y-auto h-[calc(100%-40px)]">
@@ -121,16 +121,15 @@ export const Trending = () => {
   return (
     <div className="relative size-full overflow-hidden">
       <SearchForm fetchSearch={refetchSearch} />
-      {/* <div className="size-full bg-red-500">hola</div> */}
       {!searchText ? handleTrending() : handleSearch()}
       {loadingTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="text-center">Cargando...</p>
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
         </div>
       )}
       {errorTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="flex justify-center items-center flex-col gap-1">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
             {errorTracks}
             <button
               onClick={() => setErrorTracks(null)}

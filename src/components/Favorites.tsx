@@ -27,7 +27,7 @@ export const Favorites = ({ refetch }: Props) => {
   if (!isLoaded) {
     return (
       <div className="size-full grid place-items-center">
-        <p className="text-center">Cargando...</p>
+        <p className="text-center text-sm text-gray-300">Cargando...</p>
       </div>
     );
   }
@@ -53,12 +53,12 @@ export const Favorites = ({ refetch }: Props) => {
     <div className="relative size-full overflow-hidden">
       {isFetching && (
         <div className="size-full grid place-items-center">
-          <p className="text-center">Cargando...</p>
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
         </div>
       )}
       {error && (
         <div className="size-full grid place-items-center">
-          <p className="flex justify-center items-center flex-col gap-1">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
             {error.message}
             <button
               onClick={() => refetch()}
@@ -73,7 +73,7 @@ export const Favorites = ({ refetch }: Props) => {
         <div className="overflow-y-auto h-full">
           {favorites && favorites.length === 0 ? (
             <div className="size-full grid place-items-center">
-              <p className="text-center">No tienes favoritos</p>
+              <p className="text-center text-sm text-gray-300">No tienes favoritos</p>
             </div>
           ) : (
             <>
@@ -90,12 +90,12 @@ export const Favorites = ({ refetch }: Props) => {
       )}
       {loadingTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="text-center">Cargando...</p>
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
         </div>
       )}
       {errorTracks && (
         <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="flex justify-center items-center flex-col gap-1">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
             {errorTracks}
             <button
               onClick={() => setErrorTracks(null)}

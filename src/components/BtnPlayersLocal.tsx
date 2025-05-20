@@ -8,8 +8,14 @@ import { useFilesStore } from "@/store/files-store";
 import { useWindowStore } from "@/store/window-store";
 import clsx from "clsx";
 
-export const BtnPlayersLocal = () => {
-  const selectedTrackLocal = useWindowStore((state) => state.selectedTrackLocal);
+interface Props {
+  setDirection: React.Dispatch<React.SetStateAction<1 | -1>>;
+}
+
+export const BtnPlayersLocal = ({ setDirection }: Props) => {
+  const selectedTrackLocal = useWindowStore(
+    (state) => state.selectedTrackLocal
+  );
   const isPaused = useAudioContextStore((state) => state.isPaused);
   const { play, pause, prev, next } = usePlayTrackLocal();
   const files = useFilesStore((state) => state.files);
@@ -23,9 +29,10 @@ export const BtnPlayersLocal = () => {
     >
       <button
         className=" p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
-        onClick={() =>
-          prev(files.findIndex((file) => file.id === selectedTrackLocal?.id))
-        }
+        onClick={() => {
+          prev(files.findIndex((file) => file.id === selectedTrackLocal?.id));
+          setDirection(-1);
+        }}
       >
         <PlayerPrev className="size-5" />
       </button>
@@ -46,9 +53,10 @@ export const BtnPlayersLocal = () => {
       )}
       <button
         className="p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
-        onClick={() =>
-          next(files.findIndex((file) => file.id === selectedTrackLocal?.id))
-        }
+        onClick={() => {
+          next(files.findIndex((file) => file.id === selectedTrackLocal?.id));
+          setDirection(1);
+        }}
       >
         <PlayerNext className="size-5" />
       </button>

@@ -1,12 +1,17 @@
 import { useTabStore } from "@/store/tab-store";
 import { useWindowStore } from "@/store/window-store";
 import caratula from "@/assets/caratula-vacia.webp";
-import { motion } from "motion/react";
+import { motion, usePresenceData } from "motion/react";
+import { forwardRef } from "react";
+import { ITrack } from "@/interfaces/Track";
 
-export const Thumbnail = () => {
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+export const Thumbnail = forwardRef(function Thumbnail(
+  { selectedTrack }: { selectedTrack?: ITrack | null },
+  ref: React.Ref<HTMLDivElement>
+) {
   const setWindow = useWindowStore((state) => state.setWindow);
   const setTab = useTabStore((state) => state.setTab);
+  const direction = usePresenceData();
 
   const handleTabWindow = () => {
     setWindow("playlist");
@@ -14,24 +19,39 @@ export const Thumbnail = () => {
   };
 
   return (
-    <>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: direction * 50 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: {
+          delay: 0.2,
+          type: "spring",
+          visualDuration: 0.3,
+          bounce: 0.4,
+        },
+      }}
+      exit={{ opacity: 0, x: direction * -50 }}
+      className="flex justify-center items-center h-full sm:h-[350px] flex-col"
+    >
       <div className="flex justify-center items-center h-96 py-4">
         {selectedTrack ? (
           <motion.div
             key={`thumbnail-${selectedTrack.id}`}
             layoutId={`track-thumbnail-${selectedTrack.id}`}
-            className="size-48 cursor-pointer flex items-center justify-center"
+            className="size-72 sm:size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
             <img
               src={selectedTrack.artwork["480x480"] ?? caratula.src}
               alt={selectedTrack.title}
-              className="max-w-full max-h-full rounded-xl"
+              className="max-w-full max-h-full rounded-xl pointer-events-none"
               title={selectedTrack.title}
             />
           </motion.div>
         ) : (
-          <img src={caratula.src} alt="caratula" className="size-48" />
+          <img src={caratula.src} alt="caratula" className="size-72 sm:size-48 pointer-events-none" />
         )}
       </div>
       <div className="h-full flex flex-col items-center justify-center">
@@ -60,6 +80,6 @@ export const Thumbnail = () => {
           </div>
         )}
       </div>
-    </>
+    </motion.div>
   );
-};
+});

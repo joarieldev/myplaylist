@@ -1,8 +1,10 @@
 "use server";
 
+import { appName } from "./shared";
+
 export const getTracks = async(id: string) => {
   try {
-    const res = await fetch(`https://discoveryprovider.audius.co/v1/playlists/${id}/tracks`)
+    const res = await fetch(`https://discoveryprovider.audius.co/v1/playlists/${id}/tracks?app_name=${appName}`)
     const data = await res.json();
 
     if (!res.ok) {

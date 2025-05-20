@@ -19,7 +19,7 @@ export const Progress = () => {
 
   return (
     <>
-      <div className={clsx("relative w-80 h-4 group", !audioElement && "pointer-events-none opacity-50")}>
+      <div className={clsx("relative w-full sm:w-80 h-4 group", !audioElement && "pointer-events-none opacity-50")}>
         <progress
           max={duration}
           value={currentTime}

@@ -103,8 +103,9 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
           <button
             className={clsx(
               "text-red-500 hover:text-red-400",
-              btnDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              btnDisabled ? "opacity-50" : "cursor-pointer"
             )}
+            disabled={btnDisabled}
             onClick={(e) => handleRemoveFavorite(e, item)}
           >
             <Heart ClassName="size-4" liked={true} />
@@ -113,8 +114,9 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
           <button
             className={clsx(
               "text-red-500 hover:text-red-400",
-              btnDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              btnDisabled ? "opacity-50" : "cursor-pointer"
             )}
+            disabled={btnDisabled}
             onClick={(e) => handleAddFavorite(e, item)}
           >
             <Heart ClassName="size-4" />

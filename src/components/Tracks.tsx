@@ -25,7 +25,7 @@ export const Tracks = () => {
   if (tracks.length === 0) {
     return (
       <div className="size-full grid place-items-center">
-        <p className="text-center">Playlist no seleccionada</p>
+        <p className="text-center text-sm text-gray-300">Playlist no seleccionada</p>
       </div>
     );
   }

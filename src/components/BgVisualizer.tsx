@@ -1,7 +1,17 @@
 import { useEffect, useRef } from "react";
-import { circleSpectrum, circleSpectrumSpring, type IVisualizer, lineWave, lineWaveChill, spectrumCenter, spectrumPlain, spectrumWide } from "@/utils/visualizer";
+import {
+  circleSpectrum,
+  circleSpectrumSpring,
+  type IVisualizer,
+  lineWave,
+  lineWaveChill,
+  spectrumCenter,
+  spectrumPlain,
+  spectrumWide,
+} from "@/utils/visualizer";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
+import { motion } from "motion/react";
 
 export const BgVisualizer = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -39,7 +49,7 @@ export const BgVisualizer = () => {
       bufferLength,
       dataArray,
       capPositions,
-    }
+    };
 
     const drawChoose = {
       "line-wave": () => lineWave(vis),
@@ -49,7 +59,7 @@ export const BgVisualizer = () => {
       "spectrum-wide": () => spectrumWide(vis),
       "circle-spectrum": () => circleSpectrum(vis),
       "circle-spectrum-spring": () => circleSpectrumSpring(vis),
-    }
+    };
 
     function draw() {
       drawChoose[mode]();
@@ -60,11 +70,18 @@ export const BgVisualizer = () => {
 
     return () => {
       if (animationRef.current !== null)
-        cancelAnimationFrame(animationRef.current)
+        cancelAnimationFrame(animationRef.current);
     };
   }, [mode, analyserNode]);
 
   return (
-    <canvas ref={canvasRef} className="absolute -z-10"></canvas>
+    <motion.canvas
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      ref={canvasRef}
+      className="absolute -z-10"
+    ></motion.canvas>
   );
 };

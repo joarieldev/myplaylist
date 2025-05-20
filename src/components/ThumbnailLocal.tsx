@@ -1,14 +1,17 @@
 import { useTabStore } from "@/store/tab-store";
 import { useWindowStore } from "@/store/window-store";
 import caratula from "@/assets/caratula-vacia.webp";
-import { motion } from "motion/react";
+import { motion, usePresenceData } from "motion/react";
+import { forwardRef } from "react";
+import { IFile } from "@/interfaces/File";
 
-export const ThumbnailLocal = () => {
-  const selectedTrackLocal = useWindowStore(
-    (state) => state.selectedTrackLocal
-  );
+export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
+  { selectedTrackLocal }: { selectedTrackLocal?: IFile | null },
+  ref: React.Ref<HTMLDivElement>
+) {
   const setWindow = useWindowStore((state) => state.setWindow);
   const setTab = useTabStore((state) => state.setTab);
+  const direction = usePresenceData();
 
   const handleTabWindow = () => {
     setWindow("playlist");
@@ -16,24 +19,39 @@ export const ThumbnailLocal = () => {
   };
 
   return (
-    <>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: direction * 50 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: {
+          delay: 0.2,
+          type: "spring",
+          visualDuration: 0.3,
+          bounce: 0.3,
+        },
+      }}
+      exit={{ opacity: 0, x: direction * -50 }}
+      className="flex justify-center items-center h-full sm:h-[350px] flex-col"
+    >
       <div className="flex justify-center items-center h-96 py-4">
         {selectedTrackLocal ? (
           <motion.div
             key={`thumbnail-${selectedTrackLocal.id}`}
             layoutId={`track-thumbnail-${selectedTrackLocal.id}`}
-            className="size-48 cursor-pointer flex items-center justify-center"
+            className="size-72 sm:size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
             <img
               src={selectedTrackLocal?.metadata.cover ?? caratula.src}
               alt={selectedTrackLocal.metadata.title}
-              className="max-w-full max-h-full rounded-xl"
+              className="max-w-full max-h-full rounded-xl pointer-events-none"
               title={selectedTrackLocal.metadata.title}
             />
           </motion.div>
         ) : (
-          <img src={caratula.src} alt="caratula" className="size-48" />
+          <img src={caratula.src} alt="caratula" className="size-72 sm:size-48 pointer-events-none" />
         )}
       </div>
       <div className="h-full flex flex-col items-center justify-center">
@@ -62,6 +80,6 @@ export const ThumbnailLocal = () => {
           </div>
         )}
       </div>
-    </>
+    </motion.div>
   );
-};
+});

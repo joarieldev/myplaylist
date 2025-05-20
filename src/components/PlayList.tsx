@@ -32,6 +32,12 @@ export const PlayList = ({ onExit, refetch }: Props) => {
           >
             <ArrowBackUp />
           </button>
+          <h1 className="block sm:hidden uppercase">
+            {tab === "tracks" && "Candiones"}
+            {tab === "local" && "Local"}
+            {tab === "top" && "Top"}
+            {tab === "favorites" && "Favoritos"}
+          </h1>
           <ul className="flex gap-3 text-sm text-gray-400">
             <li>
               <button
@@ -42,7 +48,7 @@ export const PlayList = ({ onExit, refetch }: Props) => {
                 onClick={() => setTab("tracks")}
               >
                 <LIst />
-                Candiones
+                <p className="hidden sm:block">Candiones</p>
               </button>
             </li>
             <li>
@@ -54,7 +60,7 @@ export const PlayList = ({ onExit, refetch }: Props) => {
                 onClick={() => setTab("local")}
               >
                 <Folder />
-                Local
+                <p className="hidden sm:block">Local</p>
               </button>
             </li>
             <li>
@@ -66,7 +72,7 @@ export const PlayList = ({ onExit, refetch }: Props) => {
                 onClick={() => setTab("top")}
               >
                 <TrendingUp />
-                Top
+                <p className="hidden sm:block">Top</p>
               </button>
             </li>
             <li>
@@ -78,7 +84,7 @@ export const PlayList = ({ onExit, refetch }: Props) => {
                 onClick={() => setTab("favorites")}
               >
                 <Heart liked={true} />
-                Favoritos
+                <p className="hidden sm:block">Favoritos</p>
               </button>
             </li>
           </ul>
