@@ -17,7 +17,7 @@ export const ModalVisualizer = () => {
     <>
       <div
         onClick={handleModal}
-        className="fixed top-0 left-0 w-full min-h-screen bg-black/50 z-20 "
+        className="fixed top-0 left-0 w-full min-h-screen bg-black/25 z-20 "
       ></div>
       <div className="fixed top-0 left-0 w-full min-h-screen z-20 grid place-items-center pointer-events-none">
         <div className="flex flex-col items-center py-4 px-3 max-w-80 rounded-3xl space-y-1 bg-neutral-900 text-white z-20 pointer-events-auto">

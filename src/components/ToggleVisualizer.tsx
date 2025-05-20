@@ -1,6 +1,6 @@
 import { ChevronDown } from "@/assets/icons/ChevronDown";
 import { GraphicEq } from "@/assets/icons/GraphicEq";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "@/assets/icons/X";
 import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
@@ -11,9 +11,35 @@ export const ToggleVisualizer = () => {
   const visualizer = useModalVisualizerStore((state) => state.visualizer);
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
   const mode = useBgVisualizerStore((state) => state.mode);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (visualizer === "none") return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setShowList(false);
+      }
+    };
+
+    if (showList) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showList]);
 
   return (
-    <div className={clsx("relative w-full", visualizer === "none" && "hidden")}>
+    <div
+      className={clsx("relative w-full", visualizer === "none" && "hidden")}
+      ref={containerRef}
+    >
       <button
         className="absolute bg-neutral-900/75 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-0.5 px-1.5 w-full"
         onClick={() => setShowList(!showList)}
@@ -22,7 +48,11 @@ export const ToggleVisualizer = () => {
           <GraphicEq className="size-5" />
           <span className="text-sm">{mode}</span>
         </div>
-        {showList ? <X className="size-5" /> : <ChevronDown className="size-5" />}
+        {showList ? (
+          <X className="size-5" />
+        ) : (
+          <ChevronDown className="size-5" />
+        )}
       </button>
       <div
         className={clsx(

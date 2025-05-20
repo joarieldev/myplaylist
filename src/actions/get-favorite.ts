@@ -16,7 +16,7 @@ export async function getFavorite(user_id: string) {
     return favorite[0].list
     
   } catch (e) {
-    console.log("Error en getFavorite: ", e)
+    console.error("Error en getFavorite: ", e)
     return []
   }
 

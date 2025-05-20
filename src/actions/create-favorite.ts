@@ -20,7 +20,7 @@ export async function createFavorite(user_id: string, name: string, item: IList)
       return { ok: true, message: 'Guardado en Favoritos' }
     }
   } catch (e) {
-    console.log("Error en createFavorite: ", e)
+    console.error("Error en createFavorite: ", e)
     return { ok: false, error: e }
   }
 
