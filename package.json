@@ -24,7 +24,9 @@
     "react-dom": "^19.0.0",
     "react-file-drop": "^3.1.6",
     "sonner": "^2.0.3",
+    "three": "^0.121.0",
     "uuid": "^11.1.0",
+    "vanta": "^0.5.24",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

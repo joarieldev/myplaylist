@@ -60,7 +60,7 @@ export const ToggleVisualizer = () => {
           showList ? "absolute" : "hidden"
         )}
       >
-        <ul>
+        <ul className="cursor-default">
           <li
             onClick={() => handleMode("line-wave")}
             className="active:bg-neutral-700/30 rounded-full py-1 px-5"
@@ -102,6 +102,12 @@ export const ToggleVisualizer = () => {
             className="active:bg-neutral-700/30 rounded-full py-1 px-5"
           >
             circle-spectrum-spring
+          </li>
+          <li
+            onClick={() => handleMode("vantajs-birds")}
+            className="active:bg-neutral-700/30 rounded-full py-1 px-5"
+          >
+            vantajs-birds
           </li>
         </ul>
       </div>
