@@ -42,7 +42,13 @@ export const BgVanta = () => {
   }, [mode]);
 
   useEffect(() => {
-    if (!vantaEffect || !analyserNode || mode !== "vantajs-birds") return;
+    if (
+      !vantaEffect ||
+      !analyserNode ||
+      mode !== "vantajs-birds" ||
+      !vantaEffect.velocityUniforms
+    )
+      return;
 
     const bufferLength = analyserNode.frequencyBinCount;
     const freqData = new Uint8Array(bufferLength);
