@@ -4,7 +4,7 @@ import { appName } from "./shared";
 
 export const getTrending = async () => {
   try {
-    const res = await fetch(`https://discoveryprovider.audius.co/v1/playlists/trending?app_name=${appName}`)
+    const res = await fetch(`https://api.audius.co/v1/full/playlists/trending?app_name=${appName}`)
 
     if (!res.ok) {
       throw new Error("Trending: Algo salió mal");
@@ -15,7 +15,8 @@ export const getTrending = async () => {
     return result.data
 
   } catch (error) {
-    console.error("Error en getTrending: ", error);
-    return error instanceof Error ? error.message : "Error desconocido"
+    console.error("Error action getTrending: ", error);
+    const message = error instanceof Error ? error.message : "Error desconocido"
+    throw new Error(message);
   }
 }
