@@ -21,13 +21,32 @@ export const metadata: Metadata = {
     "Escucha tus musicas favoritas con un poco de estilo, desde tu PC o tu móvil. También incluye musicas online sin anuncios.",
 };
 
+const localization = {
+  ...esES,
+  signIn: {
+    start:{
+      title: "Iniciar sesión",
+      subtitle: "Inicia sesión para continuar"
+    }
+  },
+  signUp: {
+    start: {
+      title: "Registrarse",
+      subtitle: "Registrate para continuar"
+    }
+  }
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={esES} appearance={{baseTheme: dark}}>
+    <ClerkProvider localization={
+      localization
+     } 
+    appearance={{baseTheme: dark}}>
       <html lang="es">
         <body
           className={`${inter.variable} ${montserrat.variable} antialiased`}
