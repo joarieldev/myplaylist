@@ -14,9 +14,7 @@ import { getFavorite } from "@/actions/get-favorite";
 import { ModalInfo } from "./ModalInfo";
 import { useModalInfoStore } from "@/store/modal-info-store";
 import { AnimatePresence } from "motion/react";
-import { BtnSesion } from "./BtnSesion";
 import { useEffect } from "react";
-import { BtnInfo } from "./BtnInfo";
 
 export const Window = () => {
   const window = useWindowStore((state) => state.window);
@@ -40,7 +38,6 @@ export const Window = () => {
 
   return (
     <>
-      <BtnSesion />
       {visualizer === "none" ? <BgCover /> : <BgVisualizer />}
       {window === "main" && <Main />}
       {window === "playlist" && (
@@ -49,7 +46,6 @@ export const Window = () => {
       <Toaster position="bottom-center" />
       <Upload />
       <AnimatePresence>{showInfo && <ModalInfo />}</AnimatePresence>
-      <BtnInfo />
     </>
   );
 };

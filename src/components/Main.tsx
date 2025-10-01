@@ -15,6 +15,8 @@ import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 import { IFile } from "@/interfaces/File";
 import { ITrack } from "@/interfaces/Track";
+import { BtnSesion } from "./BtnSesion";
+import { BtnInfo } from "./BtnInfo";
 
 export const Main = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
@@ -47,11 +49,12 @@ export const Main = () => {
   return (
     <Layout
       heading={
-        <nav className="flex gap-4 justify-end max-sm:px-2">
+        <nav className="flex gap-4 justify-between max-sm:px-2">
+          <BtnSesion />
           <ToggleVisualizer />
           <button
             onClick={() => setWindow("playlist")}
-            className="cursor-pointer active:text-gray-300"
+            className="cursor-pointer hover:text-gray-300"
             title="playlist"
           >
             <PlayList />
@@ -59,7 +62,7 @@ export const Main = () => {
         </nav>
       }
     >
-      <section className="flex flex-col h-full overflow-x-hidden overflow-y-auto">
+      <section className="flex flex-col h-full overflow-x-hidden overflow-y-auto relative">
         <AnimatePresence custom={direction} initial={false} mode="popLayout">
           {selectedTrack ? (
             <Thumbnail key={selectedTrack.id} selectedTrack={selectedItem} />
@@ -82,6 +85,7 @@ export const Main = () => {
           </div>
           <Progress />
         </div>
+        <BtnInfo />
       </section>
       {isModal && <ModalVisualizer />}
     </Layout>
