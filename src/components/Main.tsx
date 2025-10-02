@@ -6,8 +6,6 @@ import { Progress } from "./Progress";
 import { Thumbnail } from "./Thumbnail";
 import { ThumbnailLocal } from "./ThumbnailLocal";
 import { BtnPlayersLocal } from "./BtnPlayersLocal";
-import { ModalVisualizer } from "./ModalVisualizer";
-import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
 import { ToggleVisualizer } from "./ToggleVisualizer";
 import { BtnVolume } from "./BtnVolume";
 import { BtnVisualizer } from "./BtnVisualizer";
@@ -21,7 +19,6 @@ import { BtnInfo } from "./BtnInfo";
 export const Main = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const isModal = useModalVisualizerStore((state) => state.isModal);
 
   const selectedTrackLocal = useWindowStore(
     (state) => state.selectedTrackLocal
@@ -50,7 +47,9 @@ export const Main = () => {
     <Layout
       heading={
         <nav className="flex gap-4 justify-between max-sm:px-2">
-          <BtnSesion />
+          <span className="size-6">
+            <BtnSesion />
+          </span>
           <ToggleVisualizer />
           <button
             onClick={() => setWindow("playlist")}
@@ -87,7 +86,6 @@ export const Main = () => {
         </div>
         <BtnInfo />
       </section>
-      {isModal && <ModalVisualizer />}
     </Layout>
   );
 };

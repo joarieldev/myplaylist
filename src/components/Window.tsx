@@ -5,7 +5,7 @@ import { PlayList } from "./PlayList";
 import { useWindowStore } from "@/store/window-store";
 import { Toaster } from "sonner";
 import { Upload } from "./Upload";
-import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
+import { useVisualizerStore } from "@/store/visualizer-store";
 import { BgVisualizer } from "./BgVisualizer";
 import { BgCover } from "./BgCover";
 import { useUser } from "@clerk/nextjs";
@@ -19,7 +19,7 @@ import { useEffect } from "react";
 export const Window = () => {
   const window = useWindowStore((state) => state.window);
   const setWindow = useWindowStore((state) => state.setWindow);
-  const visualizer = useModalVisualizerStore((state) => state.visualizer);
+  const visualizer = useVisualizerStore((state) => state.visualizer);
   const { isSignedIn, user, isLoaded } = useUser();
 
   const showInfo = useModalInfoStore((state) => state.showInfo);
@@ -34,7 +34,7 @@ export const Window = () => {
 
   useEffect(() => {
     checkFirstVisit();
-  }, []);
+  }, [checkFirstVisit]);
 
   return (
     <>

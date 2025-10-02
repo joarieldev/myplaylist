@@ -2,13 +2,13 @@ import { ChevronDown } from "@/assets/icons/ChevronDown";
 import { GraphicEq } from "@/assets/icons/GraphicEq";
 import { useEffect, useRef, useState } from "react";
 import { X } from "@/assets/icons/X";
-import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
+import { useVisualizerStore } from "@/store/visualizer-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import clsx from "clsx";
 
 export const ToggleVisualizer = () => {
   const [showList, setShowList] = useState(false);
-  const visualizer = useModalVisualizerStore((state) => state.visualizer);
+  const visualizer = useVisualizerStore((state) => state.visualizer);
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
   const mode = useBgVisualizerStore((state) => state.mode);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ export const ToggleVisualizer = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showList]);
+  }, [showList, visualizer]);
 
   return (
     <div
@@ -41,7 +41,7 @@ export const ToggleVisualizer = () => {
       ref={containerRef}
     >
       <button
-        className="absolute bg-neutral-900/75 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-0.5 px-1.5 w-full"
+        className="absolute bg-neutral-900/75 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-1 px-2 w-full"
         onClick={() => setShowList(!showList)}
       >
         <div className="flex gap-2 items-center">
@@ -56,7 +56,7 @@ export const ToggleVisualizer = () => {
       </button>
       <div
         className={clsx(
-          "top-7 z-10 bg-neutral-900/75 rounded-2xl py-1 w-full text-sm",
+          "top-8 z-10 bg-neutral-900/75 rounded-2xl py-1 w-full text-sm",
           showList ? "absolute" : "hidden"
         )}
       >

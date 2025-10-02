@@ -1,7 +1,7 @@
 import { getStream } from "@/actions/get-stream";
 import { ITrack } from "@/interfaces/Track";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useModalVisualizerStore } from "@/store/modal-visualizer-store";
+import { useVisualizerStore } from "@/store/visualizer-store";
 import { useTracksStore } from "@/store/tracks-store";
 import { useWindowStore } from "@/store/window-store";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ export const usePlayTrack = () => {
   const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const setSelectedTrackLocal = useWindowStore((state) => state.setSelectedTrackLocal);
-  const visualizer = useModalVisualizerStore((state) => state.visualizer);
+  const visualizer = useVisualizerStore((state) => state.visualizer);
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const volume = useAudioContextStore((state) => state.volume);
