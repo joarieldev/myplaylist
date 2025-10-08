@@ -1,20 +1,19 @@
 import { Layout } from "./Layout";
-import { PlayList } from "@/assets/icons/PlayList";
 import { useWindowStore } from "@/store/window-store";
-import { BtnPlayers } from "./BtnPlayers";
+import { BtnPlayers } from "./btns/BtnPlayers";
 import { Progress } from "./Progress";
 import { Thumbnail } from "./Thumbnail";
 import { ThumbnailLocal } from "./ThumbnailLocal";
-import { BtnPlayersLocal } from "./BtnPlayersLocal";
+import { BtnPlayersLocal } from "./btns/BtnPlayersLocal";
 import { ToggleVisualizer } from "./ToggleVisualizer";
-import { BtnVolume } from "./BtnVolume";
-import { BtnVisualizer } from "./BtnVisualizer";
+import { BtnVolume } from "./btns/BtnVolume";
+import { BtnVisualizer } from "./btns/BtnVisualizer";
 import { AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 import { IFile } from "@/interfaces/File";
 import { ITrack } from "@/interfaces/Track";
-import { BtnSesion } from "./BtnSesion";
-import { BtnInfo } from "./BtnInfo";
+import { BtnSesion } from "./btns/BtnSesion";
+import { Category } from "@/assets/icons/Category";
 
 export const Main = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
@@ -44,23 +43,20 @@ export const Main = () => {
   }, [selectedTrackLocal]);
 
   return (
-    <Layout
-      heading={
-        <nav className="flex gap-4 justify-between max-sm:px-2">
-          <span className="size-6">
-            <BtnSesion />
-          </span>
-          <ToggleVisualizer />
-          <button
-            onClick={() => setWindow("playlist")}
-            className="cursor-pointer hover:text-gray-300"
-            title="playlist"
-          >
-            <PlayList />
-          </button>
-        </nav>
-      }
-    >
+    <Layout>
+      <nav className="flex gap-4 justify-between max-sm:px-2">
+        <span className="size-6">
+          <BtnSesion />
+        </span>
+        <ToggleVisualizer />
+        <button
+          onClick={() => setWindow("library")}
+          className="cursor-pointer hover:text-gray-300 transition-colors"
+          title="biblioteca"
+        >
+          <Category />
+        </button>
+      </nav>
       <section className="flex flex-col h-full overflow-x-hidden overflow-y-auto relative">
         <AnimatePresence custom={direction} initial={false} mode="popLayout">
           {selectedTrack ? (
@@ -84,7 +80,6 @@ export const Main = () => {
           </div>
           <Progress />
         </div>
-        <BtnInfo />
       </section>
     </Layout>
   );

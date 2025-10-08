@@ -9,10 +9,10 @@ import clsx from "clsx";
 import { toast } from "sonner";
 
 const ICON_VISUALIZER = {
-  none: GraphicEq3,
-  active: GraphicEq4,
-  middle: GraphicEq2,
-  full: GraphicEq,
+  none: GraphicEq,
+  active: GraphicEq2,
+  middle: GraphicEq3,
+  full: GraphicEq4,
 };
 
 export const BtnVisualizer = () => {

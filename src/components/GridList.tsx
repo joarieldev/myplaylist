@@ -1,53 +1,48 @@
-import { useTracksStore } from "@/store/tracks-store";
-import { useTabStore } from "@/store/tab-store";
-import { getTracks } from "@/actions/get-tracks";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
-import { BtnFavorite } from "./BtnFavorite";
+import { BtnFavorite } from "./btns/BtnFavorite";
+import { useWindowStore } from "@/store/window-store";
+import { useDetailStore } from "@/store/detail-store";
+import { motion } from "motion/react";
 
 interface Props {
+  // header: React.ReactNode;
   list: IList[];
-  setLoadingTracks: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrorTracks: React.Dispatch<React.SetStateAction<string | null>>;
+  nameWindow: string;
   setChange: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const GridList = ({ list, setLoadingTracks, setErrorTracks, setChange }: Props) => {
-  const setTracks = useTracksStore((state) => state.setTracks);
-  const setTab = useTabStore((state) => state.setTab);
+export const GridList = ({ list, nameWindow, setChange }: Props) => {
+  const setWindow = useWindowStore((state) => state.setWindow);
+  const setList = useDetailStore((state) => state.setList);
+  const setBack = useDetailStore((state) => state.setBack);
 
-  const handleTracks = async (id: string) => {
-    setLoadingTracks(true);
-    getTracks(id)
-      .then(({ ok, data, message }) => {
-        if (!ok) {
-          setErrorTracks(message ?? null);
-          return;
-        }
-        setTracks(data);
-        setTab("tracks");
-      })
-      .finally(() => {
-        setLoadingTracks(false);
-      });
+  const handleDetail = (item: IList) => {
+    setList(item);
+    setBack(nameWindow);
+    setWindow("detail");
   };
 
   return (
-    <ul className="grid grid-cols-3 gap-2">
+    <ul className="grid grid-cols-3">
       {list.map((item) => (
         <li key={item.id}>
           <div
-            className="hover:bg-gray-800/75 cursor-pointer p-2 gap-4 flex flex-col items-center rounded-md"
-            onClick={() => handleTracks(item.id)}
+            className="hover:bg-gray-800/75 cursor-pointer p-2 gap-2 flex flex-col items-center rounded-xl transition-colors"
+            onClick={() => handleDetail(item)}
           >
-            <div className="w-full h-28">
+            <motion.div
+              key={`list-thumbnail-${item.id}`}
+              layoutId={`bg-thumbnail-${item.id}`}
+              className="w-full h-28 overflow-hidden rounded-lg"
+            >
               <img
                 src={item.artwork["150x150"]}
                 alt={item.playlist_name}
-                className="aspect-square object-cover"
+                className="aspect-square object-cover size-full"
                 title={item.playlist_name}
               />
-            </div>
+            </motion.div>
             <div className="flex flex-col text-center gap-1 w-full">
               <h1
                 className="text-sm font-bold truncate"

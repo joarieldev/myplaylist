@@ -1,15 +1,24 @@
 import { motion } from "motion/react";
-import { useTracksStore } from "@/store/tracks-store";
 import { useEffect } from "react";
 import { useWindowStore } from "@/store/window-store";
 import clsx from "clsx";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
+import { ITrack } from "@/interfaces/Track";
+import { useTracksStore } from "@/store/tracks-store";
+import { useDetailStore } from "@/store/detail-store";
 
-export const Tracks = () => {
-  const tracks = useTracksStore((state) => state.tracks);
+interface Props {
+  tracks: ITrack[];
+}
+
+export const Tracks = ({ tracks }: Props) => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const setWindow = useWindowStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
+  const list = useDetailStore((state) => state.list);
+
+  const setTracks = useTracksStore((state) => state.setTracks);
+  const setPlaylist = useTracksStore((state) => state.setPlaylist);
 
   useEffect(() => {
     if (!selectedTrack) return;
@@ -20,12 +29,14 @@ export const Tracks = () => {
         el.scrollIntoView({ behavior: "auto", block: "center" });
       }
     }
-  }, []);
+  }, [selectedTrack]);
 
   if (tracks.length === 0) {
     return (
       <div className="size-full grid place-items-center">
-        <p className="text-center text-sm text-gray-300">Playlist no seleccionada</p>
+        <p className="text-center text-sm text-gray-300">
+          No se encontraron tracks
+        </p>
       </div>
     );
   }
@@ -36,13 +47,15 @@ export const Tracks = () => {
         <li key={track.id}>
           <article
             className={clsx(
-              "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg",
+              "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg transition-colors",
               selectedTrack?.id === track.id
                 ? "bg-gray-700/75"
                 : "hover:bg-neutral-700/50"
             )}
             onClick={() => {
               playTrack(track, index);
+              setTracks(tracks);
+              setPlaylist(list);
               setWindow("main");
             }}
             id={`track-${track.id}`}

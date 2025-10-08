@@ -11,7 +11,7 @@ export const BtnSesion = () => {
     <>
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="p-1 rounded-full bg-neutral-500/25 cursor-pointer hover:text-gray-300" title="Iniciar sesión">
+          <button className="p-1 rounded-full bg-neutral-500/25 cursor-pointer hover:text-gray-300 transition-colors" title="Iniciar sesión">
             <User className="size-5"/>
           </button>
         </SignInButton>

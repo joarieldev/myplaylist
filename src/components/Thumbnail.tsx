@@ -1,21 +1,23 @@
-import { useTabStore } from "@/store/tab-store";
 import { useWindowStore } from "@/store/window-store";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
 import { ITrack } from "@/interfaces/Track";
+import { useDetailStore } from "@/store/detail-store";
+import { useTracksStore } from "@/store/tracks-store";
 
 export const Thumbnail = forwardRef(function Thumbnail(
   { selectedTrack }: { selectedTrack?: ITrack | null },
   ref: React.Ref<HTMLDivElement>
 ) {
   const setWindow = useWindowStore((state) => state.setWindow);
-  const setTab = useTabStore((state) => state.setTab);
   const direction = usePresenceData();
+  const setList = useDetailStore((state) => state.setList);
+  const playlist = useTracksStore((state) => state.playlist);
 
   const handleTabWindow = () => {
-    setWindow("playlist");
-    setTab("tracks");
+    setList(playlist);
+    setWindow("detail");
   };
 
   return (
@@ -37,21 +39,25 @@ export const Thumbnail = forwardRef(function Thumbnail(
     >
       <div className="flex justify-center items-center h-96 py-4">
         {selectedTrack ? (
-          <motion.div
-            key={`thumbnail-${selectedTrack.id}`}
-            layoutId={`track-thumbnail-${selectedTrack.id}`}
+          <div
             className="size-72 sm:size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
-            <img
+            <motion.img
+              key={`thumbnail-${selectedTrack.id}`}
+              layoutId={`track-thumbnail-${selectedTrack.id}`}
               src={selectedTrack.artwork["480x480"] ?? caratula.src}
               alt={selectedTrack.title}
               className="max-w-full max-h-full rounded-xl pointer-events-none"
               title={selectedTrack.title}
             />
-          </motion.div>
+          </div>
         ) : (
-          <img src={caratula.src} alt="caratula" className="size-72 sm:size-48 pointer-events-none" />
+          <img
+            src={caratula.src}
+            alt="caratula"
+            className="size-72 sm:size-48 pointer-events-none"
+          />
         )}
       </div>
       <div className="h-full flex flex-col items-center justify-center">

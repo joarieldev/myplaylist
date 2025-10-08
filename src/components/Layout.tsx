@@ -2,10 +2,9 @@ import clsx from "clsx";
 import { useIsMoving } from "@/hooks/useIsMoving";
 
 interface Props {
-  heading: React.ReactNode;
   children: React.ReactNode;
 }
-export const Layout = ({ heading, children }: Props) => {
+export const Layout = ({ children }: Props) => {
   const { getOpacity, handlers } = useIsMoving();
 
   return (
@@ -16,7 +15,6 @@ export const Layout = ({ heading, children }: Props) => {
       )}
       {...handlers}
     >
-      <header>{heading}</header>
       {children}
     </main>
   );

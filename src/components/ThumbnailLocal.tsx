@@ -1,4 +1,3 @@
-import { useTabStore } from "@/store/tab-store";
 import { useWindowStore } from "@/store/window-store";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
@@ -10,12 +9,10 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
   ref: React.Ref<HTMLDivElement>
 ) {
   const setWindow = useWindowStore((state) => state.setWindow);
-  const setTab = useTabStore((state) => state.setTab);
   const direction = usePresenceData();
 
   const handleTabWindow = () => {
-    setWindow("playlist");
-    setTab("local");
+    setWindow("local");
   };
 
   return (
@@ -37,21 +34,25 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
     >
       <div className="flex justify-center items-center h-96 py-4">
         {selectedTrackLocal ? (
-          <motion.div
-            key={`thumbnail-${selectedTrackLocal.id}`}
-            layoutId={`track-thumbnail-${selectedTrackLocal.id}`}
+          <div
             className="size-72 sm:size-48 cursor-pointer flex items-center justify-center"
             onClick={handleTabWindow}
           >
-            <img
+            <motion.img
+              key={`thumbnail-${selectedTrackLocal.id}`}
+              layoutId={`track-thumbnail-${selectedTrackLocal.id}`}
               src={selectedTrackLocal?.metadata.cover ?? caratula.src}
               alt={selectedTrackLocal.metadata.title}
               className="max-w-full max-h-full rounded-xl pointer-events-none"
               title={selectedTrackLocal.metadata.title}
             />
-          </motion.div>
+          </div>
         ) : (
-          <img src={caratula.src} alt="caratula" className="size-72 sm:size-48 pointer-events-none" />
+          <img
+            src={caratula.src}
+            alt="caratula"
+            className="size-72 sm:size-48 pointer-events-none"
+          />
         )}
       </div>
       <div className="h-full flex flex-col items-center justify-center">

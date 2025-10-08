@@ -1,4 +1,4 @@
-export const ArrowBackUp = ({ className }: { className?: string }) => {
+export const Category = ({ className }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,8 +13,7 @@ export const ArrowBackUp = ({ className }: { className?: string }) => {
       viewBox="0 0 24 24"
     >
       <path stroke="none" d="M0 0h24v24H0z" />
-      <path d="m9 14-4-4 4-4" />
-      <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
+      <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 17a3 3 0 1 0 6 0 3 3 0 1 0-6 0" />
     </svg>
   );
 };

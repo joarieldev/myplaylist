@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { ITrack } from '@/interfaces/Track'
 import { IFile } from '@/interfaces/File'
 
-type Windows = "main" | "playlist";
+export type Windows = "main" | "library" | "local" | "trending" | "search" | "favorites" | "detail";
 
 interface State {
   window: Windows

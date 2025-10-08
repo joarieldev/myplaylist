@@ -7,6 +7,10 @@ import { useWindowStore } from "@/store/window-store";
 import clsx from "clsx";
 import { motion } from "motion/react";
 import { useEffect } from "react";
+import { Layout } from "./Layout";
+import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
+import { Folder } from "@/assets/icons/Folder";
+import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 
 export const Local = () => {
   const files = useFilesStore((state) => state.files);
@@ -26,32 +30,53 @@ export const Local = () => {
         el.scrollIntoView({ behavior: "auto", block: "center" });
       }
     }
-  }, []);
+  }, [selectedTrackLocal]);
 
   return (
-    <>
-      {files.length === 0 && (
-        <div className="flex size-full flex-col items-center justify-center">
-          <button onClick={onTargetClick} className="cursor-pointer">
-            <MusicNotePlus className="text-gray-400" />
+    <Layout>
+      <div className="flex flex-col overflow-y-auto w-full h-full">
+        <nav className="space-y-2 pb-2">
+          <button
+            onClick={() => setWindow("library")}
+            className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"
+          >
+            <CornerUpLeft className="size-5" />
+            <span className="font-sans text-sm">Biblioteca</span>
           </button>
-          <p className="text-sm text-gray-300">
-            Haga clic para cargar o arrastre y suelte
-          </p>
-          <input
-            onChange={handleFileChange}
-            ref={fileInputRef}
-            type="file"
-            className="hidden"
-            name="file"
-            multiple
-            accept="audio/*"
-          />
-        </div>
-      )}
+          <div className="flex items-center gap-3">
+            <span className="p-1.5 rounded-full bg-blue-700 text-black">
+              <Folder />
+            </span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-xl">Local</span>
+              <span className="text-xs flex gap-1 items-center">
+                <BrandNeteaseMusic className="size-3" />
+                {files.length} pistas
+              </span>
+            </div>
+          </div>
+        </nav>
+        {files.length === 0 && (
+          <div className="flex size-full flex-col items-center justify-center">
+            <button onClick={onTargetClick} className="cursor-pointer">
+              <MusicNotePlus className="text-gray-400" />
+            </button>
+            <p className="text-sm text-gray-300">
+              Haga clic para cargar o arrastre y suelte
+            </p>
+            <input
+              onChange={handleFileChange}
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              name="file"
+              multiple
+              accept="audio/*"
+            />
+          </div>
+        )}
 
-      {files.length > 0 && (
-        <div className="w-full h-full">
+        {files.length > 0 && (
           <ul>
             {files.map((item) => (
               <li key={item.id}>
@@ -95,8 +120,8 @@ export const Local = () => {
               </li>
             ))}
           </ul>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </Layout>
   );
 };

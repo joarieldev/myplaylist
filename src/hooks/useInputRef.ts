@@ -1,7 +1,6 @@
 import type { IFile } from "@/interfaces/File";
 import { extractAudioMetadata } from "@/lib/get-metadata";
 import { useFilesStore } from "@/store/files-store";
-import { useTabStore } from "@/store/tab-store";
 import { useWindowStore } from "@/store/window-store";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -13,7 +12,6 @@ export const useInputRef = () => {
   const files = useFilesStore(state => state.files);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setWindow = useWindowStore(state => state.setWindow);
-  const setTab = useTabStore(state => state.setTab);
 
   const handleFileChange = async () => {
     const file = fileInputRef.current?.files;
@@ -47,8 +45,7 @@ export const useInputRef = () => {
       error: 'Algo salió mal',
     });
 
-    setWindow("playlist");
-    setTab("local")
+    setWindow("local");
   };
 
   const onTargetClick = () => {

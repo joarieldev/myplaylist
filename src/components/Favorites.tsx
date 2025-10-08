@@ -1,111 +1,126 @@
 import { useUser, SignInButton, SignedOut } from "@clerk/clerk-react";
-import { useIsFetching, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { GridList } from "./GridList";
 import { useState } from "react";
-import { X } from "@/assets/icons/X";
 import { Reload } from "@/assets/icons/Reload";
-import { IList } from "@/interfaces/List";
+import { Layout } from "./Layout";
+import { getFavorite } from "@/actions/get-favorite";
+import { useWindowStore } from "@/store/window-store";
+import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
+import { Heart } from "@/assets/icons/Heart";
 
-interface Props {
-  refetch: () => void;
-}
-
-export const Favorites = ({ refetch }: Props) => {
-  const { isSignedIn, isLoaded } = useUser();
-  const [loadingTracks, setLoadingTracks] = useState<boolean>(false);
-  const [errorTracks, setErrorTracks] = useState<string | null>(null);
+export const Favorites = () => {
+  const { isSignedIn, user, isLoaded } = useUser();
 
   const [change, setChange] = useState<number>(0);
 
-  const queryClient = useQueryClient();
-  const favorites = queryClient.getQueryData<IList[]>(["queryFavorite"]);
-  const isFetching = useIsFetching({ queryKey: ["queryFavorite"] }) > 0;
-
-  const queryState = queryClient.getQueryState(["queryFavorite"]);
-  const error = queryState?.error as Error | undefined;
+  const {
+    isPending: loading,
+    error,
+    refetch,
+    data: favorites,
+  } = useQuery({
+    queryKey: ["queryFavorite"],
+    queryFn: () => getFavorite(user?.id ?? ""),
+    enabled: isLoaded && isSignedIn && !!user?.id,
+    retry: false,
+  });
 
   if (!isLoaded) {
     return (
-      <div className="size-full grid place-items-center">
+      <Layout>
         <p className="text-center text-sm text-gray-300">Cargando...</p>
-      </div>
+      </Layout>
     );
   }
 
   if (!isSignedIn) {
     return (
-      <div className="size-full grid place-items-center text-sm text-gray-300">
-        <p className="text-center flex flex-row gap-1">
-          Para ver tus favoritos debes
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="hover:text-gray-200 cursor-pointer underline">
-                Iniciar sesión.
-              </button>
-            </SignInButton>
-          </SignedOut>
-        </p>
-      </div>
+      <Layout>
+        <Nav />
+        <div className="h-full grid place-items-center">
+          <p className="text-center flex flex-row gap-1">
+            Para ver tus favoritos debes
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="hover:underline cursor-pointer font-bold">
+                  Iniciar sesión.
+                </button>
+              </SignInButton>
+            </SignedOut>
+          </p>
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="relative size-full overflow-hidden">
-      {isFetching && (
-        <div className="size-full grid place-items-center">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
+    <Layout>
+      <div className="flex flex-col overflow-y-auto h-full">
+        <Nav />
+        {loading && (
+          <div className="size-full grid place-items-center">
+            <p className="text-center text-sm text-gray-300">Cargando...</p>
+          </div>
+        )}
+        {error && (
+          <div className="size-full grid place-items-center">
+            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
+              {error.message}
+              <button
+                onClick={() => refetch()}
+                className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
+              >
+                <Reload />
+              </button>
+            </p>
+          </div>
+        )}
+        {!loading && !error && (
+          <>
+            {favorites && favorites.length === 0 ? (
+              <div className="size-full grid place-items-center">
+                <p className="text-center text-sm text-gray-300">
+                  No tienes favoritos
+                </p>
+              </div>
+            ) : (
+              <>
+                <label className="sr-only">{change}</label>
+                <GridList
+                  list={favorites ?? []}
+                  nameWindow="favorites"
+                  setChange={setChange}
+                />
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </Layout>
+  );
+};
+
+const Nav = () => {
+  const setWindow = useWindowStore((state) => state.setWindow);
+
+  return (
+    <nav className="space-y-2 pb-2">
+      <button
+        onClick={() => setWindow("library")}
+        className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"
+      >
+        <CornerUpLeft className="size-5" />
+        <span className="font-sans text-sm">Biblioteca</span>
+      </button>
+      <div className="flex items-center gap-3">
+        <span className="p-1.5 rounded-full bg-violet-700 text-black">
+          <Heart liked={true} />
+        </span>
+        <div className="flex flex-col">
+          <span className="font-semibold text-xl">Favoritos</span>
         </div>
-      )}
-      {error && (
-        <div className="size-full grid place-items-center">
-          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
-            {error.message}
-            <button
-              onClick={() => refetch()}
-              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
-            >
-              <Reload />
-            </button>
-          </p>
-        </div>
-      )}
-      {!isFetching && !error && (
-        <div className="overflow-y-auto h-full">
-          {favorites && favorites.length === 0 ? (
-            <div className="size-full grid place-items-center">
-              <p className="text-center text-sm text-gray-300">No tienes favoritos</p>
-            </div>
-          ) : (
-            <>
-              <label className="sr-only">{change}</label>
-              <GridList
-                list={favorites ?? []}
-                setLoadingTracks={setLoadingTracks}
-                setErrorTracks={setErrorTracks}
-                setChange={setChange}
-              />
-            </>
-          )}
-        </div>
-      )}
-      {loadingTracks && (
-        <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
-        </div>
-      )}
-      {errorTracks && (
-        <div className="absolute inset-0 bg-black/75 grid place-items-center z-[1]">
-          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
-            {errorTracks}
-            <button
-              onClick={() => setErrorTracks(null)}
-              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full"
-            >
-              <X />
-            </button>
-          </p>
-        </div>
-      )}
-    </div>
+      </div>
+    </nav>
   );
 };
