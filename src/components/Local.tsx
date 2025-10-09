@@ -91,6 +91,7 @@ export const Local = () => {
                     playTrack(item, item.index);
                     setWindow("main");
                   }}
+                  id={`track-${item.id}`}
                 >
                   <motion.div
                     key={`thumbnail-${item.id}`}

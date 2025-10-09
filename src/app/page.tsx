@@ -1,6 +1,7 @@
 "use client";
 
 import { Window } from "@/components/Window";
+import { useAudioContextStore } from "@/store/audio-context-store";
 import { useModalInfoStore } from "@/store/modal-info-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -9,10 +10,14 @@ const queryClient = new QueryClient();
 
 export default function Page() {
   const checkFirstVisit = useModalInfoStore((state) => state.checkFirstVisit);
+  const setVolume = useAudioContextStore((state) => state.setVolume);
 
   useEffect(() => {
     checkFirstVisit();
-  }, [checkFirstVisit]);
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    if (isMobile) setVolume(1);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="grid grid-rows-[1fr] items-center justify-items-center min-h-screen font-inter">

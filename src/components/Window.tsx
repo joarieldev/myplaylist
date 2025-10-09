@@ -8,7 +8,6 @@ import { BgCover } from "./backgrounds/BgCover";
 import { ModalInfo } from "./ModalInfo";
 import { useModalInfoStore } from "@/store/modal-info-store";
 import { AnimatePresence } from "motion/react";
-import { useEffect } from "react";
 import { Library } from "./Library";
 import { Local } from "./Local";
 import { Trending } from "./Trending";
@@ -20,11 +19,6 @@ export const Window = () => {
   const window = useWindowStore((state) => state.window);
   const visualizer = useVisualizerStore((state) => state.visualizer);
   const showInfo = useModalInfoStore((state) => state.showInfo);
-  const checkFirstVisit = useModalInfoStore((state) => state.checkFirstVisit);
-
-  useEffect(() => {
-    checkFirstVisit();
-  }, [checkFirstVisit]);
 
   return (
     <>

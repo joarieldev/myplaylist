@@ -23,6 +23,7 @@ export const usePlayTrackLocal = () => {
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const volume = useAudioContextStore((state) => state.volume);
+  const setGainNode = useAudioContextStore((state) => state.setGainNode);
 
   const playTrack = async (file: IFile, index: number) => {
     if (audioContext && audioContext.state !== "closed") {
@@ -41,15 +42,14 @@ export const usePlayTrackLocal = () => {
     setSelectedTrackLocal(file);
     reset()
 
-    // const url = await getStream(track.id);
     const newAudioElement = new Audio(URL.createObjectURL(file.file));
     newAudioElement.crossOrigin = "anonymous";
+    newAudioElement.volume = 1
     setAudioElement(newAudioElement)
 
     newAudioElement.onloadedmetadata = () => {
       setDuration(newAudioElement.duration);
-      if (isMuted) newAudioElement.muted = true;
-      newAudioElement.volume = volume / 100;
+      if (isMuted.muted) gainNode.gain.value = 0;
     }
 
     newAudioElement.ontimeupdate = () => {
@@ -60,9 +60,13 @@ export const usePlayTrackLocal = () => {
     const newAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     setAudioContext(newAudioContext);
 
+    const gainNode = new GainNode(newAudioContext);
+    gainNode.gain.value = volume;
+    setGainNode(gainNode);
+
     const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
     setSourceNode(newSourceNode);
-    newSourceNode.connect(newAudioContext.destination);
+    newSourceNode.connect(gainNode).connect(newAudioContext.destination);
 
     if (visualizer !== "none") analyserVisualizer(newAudioContext, newSourceNode);
 

@@ -8,8 +8,9 @@ interface State {
   currentTime: number;
   sourceNode: MediaElementAudioSourceNode | null;
   analyserNode: AnalyserNode | null;
+  gainNode: GainNode | null;
   volume: number;
-  isMuted: boolean;
+  isMuted: { muted: boolean, volume: number };
   setAnalyserNode: (analyserNode: AnalyserNode | null) => void;
   setAudioContext: (context: AudioContext | null) => void;
   setAudioElement: (element: HTMLAudioElement | null) => void;
@@ -17,8 +18,9 @@ interface State {
   setDuration: (duration: number) => void;
   setCurrentTime: (currentTime: number) => void;
   setSourceNode: (sourceNode: MediaElementAudioSourceNode | null) => void;
+  setGainNode: (gainNode: GainNode | null) => void;
   setVolume: (volume: number) => void;
-  setIsMuted: (isMuted: boolean) => void;
+  setIsMuted: (muted: boolean, volume: number) => void;
   reset: () => void;
 }
 
@@ -30,8 +32,9 @@ export const useAudioContextStore = create<State>((set) => ({
   currentTime: 0,
   sourceNode: null,
   analyserNode: null,
-  volume: 25,
-  isMuted: false,
+  gainNode: null,
+  volume: 0.25,
+  isMuted: { muted: false, volume: 0 },
   setAudioContext: (context) => set({ audioContext: context }),
   setAudioElement: (element) => set({ audioElement: element }),
   setIsPaused: (paused) => set({ isPaused: paused }),
@@ -39,8 +42,9 @@ export const useAudioContextStore = create<State>((set) => ({
   setCurrentTime: (currentTime) => set({ currentTime: currentTime }),
   setSourceNode: (sourceNode) => set({ sourceNode: sourceNode }),
   setAnalyserNode: (analyserNode) => set({ analyserNode: analyserNode }),
+  setGainNode: (gainNode) => set({ gainNode: gainNode }),
   setVolume: (volume) => set({ volume: volume }),
-  setIsMuted: (isMuted) => set({ isMuted: isMuted }),
+  setIsMuted: (muted: boolean, volume: number) => set({ isMuted: { muted: muted, volume: volume } }),
   reset: () => set({
     currentTime: 0,
     duration: 0,

@@ -24,6 +24,7 @@ export const usePlayTrack = () => {
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const volume = useAudioContextStore((state) => state.volume);
+  const setGainNode = useAudioContextStore((state) => state.setGainNode);
 
   const playTrack = async (track: ITrack, index: number) => {
     if (audioContext && audioContext.state !== "closed") {
@@ -54,16 +55,19 @@ export const usePlayTrack = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
 
+    const gainNode = new GainNode(newAudioContext);
+    gainNode.gain.value = volume;
+    
     newAudioElement.onloadedmetadata = () => {
       setDuration(newAudioElement.duration);
-      if (isMuted) newAudioElement.muted = true;
-      newAudioElement.volume = volume / 100;
+      if (isMuted.muted) gainNode.gain.value = 0;
 
       setAudioContext(newAudioContext);
+      setGainNode(gainNode);
 
       const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
       setSourceNode(newSourceNode);
-      newSourceNode.connect(newAudioContext.destination);
+      newSourceNode.connect(gainNode).connect(newAudioContext.destination);
 
       if (visualizer !== "none") analyserVisualizer(newAudioContext, newSourceNode);
 
