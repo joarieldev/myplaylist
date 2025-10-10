@@ -11,32 +11,32 @@ export const BgCover = () => {
   if (selectedTrack) {
     return (
       <motion.div
-        initial={{ opacity: 0.25 }}
+        initial={{ opacity: 0.5 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0.25 }}
-        transition={{ duration: 2 }}
-        key={`bg-cover-${selectedTrackLocal?.id}`}
+        exit={{ opacity: 0.5 }}
+        transition={{ duration: 1.5 }}
+        key={`bg-cover-${selectedTrack?.id}`}
         style={{
-          backgroundImage: `url(${selectedTrack.artwork["480x480"]})`,
+          backgroundImage: `url(${selectedTrack.artwork["150x150"]})`,
         }}
-        className="bg-cover bg-center bg-no-repeat h-[75vh] left-0 right-0 fixed pointer-events-none -z-10 top-0 blur-[120px] saturate-200"
+        className="bg-cover bg-center bg-no-repeat h-[75dvh] left-0 right-0 fixed pointer-events-none -z-10 top-0 blur-[120px] saturate-200"
       />
     );
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0.25 }}
+      initial={{ opacity: 0.5 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0.25 }}
-      transition={{ duration: 0.6 }}
+      exit={{ opacity: 0.5 }}
+      transition={{ duration: 0.8 }}
       key={`bg-cover-${selectedTrackLocal?.id}`}
       style={{
         backgroundImage: `url(${
           selectedTrackLocal?.metadata.cover ?? caratula.src
         })`,
       }}
-      className="bg-cover bg-center bg-no-repeat h-[75vh] left-0 right-0 fixed pointer-events-none -z-10 top-0 blur-[120px] saturate-200"
+      className="bg-cover bg-center bg-no-repeat h-[75dvh] left-0 right-0 fixed pointer-events-none -z-10 top-0 blur-[120px] saturate-200"
     />
   );
 };

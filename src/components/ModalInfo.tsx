@@ -36,13 +36,13 @@ export const ModalInfo = () => {
             tus favoritas.
           </p>
           <div className="flex w-full justify-between items-center">
-            <p className="text-sm">
-              Creado por{" "}
+            <p className="text-xs">
+              {"Creado por "}
               <a
                 href="https://joariel.dev"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline hover:text-white text-xs"
+                className="hover:underline hover:text-white"
               >
                 joariel
               </a>

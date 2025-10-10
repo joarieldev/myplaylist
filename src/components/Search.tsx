@@ -30,7 +30,7 @@ export const Search = () => {
   return (
     <Layout>
       <div className="flex flex-col overflow-y-auto h-full">
-        <nav className="space-y-2 pb-2 sticky top-0 z-10">
+        <nav className="space-y-2 sticky top-0 z-10 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
           <button
             onClick={() => setWindow("library")}
             className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 transition-colors"

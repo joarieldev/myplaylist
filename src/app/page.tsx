@@ -20,7 +20,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="grid grid-rows-[1fr] items-center justify-items-center min-h-screen font-inter">
+    <div className="grid grid-rows-[1fr] items-center justify-items-center h-dvh font-inter">
       <QueryClientProvider client={queryClient}>
         <Window />
       </QueryClientProvider>

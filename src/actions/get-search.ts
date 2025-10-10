@@ -1,6 +1,6 @@
 "use server";
 
-import { appName } from "./shared";
+// import { appName } from "./shared";
 
 export const getSearch = async (query: string) => {
   try {

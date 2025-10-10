@@ -39,11 +39,11 @@ export const Favorites = () => {
       <Layout>
         <Nav />
         <div className="h-full grid place-items-center">
-          <p className="text-center flex flex-row gap-1">
+          <p className="text-center flex flex-row gap-1 text-gray-300 text-sm">
             Para ver tus favoritos debes
             <SignedOut>
               <SignInButton mode="modal">
-                <button className="hover:underline cursor-pointer font-bold">
+                <button className="hover:underline cursor-pointer font-bold text-gray-200">
                   Iniciar sesión.
                 </button>
               </SignInButton>
@@ -105,7 +105,7 @@ const Nav = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
 
   return (
-    <nav className="space-y-2 pb-2">
+    <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
       <button
         onClick={() => setWindow("library")}
         className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"

@@ -28,7 +28,7 @@ export const BtnPlayersLocal = ({ setDirection }: Props) => {
       )}
     >
       <button
-        className=" p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
+        className="p-3 sm:p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
         onClick={() => {
           prev(files.findIndex((file) => file.id === selectedTrackLocal?.id));
           setDirection(-1);
@@ -38,21 +38,21 @@ export const BtnPlayersLocal = ({ setDirection }: Props) => {
       </button>
       {!selectedTrackLocal || isPaused ? (
         <button
-          className="p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
+          className="p-4 sm:p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
           onClick={() => play()}
         >
           <PlayerPlay className="size-8" />
         </button>
       ) : (
         <button
-          className="p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
+          className="p-4 sm:p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
           onClick={() => pause()}
         >
           <PlayerPause className="size-8" />
         </button>
       )}
       <button
-        className="p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
+        className="p-3 sm:p-2 rounded-full bg-black cursor-pointer active:bg-gray-500/50"
         onClick={() => {
           next(files.findIndex((file) => file.id === selectedTrackLocal?.id));
           setDirection(1);

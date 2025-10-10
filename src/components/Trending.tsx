@@ -27,7 +27,7 @@ export const Trending = () => {
   return (
     <Layout>
       <div className="flex flex-col overflow-y-auto h-full">
-        <nav className="space-y-2 pb-2">
+        <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
           <button
             onClick={() => setWindow("library")}
             className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"

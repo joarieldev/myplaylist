@@ -41,7 +41,7 @@ export const ToggleVisualizer = () => {
       ref={containerRef}
     >
       <button
-        className="absolute bg-neutral-900/75 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-1 px-2 w-full"
+        className="absolute bg-neutral-900/75 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-1 px-2 w-full z-10"
         onClick={() => setShowList(!showList)}
       >
         <div className="flex gap-2 items-center">

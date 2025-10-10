@@ -18,8 +18,8 @@ export const Progress = () => {
   };
 
   return (
-    <>
-      <div className={clsx("relative w-full sm:w-80 h-4 group", !audioElement && "pointer-events-none opacity-50")}>
+    <div className="size-full flex flex-col justify-center items-center gap-2">
+      <div className={clsx("relative w-full h-2 group", !audioElement && "pointer-events-none opacity-50")}>
         <progress
           max={duration}
           value={currentTime}
@@ -35,9 +35,9 @@ export const Progress = () => {
           className="absolute w-full h-full cursor-pointer opacity-0 transition-opacity duration-200 accent-gray-200 group-hover:opacity-100"
         />
       </div>
-      <p className="text-sm pb-4">
+      <p className="text-sm">
         {formatTime(currentTime)} - {formatTime(duration)}
       </p>
-    </>
+    </div>
   );
 };

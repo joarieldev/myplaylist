@@ -46,7 +46,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
             <motion.img
               key={`thumbnail-${selectedTrack.id}`}
               layoutId={`track-thumbnail-${selectedTrack.id}`}
-              src={selectedTrack.artwork["480x480"] ?? caratula.src}
+              src={selectedTrack.artwork["150x150"] ?? caratula.src}
               alt={selectedTrack.title}
               className="max-w-full max-h-full rounded-xl pointer-events-none"
               title={selectedTrack.title}

@@ -44,14 +44,14 @@ export const Main = () => {
 
   return (
     <Layout>
-      <nav className="flex gap-4 justify-between max-sm:px-2">
-        <span className="size-6">
+      <nav className="flex gap-4 justify-between py-2 px-3 sm:px-0 sm:py-0">
+        <span className="size-6 max-sm:hidden">
           <BtnSesion />
         </span>
         <ToggleVisualizer />
         <button
           onClick={() => setWindow("library")}
-          className="cursor-pointer hover:text-gray-300 transition-colors"
+          className="cursor-pointer hover:text-gray-300 transition-colors max-sm:hidden"
           title="biblioteca"
         >
           <Category />
@@ -68,7 +68,7 @@ export const Main = () => {
             />
           )}
         </AnimatePresence>
-        <div className="size-full flex flex-col justify-center items-center gap-4 sm:gap-2 max-sm:pb-8">
+        <div className="size-full flex flex-col justify-center items-center gap-4 sm:gap-2">
           <div className="flex w-full sm:w-80 h-full justify-evenly items-center">
             <BtnVisualizer />
             {selectedTrack ? (
@@ -78,7 +78,9 @@ export const Main = () => {
             )}
             <BtnVolume />
           </div>
-          <Progress />
+          <div className="size-full w-full sm:w-80 px-8 sm:px-0">
+            <Progress />
+          </div>
         </div>
       </section>
     </Layout>

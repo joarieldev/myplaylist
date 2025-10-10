@@ -44,7 +44,7 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
     favorites: "Favoritos",
   };
   const bgStyle = {
-    backgroundImage: `url(${list.artwork["150x150"]})`,
+    backgroundImage: `url(${list.artwork["480x480"]})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -53,14 +53,14 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
   };
 
   return (
-    <nav className="relative">
+    <nav className="relative z-10 py-2 px-3 sm:px-1 sm:py-1 sm:pb-2">
       <motion.div 
         key={`list-thumbnail-${list.id}`}
         layoutId={`bg-thumbnail-${list.id}`}
         style={bgStyle} 
         className="absolute pointer-events-none z-0 rounded-xl" 
       />
-      <div className="relative space-y-3 p-1 pb-2 z-10">
+      <div className="relative space-y-3">
         <button
           onClick={() => setWindow(back as Windows)}
           className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75"

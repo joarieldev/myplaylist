@@ -4,9 +4,9 @@ import { BtnFavorite } from "./btns/BtnFavorite";
 import { useWindowStore } from "@/store/window-store";
 import { useDetailStore } from "@/store/detail-store";
 import { motion } from "motion/react";
+import { useEffect } from "react";
 
 interface Props {
-  // header: React.ReactNode;
   list: IList[];
   nameWindow: string;
   setChange: React.Dispatch<React.SetStateAction<number>>;
@@ -16,12 +16,24 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
   const setWindow = useWindowStore((state) => state.setWindow);
   const setList = useDetailStore((state) => state.setList);
   const setBack = useDetailStore((state) => state.setBack);
+  const listDetail = useDetailStore((state) => state.list);
 
   const handleDetail = (item: IList) => {
     setList(item);
     setBack(nameWindow);
     setWindow("detail");
   };
+
+  useEffect(() => {
+    if (!listDetail) return;
+    const selectedId = `list-${listDetail.id}`;
+    if (selectedId) {
+      const el = document.getElementById(`list-${listDetail.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "auto", block: "center" });
+      }
+    }
+  }, [listDetail]);
 
   return (
     <ul className="grid grid-cols-3">
@@ -30,6 +42,7 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
           <div
             className="hover:bg-gray-800/75 cursor-pointer p-2 gap-2 flex flex-col items-center rounded-xl transition-colors"
             onClick={() => handleDetail(item)}
+            id={`list-${item.id}`}
           >
             <motion.div
               key={`list-thumbnail-${item.id}`}
@@ -37,7 +50,7 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
               className="w-full h-28 overflow-hidden rounded-lg"
             >
               <img
-                src={item.artwork["150x150"]}
+                src={item.artwork["480x480"]}
                 alt={item.playlist_name}
                 className="aspect-square object-cover size-full"
                 title={item.playlist_name}
