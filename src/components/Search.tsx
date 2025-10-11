@@ -16,8 +16,8 @@ export const Search = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
 
   const {
-    error: errorSearch,
-    isFetching: isFetchingSearch,
+    error: error,
+    isFetching: fetching,
     refetch: refetchSearch,
     data: searches,
   } = useQuery<IList[]>({
@@ -29,54 +29,52 @@ export const Search = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col overflow-y-auto h-full">
-        <nav className="space-y-2 sticky top-0 z-10 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
-          <button
-            onClick={() => setWindow("library")}
-            className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 transition-colors"
-          >
-            <CornerUpLeft className="size-5" />
-            <span className="font-sans text-sm">Biblioteca</span>
-          </button>
-          <SearchForm fetchSearch={refetchSearch} />
-        </nav>
-        {isFetchingSearch && (
-          <div className="size-full grid place-items-center">
-            <p className="text-center text-sm text-gray-300">Cargando...</p>
-          </div>
-        )}
-        {errorSearch && (
-          <div className="size-full grid place-items-center">
-            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
-              {errorSearch.message}
-              <button
-                onClick={() => refetchSearch()}
-                className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
-              >
-                <Reload />
-              </button>
-            </p>
-          </div>
-        )}
-        {!isFetchingSearch && !errorSearch && (
-          <>
-            {!searches ? (
-              <div className="size-full grid place-items-center">
-                <p className="text-center text-sm text-gray-300">Lista vacía</p>
-              </div>
-            ) : (
-              <>
-                <label className="sr-only">{change}</label>
-                <GridList
-                  list={searches}
-                  nameWindow="search"
-                  setChange={setChange}
-                />
-              </>
-            )}
-          </>
-        )}
-      </div>
+      <nav className="space-y-2 sticky top-0 z-10 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
+        <button
+          onClick={() => setWindow("library")}
+          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
+        >
+          <CornerUpLeft className="size-5" />
+          <span className="font-sans text-sm">Biblioteca</span>
+        </button>
+        <SearchForm fetchSearch={refetchSearch} />
+      </nav>
+      {fetching && (
+        <div className="size-full grid place-items-center">
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
+        </div>
+      )}
+      {error && (
+        <div className="size-full grid place-items-center">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
+            {error.message}
+            <button
+              onClick={() => refetchSearch()}
+              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full transition-colors"
+            >
+              <Reload />
+            </button>
+          </p>
+        </div>
+      )}
+      {!fetching && !error && (
+        <>
+          {!searches ? (
+            <div className="size-full grid place-items-center">
+              <p className="text-center text-sm text-gray-300">Lista vacía</p>
+            </div>
+          ) : (
+            <div className="grow">
+              <label className="sr-only">{change}</label>
+              <GridList
+                list={searches}
+                nameWindow="search"
+                setChange={setChange}
+              />
+            </div>
+          )}
+        </>
+      )}
     </Layout>
   );
 };

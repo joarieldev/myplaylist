@@ -20,8 +20,8 @@ export const Detail = () => {
   if (isplaylist) {
     return (
       <Layout>
-        <div className="overflow-y-auto h-full">
-          <Nav back={isplaylist.path} list={list} />
+        <Nav back={isplaylist.path} list={list} />
+        <div className="grow">
           <Tracks tracks={isplaylist.tracks} />
         </div>
       </Layout>
@@ -48,22 +48,22 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    opacity: 0.7,
+    opacity: 0.75,
     inset: 0,
   };
 
   return (
     <nav className="relative z-10 py-2 px-3 sm:px-1 sm:py-1 sm:pb-2">
-      <motion.div 
+      <motion.div
         key={`list-thumbnail-${list.id}`}
         layoutId={`bg-thumbnail-${list.id}`}
-        style={bgStyle} 
-        className="absolute pointer-events-none z-0 rounded-xl" 
+        style={bgStyle}
+        className="absolute pointer-events-none z-0 rounded-xl"
       />
       <div className="relative space-y-3">
         <button
           onClick={() => setWindow(back as Windows)}
-          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75"
+          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
         >
           <CornerUpLeft className="size-5" />
           <span className="font-sans text-sm capitalize">
@@ -110,7 +110,7 @@ const DetailNoStored = () => {
   }, [list, setPlaylist, back]);
 
   return (
-    <div className="h-full grid place-items-center">
+    <div className="h-full grid place-items-center text-sm text-gray-300">
       {loadingTracks && <p>Cargando...</p>}
       {errorTracks && <p>{errorTracks}</p>}
     </div>

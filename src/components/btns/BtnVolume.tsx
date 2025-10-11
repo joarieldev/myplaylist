@@ -54,13 +54,13 @@ export const BtnVolume = () => {
       )}
     >
       <button
-        className="py-1 px-3 rounded-full bg-black/50 cursor-pointer active:bg-gray-500/50"
+        className="py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50"
         onClick={() => toggleMute()}
       >
         {volume === 0 || isMuted.muted ? (
-          <VolumeOff className="size-5" />
+          <VolumeOff className="size-6 sm:size-5" />
         ) : (
-          <Volume className="size-5" />
+          <Volume className="size-6 sm:size-5" />
         )}
       </button>
       <div className="absolute bottom-14 -left-[14px] transition-opacity duration-200 -rotate-90 flex pl-2 group-hover:opacity-100 opacity-0">

@@ -42,12 +42,12 @@ export const Tracks = ({ tracks }: Props) => {
   }
 
   return (
-    <ul className="flex flex-col">
+    <ul>
       {tracks.map((track, index) => (
         <li key={track.id}>
           <article
             className={clsx(
-              "flex gap-2  w-full items-center cursor-pointer  p-2 rounded-lg transition-colors",
+              "flex gap-2 w-full items-center cursor-default px-2 py-2.5 rounded-3xl transition-colors",
               selectedTrack?.id === track.id
                 ? "bg-gray-700/75"
                 : "hover:bg-neutral-700/50"
@@ -63,7 +63,7 @@ export const Tracks = ({ tracks }: Props) => {
             <motion.div
               key={`thumbnail-${track.id}`}
               layoutId={`track-thumbnail-${track.id}`}
-              className="bg-gray-500 w-32 rounded-lg overflow-hidden"
+              className="bg-gray-500 w-28 sm:w-24 rounded-3xl sm:rounded-2xl overflow-hidden"
             >
               <img
                 src={track.artwork["150x150"]}

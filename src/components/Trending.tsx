@@ -26,53 +26,51 @@ export const Trending = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col overflow-y-auto h-full">
-        <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
-          <button
-            onClick={() => setWindow("library")}
-            className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"
-          >
-            <CornerUpLeft className="size-5" />
-            <span className="font-sans text-sm">Biblioteca</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <span className="p-1.5 rounded-full bg-indigo-700 text-black">
-              <TrendingUp />
-            </span>
-            <div className="flex flex-col">
-              <span className="font-semibold text-xl">Tendencias</span>
-            </div>
+      <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
+        <button
+          onClick={() => setWindow("library")}
+          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
+        >
+          <CornerUpLeft className="size-5" />
+          <span className="font-sans text-sm">Biblioteca</span>
+        </button>
+        <div className="flex items-center gap-3">
+          <span className="p-1.5 rounded-full bg-indigo-700 text-black">
+            <TrendingUp />
+          </span>
+          <div className="flex flex-col">
+            <span className="font-semibold text-xl">Tendencias</span>
           </div>
-        </nav>
-        {loading && (
-          <div className="size-full grid place-items-center">
-            <p className="text-center text-sm text-gray-300">Cargando...</p>
-          </div>
-        )}
-        {error && (
-          <div className="size-full grid place-items-center">
-            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
-              {error.message}
-              <button
-                onClick={() => refetch()}
-                className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
-              >
-                <Reload />
-              </button>
-            </p>
-          </div>
-        )}
-        {!loading && !error && (
-          <>
-            <label className="sr-only">{change}</label>
-            <GridList
-              list={trending}
-              nameWindow="trending"
-              setChange={setChange}
-            />
-          </>
-        )}
-      </div>
+        </div>
+      </nav>
+      {loading && (
+        <div className="size-full grid place-items-center">
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
+        </div>
+      )}
+      {error && (
+        <div className="size-full grid place-items-center">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
+            {error.message}
+            <button
+              onClick={() => refetch()}
+              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
+            >
+              <Reload />
+            </button>
+          </p>
+        </div>
+      )}
+      {!loading && !error && (
+        <div className="grow">
+          <label className="sr-only">{change}</label>
+          <GridList
+            list={trending}
+            nameWindow="trending"
+            setChange={setChange}
+          />
+        </div>
+      )}
     </Layout>
   );
 };

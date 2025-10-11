@@ -40,14 +40,14 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
       {list.map((item) => (
         <li key={item.id}>
           <div
-            className="hover:bg-gray-800/75 cursor-pointer p-2 gap-2 flex flex-col items-center rounded-xl transition-colors"
+            className="hover:bg-gray-800/75 cursor-default px-2 py-2.5 gap-2 flex flex-col items-center rounded-2xl transition-colors"
             onClick={() => handleDetail(item)}
             id={`list-${item.id}`}
           >
             <motion.div
               key={`list-thumbnail-${item.id}`}
               layoutId={`bg-thumbnail-${item.id}`}
-              className="w-full h-28 overflow-hidden rounded-lg"
+              className="w-full h-28 overflow-hidden rounded-xl"
             >
               <img
                 src={item.artwork["480x480"]}

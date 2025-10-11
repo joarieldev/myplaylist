@@ -51,13 +51,13 @@ export const Main = () => {
         <ToggleVisualizer />
         <button
           onClick={() => setWindow("library")}
-          className="cursor-pointer hover:text-gray-300 transition-colors max-sm:hidden"
+          className="cursor-pointer text-gray-300 hover:text-white transition-colors max-sm:hidden"
           title="biblioteca"
         >
           <Category />
         </button>
       </nav>
-      <section className="flex flex-col h-full overflow-x-hidden overflow-y-auto relative">
+      <section className="flex flex-col grow">
         <AnimatePresence custom={direction} initial={false} mode="popLayout">
           {selectedTrack ? (
             <Thumbnail key={selectedTrack.id} selectedTrack={selectedItem} />

@@ -14,16 +14,16 @@ export const Library = () => {
 
   return (
     <Layout>
-      <section className="space-y-4">
-        <nav className="space-y-5 py-2 px-3 sm:px-0 sm:py-0">
-          <button
-            onClick={() => setWindow("main")}
-            className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 block items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
-          >
-            <CornerUpLeft className="size-5" />
-          </button>
-          <span className="font-semibold text-xl px-4">Biblioteca</span>
-        </nav>
+      <nav className="space-y-5 py-2 px-3 sm:px-0 sm:py-0">
+        <button
+          onClick={() => setWindow("main")}
+          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 block items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
+        >
+          <CornerUpLeft className="size-5" />
+        </button>
+        <span className="font-semibold text-xl px-4">Biblioteca</span>
+      </nav>
+      <div className="h-full">
         <ul className="grid grid-cols-2">
           <li>
             <button
@@ -81,7 +81,7 @@ export const Library = () => {
             </button>
           </li>
         </ul>
-      </section>
+      </div>
     </Layout>
   );
 };

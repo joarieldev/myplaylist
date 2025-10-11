@@ -55,13 +55,13 @@ export const BtnVisualizer = () => {
     <button
       onClick={onClickVisualizer}
       className={clsx(
-        "py-1 px-3 rounded-full bg-black/50 cursor-pointer active:bg-gray-500/50",
+        "py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50",
         !selectedTrackLocal &&
           !selectedTrack &&
           "pointer-events-none opacity-75"
       )}
     >
-      <IconVisualizer className="size-5" />
+      <IconVisualizer className="size-6 sm:size-5" />
     </button>
   );
 };

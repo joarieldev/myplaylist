@@ -51,7 +51,7 @@ export const SearchForm = ({ fetchSearch }: Props) => {
           placeholder="Buscar"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          className="w-full pl-11 pr-11 py-2 hover:bg-neutral-800 bg-neutral-900 rounded-full text-sm outline-none cursor-pointer transition-colors focus:ring-2 focus:ring-neutral-500"
+          className="w-full pl-11 pr-11 py-2 hover:bg-neutral-800/90 bg-neutral-900/90 rounded-full text-sm outline-none cursor-pointer transition-colors focus:ring-2 focus:ring-neutral-500/90"
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
           <button
@@ -69,7 +69,7 @@ export const SearchForm = ({ fetchSearch }: Props) => {
             key={genre}
             type="submit"
             onClick={() => handleGenreClick(genre)}
-            className="px-3 py-1 hover:bg-neutral-800 bg-neutral-900 rounded-full text-sm font-sans transition-colors capitalize"
+            className="px-3 py-1 hover:bg-neutral-800/90 bg-neutral-900/90 rounded-full text-sm font-sans transition-colors capitalize"
           >
             {genre}
           </button>

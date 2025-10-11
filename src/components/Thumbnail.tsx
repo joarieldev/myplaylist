@@ -39,18 +39,17 @@ export const Thumbnail = forwardRef(function Thumbnail(
     >
       <div className="flex justify-center items-center h-96 py-4">
         {selectedTrack ? (
-          <div
-            className="size-72 sm:size-48 cursor-pointer flex items-center justify-center"
-            onClick={handleTabWindow}
-          >
-            <motion.img
-              key={`thumbnail-${selectedTrack.id}`}
-              layoutId={`track-thumbnail-${selectedTrack.id}`}
-              src={selectedTrack.artwork["150x150"] ?? caratula.src}
-              alt={selectedTrack.title}
-              className="max-w-full max-h-full rounded-xl pointer-events-none"
-              title={selectedTrack.title}
-            />
+          <div className="size-72 sm:size-48 flex items-center justify-center">
+            <span onClick={handleTabWindow} className="cursor-pointer">
+              <motion.img
+                key={`thumbnail-${selectedTrack.id}`}
+                layoutId={`track-thumbnail-${selectedTrack.id}`}
+                src={selectedTrack.artwork["150x150"] ?? caratula.src}
+                alt={selectedTrack.title}
+                className="max-w-full max-h-full rounded-xl pointer-events-none"
+                title={selectedTrack.title}
+              />
+            </span>
           </div>
         ) : (
           <img
@@ -66,23 +65,27 @@ export const Thumbnail = forwardRef(function Thumbnail(
             key={`info-${selectedTrack.id}`}
             layout="position"
             layoutId={`track-info-${selectedTrack.id}`}
-            className="flex flex-col items-center cursor-pointer"
-            onClick={handleTabWindow}
+            className="flex flex-col items-center gap-1"
           >
             <h1
-              className="font-family-montserrat w-80 font-bold text-lg truncate text-center"
+              className="font-family-montserrat max-w-80 font-bold text-xl sm:text-lg truncate text-center max-sm:bg-black/25 rounded-full px-2 cursor-pointer"
               title={selectedTrack.title}
+              onClick={handleTabWindow}
             >
               {selectedTrack.title}
             </h1>
-            <p className="text-sm font-medium w-48 truncate text-center">
+            <p className="text-sm font-medium max-w-48 truncate text-center max-sm:bg-black/25 rounded-full px-2">
               {selectedTrack.user.name}
             </p>
           </motion.div>
         ) : (
           <div className="text-center">
-            <h1 className="font-family-montserrat font-bold text-lg">-</h1>
-            <p className="text-sm font-medium">-</p>
+            <h1 className="font-family-montserrat font-bold text-xl sm:text-lg max-sm:bg-black/25 rounded-full px-2">
+              -
+            </h1>
+            <p className="text-sm font-medium max-sm:bg-black/25 rounded-full px-2">
+              -
+            </p>
           </div>
         )}
       </div>

@@ -29,7 +29,9 @@ export const Favorites = () => {
   if (!isLoaded) {
     return (
       <Layout>
-        <p className="text-center text-sm text-gray-300">Cargando...</p>
+        <div className="h-full grid place-items-center">
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
+        </div>
       </Layout>
     );
   }
@@ -56,47 +58,45 @@ export const Favorites = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col overflow-y-auto h-full">
-        <Nav />
-        {loading && (
-          <div className="size-full grid place-items-center">
-            <p className="text-center text-sm text-gray-300">Cargando...</p>
-          </div>
-        )}
-        {error && (
-          <div className="size-full grid place-items-center">
-            <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
-              {error.message}
-              <button
-                onClick={() => refetch()}
-                className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
-              >
-                <Reload />
-              </button>
-            </p>
-          </div>
-        )}
-        {!loading && !error && (
-          <>
-            {favorites && favorites.length === 0 ? (
-              <div className="size-full grid place-items-center">
-                <p className="text-center text-sm text-gray-300">
-                  No tienes favoritos
-                </p>
-              </div>
-            ) : (
-              <>
-                <label className="sr-only">{change}</label>
-                <GridList
-                  list={favorites ?? []}
-                  nameWindow="favorites"
-                  setChange={setChange}
-                />
-              </>
-            )}
-          </>
-        )}
-      </div>
+      <Nav />
+      {loading && (
+        <div className="size-full grid place-items-center">
+          <p className="text-center text-sm text-gray-300">Cargando...</p>
+        </div>
+      )}
+      {error && (
+        <div className="size-full grid place-items-center">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
+            {error.message}
+            <button
+              onClick={() => refetch()}
+              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
+            >
+              <Reload />
+            </button>
+          </p>
+        </div>
+      )}
+      {!loading && !error && (
+        <>
+          {favorites && favorites.length === 0 ? (
+            <div className="size-full grid place-items-center">
+              <p className="text-center text-sm text-gray-300">
+                No tienes favoritos
+              </p>
+            </div>
+          ) : (
+            <div className="grow">
+              <label className="sr-only">{change}</label>
+              <GridList
+                list={favorites ?? []}
+                nameWindow="favorites"
+                setChange={setChange}
+              />
+            </div>
+          )}
+        </>
+      )}
     </Layout>
   );
 };
@@ -108,7 +108,7 @@ const Nav = () => {
     <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
       <button
         onClick={() => setWindow("library")}
-        className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 transition-colors"
+        className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
       >
         <CornerUpLeft className="size-5" />
         <span className="font-sans text-sm">Biblioteca</span>
