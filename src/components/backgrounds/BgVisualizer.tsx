@@ -95,7 +95,7 @@ export const BgVisualizer = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           ref={canvasRef}
-          className="absolute -z-10"
+          className="fixed inset-0 -z-10"
         />
       )}
     </>

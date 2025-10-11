@@ -22,7 +22,8 @@ export const Window = () => {
 
   return (
     <>
-      {visualizer === "none" ? <BgCover /> : <BgVisualizer />}
+      <BgCover />
+      {visualizer !== "none" && <BgVisualizer />}
       {window === "main" && <Main />}
       {window === "library" && <Library />}
       {window === "local" && <Local />}

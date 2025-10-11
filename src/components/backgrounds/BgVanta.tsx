@@ -29,7 +29,7 @@ export const BgVanta = () => {
       separation: 20.0,
       speedLimit: 1.0,
       cohesion: 40.0,
-      backgroundColor: 0x0,
+      backgroundAlpha: 0.0,
     });
 
     setVantaEffect(vantaBirds);
@@ -96,7 +96,7 @@ export const BgVanta = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       ref={vantaRef}
-      className="absolute top-0 left-0 h-screen w-screen -z-10"
+      className="fixed inset-0 -z-10"
     />
   );
 };
