@@ -94,7 +94,7 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
               e.stopPropagation();
             }}
           >
-            <Heart ClassName="size-4" />
+            <Heart className="size-5 sm:size-4" />
           </button>
         </SignInButton>
       </SignedOut>
@@ -108,7 +108,7 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
             disabled={btnDisabled}
             onClick={(e) => handleRemoveFavorite(e, item)}
           >
-            <Heart ClassName="size-4" liked={true} />
+            <Heart className="size-5 sm:size-4" liked={true} />
           </button>
         ) : (
           <button
@@ -119,7 +119,7 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
             disabled={btnDisabled}
             onClick={(e) => handleAddFavorite(e, item)}
           >
-            <Heart ClassName="size-4" />
+            <Heart className="size-5 sm:size-4" />
           </button>
         )}
       </SignedIn>

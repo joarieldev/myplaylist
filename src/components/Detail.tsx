@@ -54,37 +54,37 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
   };
 
   return (
-    <nav className="relative z-10 py-2 px-3 sm:px-1 sm:py-1 sm:pb-2">
+    <header className="relative px-3 pt-3 sm:px-1 sm:pt-1 pb-2 mb-2">
       <motion.div
         key={`list-thumbnail-${list.id}`}
         layoutId={`bg-thumbnail-${list.id}`}
         style={bgStyle}
         className="absolute pointer-events-none z-0 rounded-xl"
       />
-      <div className="relative space-y-3">
+      <nav className="space-y-8 sm:space-y-3 relative">
         <button
           onClick={() => setWindow(back as Windows)}
-          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
+          className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
         >
-          <CornerUpLeft className="size-5" />
-          <span className="font-sans text-sm capitalize">
+          <CornerUpLeft className="size-5 max-sm:stroke-3" />
+          <span className="max-sm:font-semibold font-sans text-sm capitalize">
             {path[back as keyof typeof path]}
           </span>
         </button>
         <div className="flex flex-col gap-0.5">
-          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold">
+          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-lg sm:text-base">
             {list.playlist_name}
           </p>
-          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-xs">
+          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-sm sm:text-xs">
             {list.user.name}
           </p>
-          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-xs flex gap-1 items-center">
-            <BrandNeteaseMusic className="size-3" />
+          <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-sm sm:text-xs flex gap-1 items-center">
+            <BrandNeteaseMusic className="size-4 sm:size-3" />
             <span>{list.track_count} pistas</span>
           </p>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 

@@ -1,8 +1,8 @@
 export const Heart = ({
-  ClassName,
+  className,
   liked = false,
 }: {
-  ClassName?: string;
+  className?: string;
   liked?: boolean;
 }) => {
   return liked ? (
@@ -11,7 +11,7 @@ export const Heart = ({
       width="24"
       height="24"
       fill="currentColor"
-      className={ClassName}
+      className={className}
       viewBox="0 0 24 24"
     >
       <path fill="none" d="M0 0h24v24H0z" />
@@ -27,7 +27,7 @@ export const Heart = ({
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
-      className={ClassName}
+      className={className}
       viewBox="0 0 24 24"
     >
       <path stroke="none" d="M0 0h24v24H0z" />

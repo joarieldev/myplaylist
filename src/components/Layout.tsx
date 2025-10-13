@@ -24,7 +24,7 @@ export const Layout = ({ children }: Props) => {
     >
       <div className="flex flex-col h-full overflow-hidden overflow-y-auto layout-scroll">
         {children}
-        <footer className="sticky bottom-0 p-2 z-10 sm:hidden">
+        <footer className="sticky bottom-0 px-3 pb-3 z-10 sm:hidden">
           <nav className="flex bg-neutral-900/95 rounded-full">
             <button
               onClick={() => setWindow("library")}
@@ -33,7 +33,7 @@ export const Layout = ({ children }: Props) => {
                 window === "library" && "text-white"
               )}
             >
-              <Category className="size-7 stroke-3"/>
+              <Category className="size-7 stroke-[3.5]"/>
             </button>
             <button
               onClick={() => setWindow("search")}
@@ -42,7 +42,7 @@ export const Layout = ({ children }: Props) => {
                 window === "search" && "text-white"
               )}
             >
-              <Search className="size-7 stroke-3"/>
+              <Search className="size-7 stroke-[4]"/>
             </button>
             <button
               onClick={() => setWindow("favorites")}
@@ -51,7 +51,7 @@ export const Layout = ({ children }: Props) => {
                 window === "favorites" && "text-white"
               )}
             >
-              <Heart ClassName="size-7 stroke-3"/>
+              <Heart className="size-7 stroke-[4]"/>
             </button>
             <span className="py-2 w-full grid place-content-center">
               <BtnSesion />

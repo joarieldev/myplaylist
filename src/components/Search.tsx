@@ -30,16 +30,18 @@ export const Search = () => {
 
   return (
     <Layout>
-      <nav className="space-y-2 sticky top-0 z-10 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
-        <button
-          onClick={() => setWindow("library")}
-          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
-        >
-          <CornerUpLeft className="size-5" />
-          <span className="font-sans text-sm">Biblioteca</span>
-        </button>
-        <SearchForm fetchSearch={refetchSearch} />
-      </nav>
+      <header className="sticky top-0 z-10 px-3 pt-3 sm:px-0 sm:pt-0 sm:pb-2">
+        <nav className="space-y-4 sm:space-y-2">
+          <button
+            onClick={() => setWindow("library")}
+            className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
+          >
+            <CornerUpLeft className="size-5 max-sm:stroke-3" />
+            <span className="max-sm:font-semibold font-sans text-sm">Biblioteca</span>
+          </button>
+          <SearchForm fetchSearch={refetchSearch} />
+        </nav>
+      </header>
       {fetching && (
         <div className="size-full grid place-items-center">
           <Loading />

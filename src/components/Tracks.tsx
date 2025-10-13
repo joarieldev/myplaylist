@@ -47,7 +47,7 @@ export const Tracks = ({ tracks }: Props) => {
         <li key={track.id}>
           <article
             className={clsx(
-              "flex gap-2 w-full items-center cursor-default px-2 py-2.5 rounded-3xl transition-colors",
+              "flex gap-4 sm:gap-2 w-full items-center cursor-default px-2 py-3 sm:py-2.5 rounded-3xl transition-colors",
               selectedTrack?.id === track.id
                 ? "bg-gray-700/75"
                 : "hover:bg-neutral-700/50"
@@ -77,8 +77,8 @@ export const Tracks = ({ tracks }: Props) => {
               layout="position"
               layoutId={`track-info-${track.id}`}
             >
-              <h1 className="font-bold truncate">{track.title}</h1>
-              <p className="text-sm truncate">{track.user.name}</p>
+              <h1 className="text-lg sm:text-sm font-bold truncate max-sm:leading-5">{track.title}</h1>
+              <p className="text-xs max-sm:font-bold truncate">{track.user.name}</p>
             </motion.div>
           </article>
         </li>

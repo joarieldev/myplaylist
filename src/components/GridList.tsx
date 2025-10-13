@@ -36,7 +36,7 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
   }, [listDetail]);
 
   return (
-    <ul className="grid grid-cols-3">
+    <ul className="grid grid-cols-2 sm:grid-cols-3">
       {list.map((item) => (
         <li key={item.id}>
           <div
@@ -47,7 +47,7 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
             <motion.div
               key={`list-thumbnail-${item.id}`}
               layoutId={`bg-thumbnail-${item.id}`}
-              className="w-full h-28 overflow-hidden rounded-xl"
+              className="w-full h-auto sm:h-28 overflow-hidden rounded-xl"
             >
               <img
                 src={item.artwork["480x480"]}
@@ -56,17 +56,17 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
                 title={item.playlist_name}
               />
             </motion.div>
-            <div className="flex flex-col text-center gap-1 w-full">
+            <div className="flex flex-col text-center gap-0.5 sm:gap-1 w-full">
               <h1
-                className="text-sm font-bold truncate"
+                className="text-lg sm:text-sm font-bold truncate max-sm:leading-5"
                 title={item.playlist_name}
               >
                 {item.playlist_name}
               </h1>
-              <p className="text-xs truncate">{item.user.name}</p>
+              <p className="text-xs max-sm:font-bold truncate">{item.user.name}</p>
               <div className="flex justify-around w-full pt-1 border-t border-t-gray-500/50">
                 <p className="text-sm flex items-center gap-0.5">
-                  <BrandNeteaseMusic className="size-4" />
+                  <BrandNeteaseMusic className="size-4 sm:size-3" />
                   {item.track_count}
                 </p>
                 <BtnFavorite item={item} setChange={setChange} />

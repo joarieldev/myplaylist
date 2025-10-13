@@ -34,27 +34,29 @@ export const Local = () => {
 
   return (
     <Layout>
-      <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
-        <button
-          onClick={() => setWindow("library")}
-          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
-        >
-          <CornerUpLeft className="size-5" />
-          <span className="font-sans text-sm">Biblioteca</span>
-        </button>
-        <div className="flex items-center gap-3">
-          <span className="p-1.5 rounded-full bg-blue-700 text-black">
-            <Folder />
-          </span>
-          <div className="flex flex-col">
-            <span className="font-semibold text-xl">Local</span>
-            <span className="text-xs flex gap-1 items-center">
-              <BrandNeteaseMusic className="size-3" />
-              {files.length} pistas
+      <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
+        <nav className="space-y-4 sm:space-y-2">
+          <button
+            onClick={() => setWindow("library")}
+            className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
+          >
+            <CornerUpLeft className="size-5 max-sm:stroke-3" />
+            <span className="font-sans text-sm">Biblioteca</span>
+          </button>
+          <div className="flex items-center gap-3">
+            <span className="p-1.5 rounded-full bg-blue-700 text-black">
+              <Folder className="max-sm:size-8 max-sm:stroke-3" />
             </span>
+            <div className="flex flex-col">
+              <span className="font-bold text-2xl sm:text-xl">Local</span>
+              <span className="text-sm sm:text-xs flex gap-1 items-center">
+                <BrandNeteaseMusic className="size-4 sm:size-3" />
+                {files.length} pistas
+              </span>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
       {files.length === 0 && (
         <div className="flex size-full flex-col items-center justify-center">
@@ -82,7 +84,7 @@ export const Local = () => {
             <li key={item.id}>
               <article
                 className={clsx(
-                  "flex gap-2 w-full items-center cursor-default px-2 py-2.5 rounded-3xl transition-colors",
+                  "flex gap-4 sm:gap-2 w-full items-center cursor-default px-2 py-3 sm:py-2.5 rounded-3xl transition-colors",
                   selectedTrackLocal?.id === item.id
                     ? "bg-gray-700/75"
                     : "hover:bg-neutral-700/75"
@@ -112,8 +114,8 @@ export const Local = () => {
                   layout="position"
                   layoutId={`track-info-${item.id}`}
                 >
-                  <h1 className="font-bold truncate">{item.metadata.title}</h1>
-                  <h2 className="text-sm truncate">{item.metadata.artist}</h2>
+                  <h1 className="ext-lg sm:text-sm font-bold truncate max-sm:leading-5">{item.metadata.title}</h1>
+                  <h2 className="text-xs max-sm:font-bold truncate">{item.metadata.artist}</h2>
                 </motion.div>
               </article>
             </li>

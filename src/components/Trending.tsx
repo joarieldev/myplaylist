@@ -27,23 +27,27 @@ export const Trending = () => {
 
   return (
     <Layout>
-      <nav className="space-y-2 py-2 px-3 sm:px-0 sm:py-0 sm:pb-2">
-        <button
-          onClick={() => setWindow("library")}
-          className="cursor-pointer py-0.5 px-2 rounded-full border border-neutral-500 flex gap-1 items-center hover:bg-neutral-500/25 active:bg-neutral-500/25 transition-colors"
-        >
-          <CornerUpLeft className="size-5" />
-          <span className="font-sans text-sm">Biblioteca</span>
-        </button>
-        <div className="flex items-center gap-3">
-          <span className="p-1.5 rounded-full bg-indigo-700 text-black">
-            <TrendingUp />
-          </span>
-          <div className="flex flex-col">
-            <span className="font-semibold text-xl">Tendencias</span>
+      <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
+        <nav className="space-y-4 sm:space-y-2">
+          <button
+            onClick={() => setWindow("library")}
+            className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
+          >
+            <CornerUpLeft className="size-5 max-sm:stroke-3" />
+            <span className="max-sm:font-semibold font-sans text-sm">
+              Biblioteca
+            </span>
+          </button>
+          <div className="flex items-center gap-3">
+            <span className="p-1.5 rounded-full bg-indigo-700 text-black">
+              <TrendingUp className="max-sm:size-8 max-sm:stroke-3" />
+            </span>
+            <div className="flex flex-col">
+              <span className="font-bold text-2xl sm:text-xl">Tendencias</span>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
       {loading && (
         <div className="size-full grid place-items-center">
           <Loading />
