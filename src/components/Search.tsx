@@ -9,6 +9,7 @@ import { IList } from "@/interfaces/List";
 import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
+import { Loading } from "./Loading";
 
 export const Search = () => {
   const [change, setChange] = useState<number>(0);
@@ -41,7 +42,7 @@ export const Search = () => {
       </nav>
       {fetching && (
         <div className="size-full grid place-items-center">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
+          <Loading />
         </div>
       )}
       {error && (

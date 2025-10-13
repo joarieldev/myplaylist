@@ -8,6 +8,7 @@ import { getFavorite } from "@/actions/get-favorite";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Heart } from "@/assets/icons/Heart";
+import { Loading } from "./Loading";
 
 export const Favorites = () => {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -30,7 +31,7 @@ export const Favorites = () => {
     return (
       <Layout>
         <div className="h-full grid place-items-center">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
+          <Loading />
         </div>
       </Layout>
     );
@@ -61,7 +62,7 @@ export const Favorites = () => {
       <Nav />
       {loading && (
         <div className="size-full grid place-items-center">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
+          <Loading />
         </div>
       )}
       {error && (

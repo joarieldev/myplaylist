@@ -8,6 +8,7 @@ import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
+import { Loading } from "./Loading";
 
 export const Trending = () => {
   const [change, setChange] = useState<number>(0);
@@ -45,7 +46,7 @@ export const Trending = () => {
       </nav>
       {loading && (
         <div className="size-full grid place-items-center">
-          <p className="text-center text-sm text-gray-300">Cargando...</p>
+          <Loading />
         </div>
       )}
       {error && (

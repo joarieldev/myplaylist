@@ -9,6 +9,7 @@ import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { motion } from "motion/react";
+import { Loading } from "./Loading";
 
 export const Detail = () => {
   const playlist = usePlaylistStore((state) => state.playlist);
@@ -111,7 +112,7 @@ const DetailNoStored = () => {
 
   return (
     <div className="h-full grid place-items-center text-sm text-gray-300">
-      {loadingTracks && <p>Cargando...</p>}
+      {loadingTracks && <Loading />}
       {errorTracks && <p>{errorTracks}</p>}
     </div>
   );
