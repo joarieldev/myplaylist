@@ -22,7 +22,7 @@ export const Layout = ({ children }: Props) => {
       )}
       {...handlers}
     >
-      <div className="flex flex-col h-full overflow-x-hidden overflow-y-auto">
+      <div className="flex flex-col h-full overflow-hidden overflow-y-auto layout-scroll">
         {children}
         <footer className="sticky bottom-0 p-2 z-10 sm:hidden">
           <nav className="flex bg-neutral-900/95 rounded-full">
