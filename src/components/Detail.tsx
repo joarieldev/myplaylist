@@ -19,6 +19,7 @@ export const Detail = () => {
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 
   if (isplaylist) {
+    window.location.hash = `#${isplaylist.path}`
     return (
       <Layout>
         <Nav back={isplaylist.path} list={list} />
@@ -63,7 +64,10 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
       />
       <nav className="space-y-8 sm:space-y-3 relative">
         <button
-          onClick={() => setWindow(back as Windows)}
+          onClick={() => {
+            setWindow(back as Windows)
+            window.location.hash = `#${back}`
+          }}
           className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
         >
           <CornerUpLeft className="size-5 max-sm:stroke-3" />

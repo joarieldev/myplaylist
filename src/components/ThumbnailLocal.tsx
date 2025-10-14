@@ -13,6 +13,7 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
 
   const handleTabWindow = () => {
     setWindow("local");
+    window.location.hash = "#local"
   };
 
   return (
@@ -41,7 +42,7 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
                 layoutId={`track-thumbnail-${selectedTrackLocal.id}`}
                 src={selectedTrackLocal?.metadata.cover ?? caratula.src}
                 alt={selectedTrackLocal.metadata.title}
-                className="max-w-full max-h-full rounded-xl pointer-events-none"
+                className="max-w-full max-h-full rounded-xl pointer-events-none shadow"
                 title={selectedTrackLocal.metadata.title}
               />
             </span>
@@ -50,7 +51,7 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
           <img
             src={caratula.src}
             alt="caratula"
-            className="size-72 sm:size-48 pointer-events-none"
+            className="size-72 sm:size-48 pointer-events-none shadow"
           />
         )}
       </div>

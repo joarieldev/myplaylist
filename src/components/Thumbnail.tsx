@@ -46,7 +46,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
                 layoutId={`track-thumbnail-${selectedTrack.id}`}
                 src={selectedTrack.artwork["150x150"] ?? caratula.src}
                 alt={selectedTrack.title}
-                className="max-w-full max-h-full rounded-xl pointer-events-none"
+                className="max-w-full max-h-full rounded-xl pointer-events-none shadow"
                 title={selectedTrack.title}
               />
             </span>
@@ -55,7 +55,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
           <img
             src={caratula.src}
             alt="caratula"
-            className="size-72 sm:size-48 pointer-events-none"
+            className="size-72 sm:size-48 pointer-events-none shadow"
           />
         )}
       </div>

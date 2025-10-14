@@ -17,7 +17,10 @@ export const Library = () => {
       <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
         <nav className="space-y-5">
           <button
-            onClick={() => setWindow("main")}
+            onClick={() => {
+              setWindow("main")
+              window.location.hash = ""
+            }}
             className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 block items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
           >
             <CornerUpLeft className="size-5 max-sm:stroke-3" />
@@ -30,7 +33,10 @@ export const Library = () => {
           <li>
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
-              onClick={() => setWindow("local")}
+              onClick={() => {
+                setWindow("local")
+                window.location.hash = "#local"
+              }}
             >
               <span className="p-1.5 rounded-full bg-blue-700 text-black">
                 <Folder />
@@ -41,7 +47,10 @@ export const Library = () => {
           <li>
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
-              onClick={() => setWindow("trending")}
+              onClick={() => {
+                setWindow("trending")
+                window.location.hash = "#trending"
+              }}
             >
               <span className="p-1.5 rounded-full bg-indigo-700 text-black">
                 <TrendingUp />
@@ -52,7 +61,10 @@ export const Library = () => {
           <li>
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
-              onClick={() => setWindow("search")}
+              onClick={() => {
+                setWindow("search")
+                window.location.hash = "#search"
+              }}
             >
               <span className="p-1.5 rounded-full bg-cyan-700 text-black">
                 <Search />
@@ -63,7 +75,10 @@ export const Library = () => {
           <li>
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
-              onClick={() => setWindow("favorites")}
+              onClick={() => {
+                setWindow("favorites")
+                window.location.hash = "#favorites"
+              }}
             >
               <span className="p-1.5 rounded-full bg-purple-700 text-black">
                 <Heart liked={true} />

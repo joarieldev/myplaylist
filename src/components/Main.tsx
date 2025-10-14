@@ -50,7 +50,10 @@ export const Main = () => {
         </span>
         <ToggleVisualizer />
         <button
-          onClick={() => setWindow("library")}
+          onClick={() => {
+            setWindow("library")
+            window.location.hash = "#library"
+          }}
           className="cursor-pointer text-gray-300 hover:text-white transition-colors max-sm:hidden"
           title="biblioteca"
         >

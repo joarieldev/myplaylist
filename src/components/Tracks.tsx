@@ -57,6 +57,7 @@ export const Tracks = ({ tracks }: Props) => {
               setTracks(tracks);
               setPlaylist(list);
               setWindow("main");
+              window.location.hash = ""
             }}
             id={`track-${track.id}`}
           >

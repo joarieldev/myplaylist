@@ -6,7 +6,13 @@ import { useModalInfoStore } from "@/store/modal-info-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 30 * 60 * 1000,
+    },
+  },
+});
 
 export default function Page() {
   const checkFirstVisit = useModalInfoStore((state) => state.checkFirstVisit);

@@ -11,8 +11,8 @@ interface Props {
 }
 export const Layout = ({ children }: Props) => {
   const { getOpacity, handlers } = useIsMoving();
-  const setWindow = useWindowStore((state) => state.setWindow);
-  const window = useWindowStore((state) => state.window);
+  const setWindowTab = useWindowStore((state) => state.setWindow);
+  const windowTab = useWindowStore((state) => state.window);
 
   return (
     <main
@@ -27,28 +27,37 @@ export const Layout = ({ children }: Props) => {
         <footer className="sticky bottom-0 px-3 pb-3 z-10 sm:hidden">
           <nav className="flex bg-neutral-900/95 rounded-full">
             <button
-              onClick={() => setWindow("library")}
+              onClick={() => {
+                setWindowTab("library")
+                window.location.hash = "#library"
+              }}
               className={clsx(
                 "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
-                window === "library" && "text-white"
+                windowTab === "library" && "text-white"
               )}
             >
               <Category className="size-7 stroke-[3.5]"/>
             </button>
             <button
-              onClick={() => setWindow("search")}
+              onClick={() => {
+                setWindowTab("search")
+                window.location.hash = "#search" 
+              }}
               className={clsx(
                 "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
-                window === "search" && "text-white"
+                windowTab === "search" && "text-white"
               )}
             >
               <Search className="size-7 stroke-[4]"/>
             </button>
             <button
-              onClick={() => setWindow("favorites")}
+              onClick={() => {
+                setWindowTab("favorites")
+                window.location.hash = "#favorites"
+              }}
               className={clsx(
                 "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
-                window === "favorites" && "text-white"
+                windowTab === "favorites" && "text-white"
               )}
             >
               <Heart className="size-7 stroke-[4]"/>
