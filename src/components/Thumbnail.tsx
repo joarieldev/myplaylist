@@ -5,6 +5,7 @@ import { forwardRef } from "react";
 import { ITrack } from "@/interfaces/Track";
 import { useDetailStore } from "@/store/detail-store";
 import { useTracksStore } from "@/store/tracks-store";
+import ScrollText from "./ScrollText";
 
 export const Thumbnail = forwardRef(function Thumbnail(
   { selectedTrack }: { selectedTrack?: ITrack | null },
@@ -68,14 +69,14 @@ export const Thumbnail = forwardRef(function Thumbnail(
             className="flex flex-col items-center gap-1"
           >
             <h1
-              className="font-family-montserrat max-w-80 font-bold text-xl sm:text-lg truncate text-center max-sm:bg-black/25 rounded-full px-2 cursor-pointer"
+              className="font-family-montserrat font-bold text-xl sm:text-lg text-center max-sm:bg-black/25 rounded-full px-2 cursor-pointer"
               title={selectedTrack.title}
               onClick={handleTabWindow}
             >
-              {selectedTrack.title}
+              <ScrollText text={selectedTrack.title} width={320} />
             </h1>
-            <p className="text-sm font-medium max-w-48 truncate text-center max-sm:bg-black/25 rounded-full px-2">
-              {selectedTrack.user.name}
+            <p className="text-sm font-medium text-center max-sm:bg-black/25 rounded-full px-2">
+              <ScrollText text={selectedTrack.user.name} width={192} />
             </p>
           </motion.div>
         ) : (

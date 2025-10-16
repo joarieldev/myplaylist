@@ -3,6 +3,7 @@ import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
 import { IFile } from "@/interfaces/File";
+import ScrollText from "./ScrollText";
 
 export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
   { selectedTrackLocal }: { selectedTrackLocal?: IFile | null },
@@ -64,14 +65,14 @@ export const ThumbnailLocal = forwardRef(function ThumbnailLocal(
             className="flex flex-col items-center gap-0.5"
           >
             <h1
-              className="font-family-montserrat max-w-80 font-bold text-xl sm:text-lg truncate text-center max-sm:bg-black/25 rounded-full px-2 cursor-pointer"
+              className="font-family-montserrat font-bold text-xl sm:text-lg text-center max-sm:bg-black/25 rounded-full px-2 cursor-pointer"
               title={selectedTrackLocal.metadata.title}
               onClick={handleTabWindow}
             >
-              {selectedTrackLocal.metadata.title}
+              <ScrollText text={selectedTrackLocal.metadata.title} width={320} />
             </h1>
-            <p className="text-sm font-medium max-w-48 truncate text-center max-sm:bg-black/25 rounded-full px-2">
-              {selectedTrackLocal.metadata.artist}
+            <p className="text-sm font-medium text-center max-sm:bg-black/25 rounded-full px-2">
+              <ScrollText text={selectedTrackLocal.metadata.artist} width={192} />
             </p>
           </motion.div>
         ) : (
