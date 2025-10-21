@@ -2,7 +2,6 @@ import { Folder } from "@/assets/icons/Folder";
 import { Heart } from "@/assets/icons/Heart";
 import { Search } from "@/assets/icons/Search";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
-import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { InfoCircle } from "@/assets/icons/InfoCircle";
@@ -13,7 +12,7 @@ export const Library = () => {
   const handleModalInfo = useModalInfoStore((state) => state.handleModalInfo);
 
   return (
-    <Layout>
+    <>
       <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
         <nav className="space-y-5">
           <button
@@ -99,6 +98,6 @@ export const Library = () => {
           </li>
         </ul>
       </div>
-    </Layout>
+    </>
   );
 };

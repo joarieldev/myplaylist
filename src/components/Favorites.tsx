@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { GridList } from "./GridList";
 import { useState } from "react";
 import { Reload } from "@/assets/icons/Reload";
-import { Layout } from "./Layout";
 import { getFavorite } from "@/actions/get-favorite";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
@@ -29,17 +28,17 @@ export const Favorites = () => {
 
   if (!isLoaded) {
     return (
-      <Layout>
+      <>
         <div className="h-full grid place-items-center">
           <Loading />
         </div>
-      </Layout>
+      </>
     );
   }
 
   if (!isSignedIn) {
     return (
-      <Layout>
+      <>
         <Nav />
         <div className="h-full grid place-items-center">
           <p className="text-center flex flex-row gap-1 text-gray-300 text-sm">
@@ -53,12 +52,12 @@ export const Favorites = () => {
             </SignedOut>
           </p>
         </div>
-      </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
+    <>
       <Nav />
       {loading && (
         <div className="size-full grid place-items-center">
@@ -98,7 +97,7 @@ export const Favorites = () => {
           )}
         </>
       )}
-    </Layout>
+    </>
   );
 };
 

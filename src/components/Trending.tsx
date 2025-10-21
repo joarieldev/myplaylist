@@ -4,7 +4,6 @@ import { getTrending } from "@/actions/get-trending";
 import { Reload } from "@/assets/icons/Reload";
 import { useQuery } from "@tanstack/react-query";
 import { IList } from "@/interfaces/List";
-import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
@@ -26,7 +25,7 @@ export const Trending = () => {
   });
 
   return (
-    <Layout>
+    <>
       <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
         <nav className="space-y-4 sm:space-y-2">
           <button
@@ -79,6 +78,6 @@ export const Trending = () => {
           />
         </div>
       )}
-    </Layout>
+    </>
   );
 };

@@ -6,7 +6,6 @@ import { SearchForm } from "./SearchForm";
 import { getSearch } from "@/actions/get-search";
 import { useSearchStore } from "@/store/search-store";
 import { IList } from "@/interfaces/List";
-import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Loading } from "./Loading";
@@ -29,7 +28,7 @@ export const Search = () => {
   });
 
   return (
-    <Layout>
+    <>
       <header className="sticky top-0 z-10 px-3 pt-3 sm:px-0 sm:pt-0 sm:pb-2">
         <nav className="space-y-4 sm:space-y-2">
           <button
@@ -81,6 +80,6 @@ export const Search = () => {
           )}
         </>
       )}
-    </Layout>
+    </>
   );
 };

@@ -7,7 +7,6 @@ import { useWindowStore } from "@/store/window-store";
 import clsx from "clsx";
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import { Layout } from "./Layout";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Folder } from "@/assets/icons/Folder";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
@@ -33,7 +32,7 @@ export const Local = () => {
   }, [selectedTrackLocal]);
 
   return (
-    <Layout>
+    <>
       <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">
         <nav className="space-y-4 sm:space-y-2">
           <button
@@ -126,6 +125,6 @@ export const Local = () => {
           ))}
         </ul>
       )}
-    </Layout>
+    </>
   );
 };

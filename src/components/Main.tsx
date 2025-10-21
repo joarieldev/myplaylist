@@ -1,4 +1,3 @@
-import { Layout } from "./Layout";
 import { useWindowStore } from "@/store/window-store";
 import { BtnPlayers } from "./btns/BtnPlayers";
 import { Progress } from "./Progress";
@@ -43,7 +42,7 @@ export const Main = () => {
   }, [selectedTrackLocal]);
 
   return (
-    <Layout>
+    <>
       <nav className="flex gap-4 justify-between py-2 px-3 sm:px-0 sm:py-0">
         <span className="size-6 max-sm:hidden">
           <BtnSesion />
@@ -86,6 +85,6 @@ export const Main = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };

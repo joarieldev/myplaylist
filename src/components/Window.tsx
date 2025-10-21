@@ -16,6 +16,13 @@ import { Favorites } from "./Favorites";
 import { Detail } from "./Detail";
 import { useEffect } from "react";
 import { Windows as WindowTabType } from "@/store/window-store";
+import { motion } from "motion/react";
+import { useIsMoving } from "@/hooks/useIsMoving";
+import clsx from "clsx";
+import { Category } from "@/assets/icons/Category";
+import { Heart } from "@/assets/icons/Heart";
+import { Search as SearchIcon } from "@/assets/icons/Search";
+import { BtnSesion } from "./btns/BtnSesion";
 
 export const Window = () => {
   return (
@@ -59,15 +66,113 @@ const Windows = () => {
   }, []);
 
   return (
-    <>
-      {windowTab === "main" && <Main />}
-      {windowTab === "library" && <Library />}
-      {windowTab === "local" && <Local />}
-      {windowTab === "trending" && <Trending />}
-      {windowTab === "search" && <Search />}
-      {windowTab === "favorites" && <Favorites />}
-      {windowTab === "detail" && <Detail />}
-    </>
+    <IsMovingMouse>
+      <main
+        className="sm:p-2 sm:bg-black/50 rounded-md h-full w-full sm:h-[520px] sm:w-[456px] overflow-hidden"
+      >
+        <div className="flex flex-col h-full max-sm:overflow-hidden max-sm:overflow-y-auto layout-scroll">
+          <AnimatePresence mode="wait">
+              {windowTab === "main" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Main />
+                </div>
+              )}
+              {windowTab === "library" && (
+                <motion.div
+                  key="library"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 1.1, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Library />
+                </motion.div>
+              )}
+              {windowTab === "local" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Local />
+                </div>
+              )}
+              {windowTab === "trending" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Trending />
+                </div>
+              )}
+              {windowTab === "search" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Search />
+                </div>
+              )}
+              {windowTab === "favorites" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Favorites />
+                </div>
+              )}
+              {windowTab === "detail" && (
+                <div
+                  className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll"
+                >
+                  <Detail />
+                </div>
+              )}
+          </AnimatePresence>
+          <footer className="sticky bottom-0 px-3 pb-3 z-10 sm:hidden">
+            <nav className="flex bg-neutral-900/95 rounded-full">
+              <button
+                onClick={() => {
+                  setWindowTab("library")
+                  window.location.hash = "#library"
+                }}
+                className={clsx(
+                  "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
+                  windowTab === "library" && "text-white"
+                )}
+              >
+                <Category className="size-7 stroke-[3.5]"/>
+              </button>
+              <button
+                onClick={() => {
+                  setWindowTab("search")
+                  window.location.hash = "#search"
+                }}
+                className={clsx(
+                  "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
+                  windowTab === "search" && "text-white"
+                )}
+              >
+                <SearchIcon className="size-7 stroke-[4]"/>
+              </button>
+              <button
+                onClick={() => {
+                  setWindowTab("favorites")
+                  window.location.hash = "#favorites"
+                }}
+                className={clsx(
+                  "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
+                  windowTab === "favorites" && "text-white"
+                )}
+              >
+                <Heart className="size-7 stroke-[4]"/>
+              </button>
+              <span className="py-2 w-full grid place-content-center">
+                <BtnSesion />
+              </span>
+            </nav>
+          </footer>
+        </div>
+      </main>
+    </IsMovingMouse>
   );
 };
 
@@ -84,3 +189,13 @@ const About = () => {
 
   return <AnimatePresence>{showInfo && <ModalInfo />}</AnimatePresence>;
 };
+
+const IsMovingMouse = ({children}:{children:React.ReactNode}) => {
+  const { getOpacity, handlers } = useIsMoving();
+
+  return (
+    <div className={clsx("max-sm:size-full",getOpacity())} {...handlers} >
+      {children}
+    </div>
+  )
+}

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tracks } from "./Tracks";
 import { getTracks } from "@/actions/get-tracks";
-import { Layout } from "./Layout";
 import { useWindowStore, Windows } from "@/store/window-store";
 import { useDetailStore } from "@/store/detail-store";
 import { usePlaylistStore } from "@/store/playlist-store copy";
@@ -21,20 +20,20 @@ export const Detail = () => {
   if (isplaylist) {
     window.location.hash = `#${isplaylist.path}`
     return (
-      <Layout>
+      <>
         <Nav back={isplaylist.path} list={list} />
         <div className="grow">
           <Tracks tracks={isplaylist.tracks} />
         </div>
-      </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
+    <>
       <Nav back={back} list={list} />
       <DetailNoStored />
-    </Layout>
+    </>
   );
 };
 

@@ -26,7 +26,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="grid grid-rows-[1fr] items-center justify-items-center h-dvh font-inter">
+    <div className="sm:grid sm:grid-rows-[1fr] items-center justify-items-center h-dvh font-inter">
       <QueryClientProvider client={queryClient}>
         <Window />
       </QueryClientProvider>
