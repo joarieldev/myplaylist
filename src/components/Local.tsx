@@ -101,7 +101,7 @@ export const Local = () => {
                 <motion.div
                   key={`thumbnail-${item.id}`}
                   layoutId={`track-thumbnail-${item.id}`}
-                  className="bg-gray-500 w-28 sm:w-24 rounded-3xl sm:rounded-2xl overflow-hidden"
+                  className="bg-gray-500/50 w-28 sm:w-24 h-12 sm:h-11 rounded-3xl sm:rounded-2xl overflow-hidden"
                 >
                   <img
                     src={

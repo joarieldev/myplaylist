@@ -2,7 +2,7 @@
 
 import { Window } from "@/components/Window";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useModalInfoStore } from "@/store/modal-info-store";
+import { useModalAboutStore } from "@/store/modal-about-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
 });
 
 export default function Page() {
-  const checkFirstVisit = useModalInfoStore((state) => state.checkFirstVisit);
+  const checkFirstVisit = useModalAboutStore((state) => state.checkFirstVisit);
   const setVolume = useAudioContextStore((state) => state.setVolume);
 
   useEffect(() => {

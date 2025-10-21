@@ -5,8 +5,7 @@ import { Upload } from "./Upload";
 import { useVisualizerStore } from "@/store/visualizer-store";
 import { BgVisualizer } from "./backgrounds/BgVisualizer";
 import { BgCover } from "./backgrounds/BgCover";
-import { ModalInfo } from "./ModalInfo";
-import { useModalInfoStore } from "@/store/modal-info-store";
+import { About } from "./About";
 import { AnimatePresence } from "motion/react";
 import { Library } from "./Library";
 import { Local } from "./Local";
@@ -182,12 +181,6 @@ const Visualizers = () => {
   if (visualizer === "none") return null;
 
   return <BgVisualizer />;
-};
-
-const About = () => {
-  const showInfo = useModalInfoStore((state) => state.showInfo);
-
-  return <AnimatePresence>{showInfo && <ModalInfo />}</AnimatePresence>;
 };
 
 const IsMovingMouse = ({children}:{children:React.ReactNode}) => {

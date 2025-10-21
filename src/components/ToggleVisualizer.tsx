@@ -41,7 +41,7 @@ export const ToggleVisualizer = () => {
       ref={containerRef}
     >
       <button
-        className="absolute bg-neutral-900/90 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-1 px-2 w-full z-10"
+        className="absolute bg-neutral-900/90 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-2 px-2.5 sm:py-1 sm:px-2 w-full z-10"
         onClick={() => setShowList(!showList)}
       >
         <div className="flex gap-2 items-center">
@@ -56,56 +56,56 @@ export const ToggleVisualizer = () => {
       </button>
       <div
         className={clsx(
-          "top-8 z-10 bg-neutral-900/90 rounded-2xl py-1 w-full text-sm",
+          "top-10 sm:top-8 z-10 bg-neutral-900/90 rounded-2xl w-full text-sm",
           showList ? "absolute" : "hidden"
         )}
       >
         <ul className="cursor-default">
           <li
             onClick={() => handleMode("line-wave")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             line-wave
           </li>
           <li
             onClick={() => handleMode("line-wave-chill")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             line-wave-chill
           </li>
           <li
             onClick={() => handleMode("spectrum-center")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             spectrum-center
           </li>
           <li
             onClick={() => handleMode("spectrum-plain")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             spectrum-plain
           </li>
           <li
             onClick={() => handleMode("spectrum-wide")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             spectrum-wide
           </li>
           <li
             onClick={() => handleMode("circle-spectrum")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             circle-spectrum
           </li>
           <li
             onClick={() => handleMode("circle-spectrum-spring")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             circle-spectrum-spring
           </li>
           <li
             onClick={() => handleMode("vantajs-birds")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-1 px-5"
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
           >
             vantajs-birds
           </li>

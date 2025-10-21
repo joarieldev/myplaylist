@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 export default function ScrollText({ text, width }: { text: string, width: number }) {
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [translateX, setTranslateX] = useState(0);
-  const textRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const checkWidth = () => {
@@ -29,12 +29,12 @@ export default function ScrollText({ text, width }: { text: string, width: numbe
   }, [text]);
 
   return (
-    <div 
+    <span
       ref={containerRef}
-      className="overflow-hidden whitespace-nowrap"
+      className="overflow-hidden whitespace-nowrap flex"
       style={{maxWidth: width}}
     >
-      <motion.div
+      <motion.span
         key={text}
         ref={textRef}
         className="inline-block"
@@ -48,7 +48,7 @@ export default function ScrollText({ text, width }: { text: string, width: numbe
         }: {}}
       >
         {text}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }

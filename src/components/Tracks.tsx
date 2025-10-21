@@ -64,7 +64,7 @@ export const Tracks = ({ tracks }: Props) => {
             <motion.div
               key={`thumbnail-${track.id}`}
               layoutId={`track-thumbnail-${track.id}`}
-              className="bg-gray-500 w-28 sm:w-24 rounded-3xl sm:rounded-2xl overflow-hidden"
+              className="bg-gray-500/50 w-28 sm:w-24 h-12 sm:h-11 rounded-3xl sm:rounded-2xl overflow-hidden"
             >
               <img
                 src={track.artwork["150x150"]}

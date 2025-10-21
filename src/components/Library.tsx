@@ -5,11 +5,11 @@ import { TrendingUp } from "@/assets/icons/TrendingUp";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { InfoCircle } from "@/assets/icons/InfoCircle";
-import { useModalInfoStore } from "@/store/modal-info-store";
+import { useModalAboutStore } from "@/store/modal-about-store";
 
 export const Library = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
-  const handleModalInfo = useModalInfoStore((state) => state.handleModalInfo);
+  const handleModalAbout = useModalAboutStore((state) => state.handleModalAbout);
 
   return (
     <>
@@ -88,7 +88,7 @@ export const Library = () => {
           <li>
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
-              onClick={handleModalInfo}
+              onClick={handleModalAbout}
             >
               <span className="p-1.5 rounded-full bg-stone-700 text-black">
                 <InfoCircle />
