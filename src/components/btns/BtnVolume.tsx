@@ -1,18 +1,12 @@
 import { Volume } from "@/assets/icons/Volume";
 import { VolumeOff } from "@/assets/icons/VolumeOff";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useWindowStore } from "@/store/window-store";
-import clsx from "clsx";
 
 export const BtnVolume = () => {
   const volume = useAudioContextStore((state) => state.volume);
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const audioElement = useAudioContextStore((state) => state.audioElement);
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const selectedTrackLocal = useWindowStore(
-    (state) => state.selectedTrackLocal
-  );
   const gainNode = useAudioContextStore((state) => state.gainNode);
   const setVolume = useAudioContextStore((state) => state.setVolume);
 
@@ -46,12 +40,7 @@ export const BtnVolume = () => {
 
   return (
     <div
-      className={clsx(
-        "relative group",
-        !selectedTrackLocal &&
-          !selectedTrack &&
-          "pointer-events-none opacity-50"
-      )}
+      className="relative group"
     >
       <button
         className="py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50"

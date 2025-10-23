@@ -1,44 +1,57 @@
-import type { IFile } from "@/interfaces/File";
+import { ITrack } from "@/interfaces/Track";
 import { extractAudioMetadata } from "@/lib/get-metadata";
 import { useFilesStore } from "@/store/files-store";
 import { useWindowStore } from "@/store/window-store";
+import { emptyTrack } from "@/utils/emptyTrack";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from 'uuid';
+import caratula from "@/assets/caratula-vacia.webp";
 
 export const useInputRef = () => {
 
   const addFiles = useFilesStore(state => state.addFiles);
-  const files = useFilesStore(state => state.files);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setWindow = useWindowStore(state => state.setWindow);
 
   const handleFileChange = async () => {
-    const file = fileInputRef.current?.files;
+    const files = fileInputRef.current?.files;
 
-    if (!file) return toast.warning("No se pudo cargar el audio");
+    if (!files) return toast.warning("No se pudo cargar el audio");
 
-    for (const item of file) {
+    for (const item of files) {
       if (!item.type.startsWith("audio"))
         return toast.warning("Solo se pueden cargar archivos de audio");
     }
 
-    const promise = () => new Promise<IFile[]>((resolve) => {
-      const isIndexes = files.length > 0
-      const newFiles = Promise.all(
-        Array.from(file).map(async (file, index) => ({
-          id: uuidv4(),
-          index: isIndexes ? files.length + index : index,
-          metadata: await extractAudioMetadata(file),
-          file,
-        }))
+    const promise = () => new Promise<ITrack[]>(async (resolve) => {
+      const newFiles: ITrack[] = await Promise.all(
+        Array.from(files).map(async (file) => {
+          const metadata = await extractAudioMetadata(file)
+          return {
+            ...emptyTrack,
+            id: uuidv4(),
+            title: metadata.title,
+            user: {
+              ...emptyTrack.user,
+              name: metadata.artist
+            },
+            artwork: {
+              "150x150": metadata.cover || caratula.src,
+              "480x480": metadata.cover || caratula.src,
+              "1000x1000": metadata.cover || caratula.src,
+            },
+            orig_filename: URL.createObjectURL(file),
+            tags: "local"
+          }
+        })
       );
       resolve(newFiles)
     });
 
     toast.promise(promise, {
       loading: 'Cargando...',
-      success: (data: IFile[]) => {
+      success: (data: ITrack[]) => {
         addFiles(data);
         return `Se cargaron ${data.length} archivos`;
       },

@@ -6,29 +6,7 @@ import clsx from "clsx";
 
 export const BgCover = () => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const selectedTrackLocal = useWindowStore(
-    (state) => state.selectedTrackLocal
-  );
   const visualizer = useVisualizerStore((state) => state.visualizer);
-
-  if (selectedTrack) {
-    return (
-      <>
-        <motion.div
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0.5 }}
-          transition={{ duration: 1.5 }}
-          key={`bg-cover-${selectedTrack?.id}`}
-          style={{
-            backgroundImage: `url(${selectedTrack.artwork["150x150"]})`,
-          }}
-          className="bg-cover bg-center bg-no-repeat h-[75dvh] left-0 right-0 fixed pointer-events-none -z-20 top-0 blur-[120px] saturate-200"
-        />
-        <div className={clsx("fixed inset-0 -z-10 transition-colors duration-500",visualizer !== "none" ? "bg-black/80" : "bg-transparent")} />
-      </>
-    );
-  }
 
   return (
     <>
@@ -36,12 +14,10 @@ export const BgCover = () => {
         initial={{ opacity: 0.5 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0.5 }}
-        transition={{ duration: 0.8 }}
-        key={`bg-cover-${selectedTrackLocal?.id}`}
+        transition={{ duration: 1.5 }}
+        key={`bg-cover-${selectedTrack?.id}`}
         style={{
-          backgroundImage: `url(${
-            selectedTrackLocal?.metadata.cover ?? caratula.src
-          })`,
+          backgroundImage: `url(${selectedTrack?.artwork["150x150"] ?? caratula.src})`,
         }}
         className="bg-cover bg-center bg-no-repeat h-[75dvh] left-0 right-0 fixed pointer-events-none -z-20 top-0 blur-[120px] saturate-200"
       />

@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { ITrack } from '@/interfaces/Track'
 import { IList } from '@/interfaces/List'
 
-interface IListCustom {
+export interface IListCustom {
   list: IList,
   path: string,
   tracks: ITrack[]

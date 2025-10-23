@@ -3,28 +3,53 @@ import { Tracks } from "./Tracks";
 import { getTracks } from "@/actions/get-tracks";
 import { useWindowStore, Windows } from "@/store/window-store";
 import { useDetailStore } from "@/store/detail-store";
-import { usePlaylistStore } from "@/store/playlist-store copy";
+import { usePlaylistStore } from "@/store/playlist-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { motion } from "motion/react";
 import { Loading } from "./Loading";
+import { ITrack } from "@/interfaces/Track";
+import { usePlayTrack } from "@/hooks/usePlayTrack";
+import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 
 export const Detail = () => {
   const playlist = usePlaylistStore((state) => state.playlist);
   const list = useDetailStore((state) => state.list);
   const back = useDetailStore((state) => state.back);
 
+  const setWindow = useWindowStore((state) => state.setWindow);
+  const { playTrack } = usePlayTrack();
+  const setTracks = useTracksPlayingStore((state) => state.setTracks);
+  const setPlaylist = useTracksPlayingStore((state) => state.setPlaylist);
+
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 
   if (isplaylist) {
     window.location.hash = `#${isplaylist.path}`
+
+    const handleSelect = (track: ITrack) => {
+      playTrack(track);
+      setWindow("main");
+      window.location.hash = ""
+      setTracks(isplaylist.tracks);
+      setPlaylist(list);
+    }
+
     return (
       <>
         <Nav back={isplaylist.path} list={list} />
-        <div className="grow">
-          <Tracks tracks={isplaylist.tracks} />
-        </div>
+        {isplaylist.tracks.length === 0 ? (
+          <div className="size-full grid place-items-center">
+            <p className="text-center text-sm text-gray-300">
+              No se encontraron tracks
+            </p>
+          </div>
+        ):(
+          <div className="grow">
+            <Tracks tracks={isplaylist.tracks} handleSelect={handleSelect} />
+          </div>
+        )}
       </>
     );
   }

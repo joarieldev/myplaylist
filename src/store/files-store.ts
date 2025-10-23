@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import type { IFile } from "@/interfaces/File";
+import { ITrack } from "@/interfaces/Track";
 
 interface State {
-  files: IFile[];
-  addFiles: (files: IFile[]) => void;
+  files: ITrack[];
+  addFiles: (files: ITrack[]) => void;
 }
 
 export const useFilesStore = create<State>()((set) => ({
   files: [],
-  addFiles: (files: IFile[]) => set((state) => ({ files: [...state.files, ...files] })),
+  addFiles: (files: ITrack[]) => set((state) => ({ files: [...state.files, ...files] })),
 }));

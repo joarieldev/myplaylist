@@ -1,35 +1,43 @@
 import { MusicNotePlus } from "@/assets/icons/MusicNotePlus";
 import { useInputRef } from "@/hooks/useInputRef";
 import { useFilesStore } from "@/store/files-store";
-import bgcover from "@/assets/caratula-vacia.webp";
-import { usePlayTrackLocal } from "@/hooks/usePlayTrackLocal";
 import { useWindowStore } from "@/store/window-store";
-import clsx from "clsx";
-import { motion } from "motion/react";
 import { useEffect } from "react";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Folder } from "@/assets/icons/Folder";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
+import { usePlayTrack } from "@/hooks/usePlayTrack";
+import { useTracksPlayingStore } from "@/store/tracks-playing-store";
+import { Tracks } from "./Tracks";
+import { ITrack } from "@/interfaces/Track";
 
 export const Local = () => {
   const files = useFilesStore((state) => state.files);
-  const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
-  const { playTrack } = usePlayTrackLocal();
-  const selectedTrackLocal = useWindowStore(
-    (state) => state.selectedTrackLocal
-  );
+
+  const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const setWindow = useWindowStore((state) => state.setWindow);
+  const { playTrack } = usePlayTrack();
+  const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
+
+  const setTracks = useTracksPlayingStore((state) => state.setTracks);
+
+  const handleSelect = (item: ITrack) => {
+    playTrack(item);
+    setWindow("main");
+    window.location.hash = ""
+    setTracks(files);
+  }
 
   useEffect(() => {
-    if (!selectedTrackLocal) return;
-    const selectedId = `track-${selectedTrackLocal.id}`;
+    if (!selectedTrack) return;
+    const selectedId = `track-${selectedTrack.id}`;
     if (selectedId) {
-      const el = document.getElementById(`track-${selectedTrackLocal.id}`);
+      const el = document.getElementById(`track-${selectedTrack.id}`);
       if (el) {
         el.scrollIntoView({ behavior: "auto", block: "center" });
       }
     }
-  }, [selectedTrackLocal]);
+  }, [selectedTrack]);
 
   return (
     <>
@@ -81,49 +89,9 @@ export const Local = () => {
       )}
 
       {files.length > 0 && (
-        <ul className="grow">
-          {files.map((item) => (
-            <li key={item.id}>
-              <article
-                className={clsx(
-                  "flex gap-4 sm:gap-2 w-full items-center cursor-default px-2 py-3 sm:py-2.5 rounded-3xl transition-colors",
-                  selectedTrackLocal?.id === item.id
-                    ? "bg-gray-700/75"
-                    : "hover:bg-neutral-700/75"
-                )}
-                onClick={() => {
-                  playTrack(item, item.index);
-                  setWindow("main");
-                  window.location.hash = ""
-                }}
-                id={`track-${item.id}`}
-              >
-                <motion.div
-                  key={`thumbnail-${item.id}`}
-                  layoutId={`track-thumbnail-${item.id}`}
-                  className="bg-gray-500/50 w-28 sm:w-24 h-12 sm:h-11 rounded-3xl sm:rounded-2xl overflow-hidden"
-                >
-                  <img
-                    src={
-                      item.metadata.cover ? item.metadata.cover : bgcover.src
-                    }
-                    alt="cover"
-                    className="aspect-video object-cover"
-                  />
-                </motion.div>
-                <motion.div
-                  key={`info-${item.id}`}
-                  className="flex flex-col overflow-hidden w-full"
-                  layout="position"
-                  layoutId={`track-info-${item.id}`}
-                >
-                  <h1 className="ext-lg sm:text-sm font-bold truncate max-sm:leading-5">{item.metadata.title}</h1>
-                  <h2 className="text-xs max-sm:font-bold truncate">{item.metadata.artist}</h2>
-                </motion.div>
-              </article>
-            </li>
-          ))}
-        </ul>
+        <div className="grow">
+          <Tracks tracks={files} handleSelect={handleSelect} />
+        </div>
       )}
     </>
   );

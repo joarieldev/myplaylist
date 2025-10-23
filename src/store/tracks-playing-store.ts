@@ -9,7 +9,7 @@ interface State {
   setPlaylist: (playlist: IList) => void
 }
 
-export const useTracksStore = create<State>()((set) => ({
+export const useTracksPlayingStore = create<State>()((set) => ({
   tracks: [],
   playlist: {} as IList,
   setTracks: (tracks: ITrack[]) => set({ tracks }),

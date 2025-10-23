@@ -17,7 +17,8 @@ export async function extractAudioMetadata(file: File) {
   let cover = null;
   if (metadata.common.picture && metadata.common.picture.length > 0) {
     const coverData = metadata.common.picture[0].data;
-    cover = URL.createObjectURL(new Blob([coverData]));
+    const uint8Array = new Uint8Array(coverData);
+    cover = URL.createObjectURL(new Blob([uint8Array]));
   }
 
   return {

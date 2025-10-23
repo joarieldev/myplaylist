@@ -1,0 +1,31 @@
+import { ITrack, Artwork, RemixOf, User } from "@/interfaces/Track";
+
+export const emptyTrack: ITrack = {
+  artwork: {} as Artwork,
+  description: "",
+  genre: "",
+  id: "",
+  track_cid: "",
+  preview_cid: null,
+  orig_file_cid: "",
+  orig_filename: "",
+  is_original_available: false,
+  mood: "",
+  release_date: "",
+  remix_of: {} as RemixOf,
+  repost_count: 0,
+  favorite_count: 0,
+  comment_count: 0,
+  tags: "",
+  title: "",
+  user: {} as User,
+  duration: 0,
+  is_downloadable: false,
+  play_count: 0,
+  permalink: "",
+  is_streamable: false,
+  ddex_app: "",
+  playlists_containing_track: [],
+  pinned_comment_id: null,
+  album_backlink: null
+};

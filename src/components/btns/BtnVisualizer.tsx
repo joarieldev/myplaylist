@@ -4,8 +4,6 @@ import { GraphicEq3 } from "@/assets/icons/GraphicEq3";
 import { GraphicEq4 } from "@/assets/icons/GraphicEq4";
 import { useVisualizer } from "@/hooks/useVisualizer";
 import { useVisualizerStore } from "@/store/visualizer-store";
-import { useWindowStore } from "@/store/window-store";
-import clsx from "clsx";
 import { toast } from "sonner";
 
 const ICON_VISUALIZER = {
@@ -17,10 +15,6 @@ const ICON_VISUALIZER = {
 
 export const BtnVisualizer = () => {
   const visualizer = useVisualizerStore((state) => state.visualizer);
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const selectedTrackLocal = useWindowStore(
-    (state) => state.selectedTrackLocal
-  );
   const handleVisualizer = useVisualizerStore(
     (state) => state.handleVisualizer
   );
@@ -54,12 +48,7 @@ export const BtnVisualizer = () => {
   return (
     <button
       onClick={onClickVisualizer}
-      className={clsx(
-        "py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50",
-        !selectedTrackLocal &&
-          !selectedTrack &&
-          "pointer-events-none opacity-75"
-      )}
+      className="py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50"
     >
       <IconVisualizer className="size-6 sm:size-5" />
     </button>

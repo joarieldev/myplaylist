@@ -4,9 +4,8 @@ import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { PlayerPrev } from "@/assets/icons/PlayerPrev";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useTracksStore } from "@/store/tracks-store";
+import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { useWindowStore } from "@/store/window-store";
-import clsx from "clsx";
 
 interface Props {
   setDirection: React.Dispatch<React.SetStateAction<1 | -1>>;
@@ -16,15 +15,10 @@ export const BtnPlayers = ({ setDirection }: Props) => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const isPaused = useAudioContextStore((state) => state.isPaused);
   const { play, pause, prev, next } = usePlayTrack();
-  const tracks = useTracksStore((state) => state.tracks);
+  const tracks = useTracksPlayingStore((state) => state.tracks);
 
   return (
-    <div
-      className={clsx(
-        "flex flex-row justify-center items-center gap-2 sm:gap-1",
-        !selectedTrack && "pointer-events-none opacity-50"
-      )}
-    >
+    <div className="flex flex-row justify-center items-center gap-2 sm:gap-1">
       <button
         className="p-3 sm:p-2 rounded-full bg-black/75 cursor-pointer active:bg-gray-500/50"
         onClick={() => {
