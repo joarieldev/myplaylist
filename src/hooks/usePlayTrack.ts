@@ -23,61 +23,79 @@ export const usePlayTrack = () => {
   const isMuted = useAudioContextStore((state) => state.isMuted);
   const volume = useAudioContextStore((state) => state.volume);
   const setGainNode = useAudioContextStore((state) => state.setGainNode);
+  const loading = useAudioContextStore((state) => state.loading)
+  const setLoading = useAudioContextStore((state) => state.setLoading)
+  const setBufferTime = useAudioContextStore((state) => state.setBufferTime)
 
   const playTrack = async (track: ITrack) => {
-    if (audioContext && audioContext.state !== "closed") {
-      await audioContext.close();
-    }
-
-    if (audioElement) {
-      audioElement.pause();
-      audioElement.src = '';
-    }
-
-    setAudioContext(null);
-    setAudioElement(null);
-    reset()
-
+    await cleanupAudio();
     setSelectedTrack(track);
+    setLoading(true)
 
     const url = track.tags === "local" ? track.orig_filename : await getStream(track.id);
+
     const newAudioElement = new Audio(url);
     newAudioElement.crossOrigin = "anonymous";
-    setAudioElement(newAudioElement)
+
+    newAudioElement.addEventListener("progress", () => {
+      updateBuffer(newAudioElement)
+    })
+
+    //debounce para handleSeek()
+    let loadingTimeout: NodeJS.Timeout | null = null;
+
+    newAudioElement.addEventListener("playing", () => {
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+      setLoading(false)
+    })
+
+    newAudioElement.addEventListener("waiting", () => {
+      if (loadingTimeout) clearTimeout(loadingTimeout);
+      loadingTimeout = setTimeout(() => {
+        setLoading(true);
+        loadingTimeout = null;
+      }, 300);
+    })
+
+    newAudioElement.addEventListener("error", () => {
+      //Ignorar audio abortado (cambio de pista)
+      if (newAudioElement.error?.message === 'MEDIA_ELEMENT_ERROR: Empty src attribute') {
+        return;
+      }
+      const pista = track.title.length > 16 ? `${track.title.slice(0, 16)}...`: track.title
+      toast.warning(`Error al reproducir pista - ${pista}`)
+      playNextTrack();
+    })
 
     newAudioElement.ontimeupdate = () => {
       setCurrentTime(newAudioElement.currentTime);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const newAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
-    const gainNode = new GainNode(newAudioContext);
-    gainNode.gain.value = volume;
-
     newAudioElement.onloadedmetadata = async () => {
-      try {
-        setDuration(newAudioElement.duration);
-        if (isMuted.muted) gainNode.gain.value = 0;
+      const newAudioContext = new AudioContext
+      const gainNode = new GainNode(newAudioContext);
+      gainNode.gain.value = isMuted.muted ? 0 : volume;
+      
+      const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
+      newSourceNode.connect(gainNode).connect(newAudioContext.destination);
+      
+      setAudioElement(newAudioElement)
+      setAudioContext(newAudioContext);
+      setGainNode(gainNode);
+      setSourceNode(newSourceNode);
+      setDuration(newAudioElement.duration);
+      
+      await newAudioContext.resume()
+      await newAudioElement.play()
 
-        setAudioContext(newAudioContext);
-        setGainNode(gainNode);
-
-        const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
-        setSourceNode(newSourceNode);
-        newSourceNode.connect(gainNode).connect(newAudioContext.destination);
-
-        if (visualizer !== "none") {
-          const analyserNode = newAudioContext.createAnalyser();
-          analyserNode.fftSize = 256;
-          newSourceNode.connect(analyserNode);
-          setAnalyserNode(analyserNode)
-        }
-
-        await newAudioContext.resume()
-        await newAudioElement.play();
-      } catch (error) {
-        console.error('Error al reproducir audio:', error);
+      if (visualizer !== "none") {
+        const analyserNode = new AnalyserNode(newAudioContext);
+        analyserNode.fftSize = 256;
+        newSourceNode.connect(analyserNode);
+        setAnalyserNode(analyserNode)
       }
     }
 
@@ -137,6 +155,50 @@ export const usePlayTrack = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
 
+  const cleanupAudio = async () => {
+    if (audioContext && audioContext.state !== "closed") {
+      await audioContext.close();
+    }
+
+    if (audioElement) {
+      audioElement.pause();
+      audioElement.src = '';
+    }
+
+    reset()
+  }
+
+  const updateBuffer = (audio: HTMLAudioElement) => {
+    const currentTime = audio.currentTime;
+    const buffered = audio.buffered;
+
+    let bufferedEnd = 0;
+
+    for (let i = 0; i < buffered.length; i++) {
+      const start = buffered.start(i);
+      const end = buffered.end(i);
+
+      // Si el currentTime está dentro de este rango
+      if (currentTime >= start && currentTime <= end) {
+        bufferedEnd = end;
+        break;
+      }
+
+      // Si el currentTime está antes de este rango, usar el inicio
+      if (currentTime < start) {
+        bufferedEnd = currentTime;
+        break;
+      }
+    }
+
+    // Si no encontramos ningún rango, usar currentTime
+    if (bufferedEnd === 0 && buffered.length > 0) {
+      bufferedEnd = currentTime;
+    }
+
+    setBufferTime(bufferedEnd);
+  };
+
   return {
     playTrack,
     pause,
@@ -144,5 +206,6 @@ export const usePlayTrack = () => {
     prev,
     next,
     formatTime,
+    loading,
   };
 };

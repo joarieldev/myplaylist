@@ -1,3 +1,4 @@
+import { Loader2 } from "@/assets/icons/Loader2";
 import { PlayerNext } from "@/assets/icons/PlayerNext";
 import { PlayerPause } from "@/assets/icons/PlayerPause";
 import { PlayerPlay } from "@/assets/icons/PlayerPlay";
@@ -16,6 +17,7 @@ export const BtnPlayers = ({ setDirection }: Props) => {
   const isPaused = useAudioContextStore((state) => state.isPaused);
   const { play, pause, prev, next } = usePlayTrack();
   const tracks = useTracksPlayingStore((state) => state.tracks);
+  const loading = useAudioContextStore((state) => state.loading);
 
   return (
     <div className="flex flex-row justify-center items-center gap-2 sm:gap-1">
@@ -40,7 +42,11 @@ export const BtnPlayers = ({ setDirection }: Props) => {
           className="p-4 sm:p-2 rounded-full bg-black/75 cursor-pointer active:bg-gray-500/50"
           onClick={() => pause()}
         >
-          <PlayerPause className="size-12 sm:size-8" />
+          {loading ? (
+            <Loader2 className="size-12 sm:size-8 animate-spin" />
+          ):(
+            <PlayerPause className="size-12 sm:size-8" />
+          )}
         </button>
       )}
       <button
