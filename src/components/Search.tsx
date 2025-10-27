@@ -8,7 +8,7 @@ import { useSearchStore } from "@/store/search-store";
 import { IList } from "@/interfaces/List";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
-import { Loading } from "./Loading";
+import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Search = () => {
   const [change, setChange] = useState<number>(0);
@@ -46,7 +46,7 @@ export const Search = () => {
       </header>
       {fetching && (
         <div className="size-full grid place-items-center">
-          <Loading />
+          <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />
         </div>
       )}
       {error && (

@@ -8,10 +8,10 @@ import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { motion } from "motion/react";
-import { Loading } from "./Loading";
 import { ITrack } from "@/interfaces/Track";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
+import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Detail = () => {
   const playlist = usePlaylistStore((state) => state.playlist);
@@ -140,7 +140,7 @@ const DetailNoStored = () => {
 
   return (
     <div className="h-full grid place-items-center text-sm text-gray-300">
-      {loadingTracks && <Loading />}
+      {loadingTracks && <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />}
       {errorTracks && <p>{errorTracks}</p>}
     </div>
   );

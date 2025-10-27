@@ -50,6 +50,10 @@ export const Thumbnail = forwardRef(function Thumbnail(
                   alt={selectedTrack.title}
                   className="max-w-full max-h-full rounded-xl pointer-events-none shadow"
                   title={selectedTrack.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null
+                    e.currentTarget.src = caratula.src
+                  }}
                 />
               </span>
             </div>        

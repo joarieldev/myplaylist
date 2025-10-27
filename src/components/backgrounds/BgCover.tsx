@@ -10,18 +10,21 @@ export const BgCover = () => {
 
   return (
     <>
-      <motion.div
+      <motion.img
         initial={{ opacity: 0.5 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0.5 }}
         transition={{ duration: 1.5 }}
         key={`bg-cover-${selectedTrack?.id}`}
-        style={{
-          backgroundImage: `url(${selectedTrack?.artwork["150x150"] ?? caratula.src})`,
+        src={selectedTrack?.artwork["150x150"] ?? caratula.src}
+        className="fixed inset-0 -z-20 w-full h-[65dvh] sm:h-[75dvh] object-cover saturate-200 blur-[110px] sm:blur-[190px]"
+        alt={selectedTrack?.title}
+        onError={(e) => {
+          e.currentTarget.onerror = null
+          e.currentTarget.src = caratula.src
         }}
-        className="bg-cover bg-center bg-no-repeat h-[75dvh] left-0 right-0 fixed pointer-events-none -z-20 top-0 blur-[120px] saturate-200"
       />
-      <div className={clsx("fixed inset-0 -z-10 transition-colors duration-500",visualizer !== "none" ? "bg-black/80" : "bg-transparent")} />
+      <div className={clsx("fixed inset-0 -z-10 transition-colors duration-500",visualizer !== "none" ? "bg-black/75" : "bg-transparent")} />
     </>
   );
 };

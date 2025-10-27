@@ -7,7 +7,7 @@ import { getFavorite } from "@/actions/get-favorite";
 import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Heart } from "@/assets/icons/Heart";
-import { Loading } from "./Loading";
+import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Favorites = () => {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -30,7 +30,7 @@ export const Favorites = () => {
     return (
       <>
         <div className="h-full grid place-items-center">
-          <Loading />
+          <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />
         </div>
       </>
     );
@@ -61,7 +61,7 @@ export const Favorites = () => {
       <Nav />
       {loading && (
         <div className="size-full grid place-items-center">
-          <Loading />
+          <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />
         </div>
       )}
       {error && (
