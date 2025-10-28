@@ -3,7 +3,7 @@ import { X } from "@/assets/icons/X";
 import { useSearchStore } from "@/store/search-store";
 import { useRef } from "react";
 
-const genres = ['rock', 'lofi', 'dance', 'jazz', 'pop', 'hip hop'];
+const genres = ['rock', 'lofi', 'dance', 'jazz', 'pop'];
 
 interface Props {
   fetchSearch: () => void;

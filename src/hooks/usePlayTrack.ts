@@ -5,6 +5,7 @@ import { useVisualizerStore } from "@/store/visualizer-store";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { useWindowStore } from "@/store/window-store";
 import { toast } from "sonner";
+import { useRef } from "react";
 
 export const usePlayTrack = () => {
   const audioElement = useAudioContextStore((state) => state.audioElement);
@@ -18,17 +19,20 @@ export const usePlayTrack = () => {
   const reset = useAudioContextStore((state) => state.reset);
   const tracks = useTracksPlayingStore((state) => state.tracks);
   const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
-  const visualizer = useVisualizerStore((state) => state.visualizer);
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
-  const isMuted = useAudioContextStore((state) => state.isMuted);
-  const volume = useAudioContextStore((state) => state.volume);
   const setGainNode = useAudioContextStore((state) => state.setGainNode);
   const loading = useAudioContextStore((state) => state.loading)
   const setLoading = useAudioContextStore((state) => state.setLoading)
   const setBufferTime = useAudioContextStore((state) => state.setBufferTime)
 
+  const audioIdRef = useRef(0);
+  const lastCreatedAudioRef = useRef<HTMLAudioElement | null>(null);
+
   const playTrack = async (track: ITrack) => {
+    const currentAudioId = ++audioIdRef.current; //ID único para esta instancia
+
     await cleanupAudio();
+
     setSelectedTrack(track);
     setLoading(true)
 
@@ -37,61 +41,90 @@ export const usePlayTrack = () => {
     const newAudioElement = new Audio(url);
     newAudioElement.crossOrigin = "anonymous";
 
-    newAudioElement.addEventListener("progress", () => {
+    lastCreatedAudioRef.current = newAudioElement; //Guardar referencia
+    let loadingTimeout: NodeJS.Timeout | null = null; //debounce para handleSeek()
+    let hasErrorHandled = false // para .onerror
+
+    newAudioElement.onprogress = () => {
+      if (audioIdRef.current !== currentAudioId) return;
       updateBuffer(newAudioElement)
-    })
+    }
 
-    //debounce para handleSeek()
-    let loadingTimeout: NodeJS.Timeout | null = null;
-
-    newAudioElement.addEventListener("playing", () => {
+    newAudioElement.onplaying = () => {
+      if (audioIdRef.current !== currentAudioId) return;
       if (loadingTimeout) {
         clearTimeout(loadingTimeout);
         loadingTimeout = null;
       }
       setLoading(false)
-    })
+    }
 
-    newAudioElement.addEventListener("waiting", () => {
+    newAudioElement.onwaiting = () => {
+      if (audioIdRef.current !== currentAudioId) return;
       if (loadingTimeout) clearTimeout(loadingTimeout);
       loadingTimeout = setTimeout(() => {
         setLoading(true);
         loadingTimeout = null;
       }, 300);
-    })
+    }
 
-    newAudioElement.addEventListener("error", () => {
+    newAudioElement.onerror = () => {
+      if (audioIdRef.current !== currentAudioId) return;
+      if (hasErrorHandled) return
       //Ignorar audio abortado (cambio de pista)
-      if (newAudioElement.error?.message === 'MEDIA_ELEMENT_ERROR: Empty src attribute') {
-        return;
+      if (newAudioElement.error?.message === 'MEDIA_ELEMENT_ERROR: Empty src attribute') return
+
+      hasErrorHandled = true
+
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout)
+        loadingTimeout = null
       }
+
       const pista = track.title.length > 16 ? `${track.title.slice(0, 16)}...`: track.title
       toast.warning(`Error al reproducir pista - ${pista}`)
+
       playNextTrack();
-    })
+    }
 
     newAudioElement.ontimeupdate = () => {
+      if (audioIdRef.current !== currentAudioId) return;
       setCurrentTime(newAudioElement.currentTime);
     };
 
     newAudioElement.onloadedmetadata = async () => {
+      if (audioIdRef.current !== currentAudioId) { //Verificar que sigue siendo el audio actual
+        newAudioElement.pause();
+        newAudioElement.src = '';
+        return;
+      }
+
       const newAudioContext = new AudioContext
       const gainNode = new GainNode(newAudioContext);
-      gainNode.gain.value = isMuted.muted ? 0 : volume;
-      
+      const currentMuted = useAudioContextStore.getState().isMuted
+      const currentVolume = useAudioContextStore.getState().volume
+      gainNode.gain.value = currentMuted.muted ? 0 : currentVolume;
+
       const newSourceNode = newAudioContext.createMediaElementSource(newAudioElement);
       newSourceNode.connect(gainNode).connect(newAudioContext.destination);
-      
+
       setAudioElement(newAudioElement)
       setAudioContext(newAudioContext);
       setGainNode(gainNode);
       setSourceNode(newSourceNode);
       setDuration(newAudioElement.duration);
-      
-      await newAudioContext.resume()
-      await newAudioElement.play()
 
-      if (visualizer !== "none") {
+      const currentIsPaused = useAudioContextStore.getState().isPaused
+
+      if (currentIsPaused) {
+        newAudioElement.pause()
+      }else{
+        await newAudioContext.resume()
+        await newAudioElement.play()
+      }
+
+      const currentVisualizer = useVisualizerStore.getState().visualizer
+      if (currentVisualizer !== "none") {
         const analyserNode = new AnalyserNode(newAudioContext);
         analyserNode.fftSize = 256;
         newSourceNode.connect(analyserNode);
@@ -100,6 +133,11 @@ export const usePlayTrack = () => {
     }
 
     newAudioElement.onended = () => {
+      if (audioIdRef.current !== currentAudioId) return;
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
       playNextTrack();
     }
   };
@@ -120,14 +158,12 @@ export const usePlayTrack = () => {
   }
 
   const pause = () => {
-    if (!audioElement) return;
-    audioElement.pause();
+    audioElement?.pause();
     setIsPaused(true);
   }
 
   const play = () => {
-    if (!audioElement) return;
-    audioElement.play();
+    audioElement?.play();
     setIsPaused(false);
   }
 
@@ -156,15 +192,32 @@ export const usePlayTrack = () => {
   }
 
   const cleanupAudio = async () => {
-    if (audioContext && audioContext.state !== "closed") {
-      await audioContext.close();
+    if (lastCreatedAudioRef.current) {
+      lastCreatedAudioRef.current.pause();
+      lastCreatedAudioRef.current.src = '';
+      lastCreatedAudioRef.current.onloadedmetadata = null;
+      lastCreatedAudioRef.current.ontimeupdate = null;
+      lastCreatedAudioRef.current.onended = null;
+      lastCreatedAudioRef.current.onerror = null;
+      lastCreatedAudioRef.current.onwaiting = null;
+      lastCreatedAudioRef.current.onplaying = null;
+      lastCreatedAudioRef.current.onprogress = null;
     }
 
     if (audioElement) {
       audioElement.pause();
       audioElement.src = '';
+      audioElement.onloadedmetadata = null;
+      audioElement.ontimeupdate = null;
+      audioElement.onended = null;
+      audioElement.onerror = null;
+      audioElement.onwaiting = null;
+      audioElement.onplaying = null;
+      audioElement.onprogress = null;
     }
-
+    if (audioContext && audioContext.state !== "closed") {
+      await audioContext.close();
+    }
     reset()
   }
 

@@ -50,7 +50,7 @@ export const Main = () => {
           <Thumbnail key={selectedTrack?.id} selectedTrack={selectedItem} />
         </AnimatePresence>
         <div className="size-full flex flex-col justify-center items-center gap-4 sm:gap-2">
-          <div 
+          <div
             className={clsx(
               "flex w-full sm:w-80 h-full justify-evenly items-center",
               !selectedTrack && "pointer-events-none opacity-75"
