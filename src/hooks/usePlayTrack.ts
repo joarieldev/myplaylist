@@ -66,6 +66,14 @@ export const usePlayTrack = () => {
         setLoading(true);
         loadingTimeout = null;
       }, 300);
+      
+      if(!navigator.onLine) {
+        toast.dismiss()
+        toast.error(
+          "Error de red. Verifica tu conexión a internet.",
+          {duration: Infinity}
+        )
+      }
     }
 
     newAudioElement.onerror = () => {
@@ -73,6 +81,14 @@ export const usePlayTrack = () => {
       if (hasErrorHandled) return
       //Ignorar audio abortado (cambio de pista)
       if (newAudioElement.error?.message === 'MEDIA_ELEMENT_ERROR: Empty src attribute') return
+      if(!navigator.onLine) {
+        toast.dismiss()
+        toast.error(
+          "Error de red. Verifica tu conexión a internet.",
+          {duration: Infinity}
+        )
+        return
+      }
 
       hasErrorHandled = true
 
@@ -119,6 +135,7 @@ export const usePlayTrack = () => {
       if (currentIsPaused) {
         newAudioElement.pause()
       }else{
+        toast.dismiss() //toast infinity en !navigator.onLine
         await newAudioContext.resume()
         await newAudioElement.play()
       }
@@ -170,6 +187,7 @@ export const usePlayTrack = () => {
   const prev = (i: number) => {
     const prevTrackIndex = i - 1;
     if (prevTrackIndex >= 0) {
+      setIsPaused(false);
       playTrack(tracks[prevTrackIndex]);
     } else {
       toast.info("Inicio de la lista");
@@ -179,6 +197,7 @@ export const usePlayTrack = () => {
   const next = (i: number) => {
     const nextTrackIndex = i + 1;
     if (nextTrackIndex < tracks.length) {
+      setIsPaused(false);
       playTrack(tracks[nextTrackIndex]);
     } else {
       toast.info("Fin de la lista");

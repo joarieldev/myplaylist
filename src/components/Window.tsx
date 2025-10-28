@@ -187,7 +187,7 @@ const IsMovingMouse = ({children}:{children:React.ReactNode}) => {
   const { getOpacity, handlers } = useIsMoving();
 
   return (
-    <div className={clsx("max-sm:size-full",getOpacity())} {...handlers} >
+    <div className={clsx("max-sm:size-full transition-opacity duration-200",getOpacity())} {...handlers} >
       {children}
     </div>
   )
