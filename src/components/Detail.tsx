@@ -12,6 +12,7 @@ import { ITrack } from "@/interfaces/Track";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { Loader2 } from "@/assets/icons/Loader2";
+import { useAudioContextStore } from "@/store/audio-context-store";
 
 export const Detail = () => {
   const playlist = usePlaylistStore((state) => state.playlist);
@@ -22,6 +23,7 @@ export const Detail = () => {
   const { playTrack } = usePlayTrack();
   const setTracks = useTracksPlayingStore((state) => state.setTracks);
   const setPlaylist = useTracksPlayingStore((state) => state.setPlaylist);
+  const setIsPaused = useAudioContextStore((state) => state.setIsPaused);
 
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 
@@ -30,6 +32,7 @@ export const Detail = () => {
 
     const handleSelect = (track: ITrack) => {
       playTrack(track);
+      setIsPaused(false);
       setWindow("main");
       window.location.hash = ""
       setTracks(isplaylist.tracks);

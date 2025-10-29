@@ -10,6 +10,7 @@ import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { Tracks } from "./Tracks";
 import { ITrack } from "@/interfaces/Track";
+import { useAudioContextStore } from "@/store/audio-context-store";
 
 export const Local = () => {
   const files = useFilesStore((state) => state.files);
@@ -18,11 +19,13 @@ export const Local = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
+  const setIsPaused = useAudioContextStore((state) => state.setIsPaused);
 
   const setTracks = useTracksPlayingStore((state) => state.setTracks);
 
   const handleSelect = (item: ITrack) => {
     playTrack(item);
+    setIsPaused(false)
     setWindow("main");
     window.location.hash = ""
     setTracks(files);
