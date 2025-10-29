@@ -121,14 +121,10 @@ const Windows = () => {
               </div>
             )}
           </AnimatePresence>
-          <AnimatePresence mode="wait">
-            {windowTab !== "main" && <MiniPlayer mobile={false} /> }
-          </AnimatePresence>
+          <MiniPlayer mobile={false} />
           <footer className="sticky bottom-0 px-3 py-3 z-10 sm:hidden">
             <nav className="flex flex-col gap-2 bg-neutral-900/95 rounded-3xl">
-              <AnimatePresence mode="wait">
-                {windowTab !== "main" && <MiniPlayer mobile={true} /> }
-              </AnimatePresence>
+              <MiniPlayer mobile={true} />
               <div className="flex">
                 <button
                   onClick={() => {
@@ -208,94 +204,101 @@ const MiniPlayer = ({ mobile }: { mobile: boolean }) => {
   const { play, pause, prev, next } = usePlayTrack();
   const tracks = useTracksPlayingStore((state) => state.tracks);
   const loading = useAudioContextStore((state) => state.loading);
+  const windowTab = useWindowStore((state) => state.window);
   const setWindowTab = useWindowStore((state) => state.setWindow);
 
-  if (!selectedTrack) return;
-
   return (
-    <motion.div
-      key="music"
-      initial={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
-      animate={mobile ? { height: 48, opacity: 1 } : { y: 1, opacity: 1 }}
-      exit={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className={clsx(
-        !mobile &&
-          "absolute bottom-12 sm:bottom-1 right-2 left-2 bg-neutral-900/95 rounded-3xl max-sm:hidden",
-      )}
-    >
-      <div
-        className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl"
-        onClick={() => {
-          setWindowTab("main");
-          window.location.hash = "";
-        }}
-      >
-        <div className="flex gap-2 items-center justify-cente pointer-events-none overflow-hidden">
-          <img
-            src={selectedTrack.artwork["150x150"]}
-            alt={selectedTrack.title}
-            className="w-auto h-6 rounded-full object-cover aspect-video"
-            onError={(e) => {
-              e.currentTarget.onerror = null
-              e.currentTarget.src = caratula.src
-            }}
-          />
-          <div className="flex flex-col overflow-hidden">
-            <p className="font-medium text-sm truncate">
-              {selectedTrack.title}
-            </p>
-            <p className="font-medium text-xs truncate">
-              {selectedTrack.user.name}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-1">
-          <button
-            className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
-            onClick={(e) => {
-              e.stopPropagation();
-              prev(tracks.findIndex((track) => track.id === selectedTrack.id));
-            }}
-          >
-            <PlayerPrev className="size-5 sm:size-4" />
-          </button>
-          {!selectedTrack || isPaused ? (
-            <button
-              className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
-              onClick={(e) => {
-                e.stopPropagation();
-                play();
-              }}
-            >
-              <PlayerPlay className="size-6 sm:size-5" />
-            </button>
-          ) : (
-            <button
-              className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
-              onClick={(e) => {
-                e.stopPropagation();
-                pause();
-              }}
-            >
-              {loading ? (
-                <Loader2 className="size-6 sm:size-5 animate-spin" />
-              ) : (
-                <PlayerPause className="size-6 sm:size-5" />
-              )}
-            </button>
+    <AnimatePresence mode="wait">
+      {windowTab !== "main" && selectedTrack && (
+        <motion.div
+          key="music"
+          initial={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
+          animate={mobile ? { height: 48, opacity: 1 } : { y: 1, opacity: 1 }}
+          exit={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className={clsx(
+            !mobile &&
+              "absolute bottom-12 sm:bottom-1 right-2 left-2 bg-neutral-900/95 rounded-3xl max-sm:hidden"
           )}
-          <button
-            className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
-            onClick={(e) => {
-              e.stopPropagation();
-              next(tracks.findIndex((track) => track.id === selectedTrack.id));
+        >
+          <div
+            className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl"
+            onClick={() => {
+              setWindowTab("main");
+              window.location.hash = "";
             }}
           >
-            <PlayerNext className="size-5 sm:size-4" />
-          </button>
-        </div>
-      </div>
-    </motion.div>
+            <div className="flex gap-2 items-center justify-cente pointer-events-none overflow-hidden">
+              <img
+                src={selectedTrack.artwork["150x150"]}
+                alt={selectedTrack.title}
+                className="w-auto h-6 rounded-full object-cover aspect-video"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = caratula.src;
+                }}
+              />
+              <div className="flex flex-col overflow-hidden">
+                <p className="font-medium text-sm truncate">
+                  {selectedTrack.title}
+                </p>
+                <p className="font-medium text-xs truncate">
+                  {selectedTrack.user.name}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-1">
+              <button
+                className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prev(
+                    tracks.findIndex((track) => track.id === selectedTrack.id)
+                  );
+                }}
+              >
+                <PlayerPrev className="size-5 sm:size-4" />
+              </button>
+              {!selectedTrack || isPaused ? (
+                <button
+                  className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    play();
+                  }}
+                >
+                  <PlayerPlay className="size-6 sm:size-5" />
+                </button>
+              ) : (
+                <button
+                  className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    pause();
+                  }}
+                >
+                  {loading ? (
+                    <Loader2 className="size-6 sm:size-5 animate-spin" />
+                  ) : (
+                    <PlayerPause className="size-6 sm:size-5" />
+                  )}
+                </button>
+              )}
+              <button
+                className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  next(
+                    tracks.findIndex((track) => track.id === selectedTrack.id)
+                  );
+                }}
+              >
+                <PlayerNext className="size-5 sm:size-4" />
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
