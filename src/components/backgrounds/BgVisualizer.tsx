@@ -13,6 +13,7 @@ import { useAudioContextStore } from "@/store/audio-context-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import { motion } from "motion/react";
 import dynamic from "next/dynamic";
+import { BgVantaCells } from "./BgVantaCells";
 
 const BgVanta = dynamic(() => import("./BgVanta").then((mod) => mod.BgVanta), {
   ssr: false,
@@ -69,6 +70,7 @@ export const BgVisualizer = () => {
       "circle-spectrum": circleSpectrum,
       "circle-spectrum-spring": circleSpectrumSpring,
       "vantajs-birds": () => {},
+      "vantajs-cells": () => {},
     };
 
     function draw() {
@@ -84,20 +86,22 @@ export const BgVisualizer = () => {
     };
   }, [mode, analyserNode]);
 
+  if(mode === "vantajs-birds") {
+    return <BgVanta />
+  }
+
+  if(mode === "vantajs-cells") {
+    return <BgVantaCells />
+  }
+
   return (
-    <>
-      {mode === "vantajs-birds" ? (
-        <BgVanta />
-      ) : (
-        <motion.canvas
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          ref={canvasRef}
-          className="fixed inset-0 -z-10"
-        />
-      )}
-    </>
+    <motion.canvas
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      ref={canvasRef}
+      className="fixed inset-0 -z-10"
+    />
   );
 };

@@ -109,6 +109,12 @@ export const ToggleVisualizer = () => {
           >
             vantajs-birds
           </li>
+          <li
+            onClick={() => handleMode("vantajs-cells")}
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
+          >
+            vantajs-cells
+          </li>
         </ul>
       </div>
     </div>

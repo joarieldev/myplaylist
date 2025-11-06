@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Values = "line-wave" | "line-wave-chill" | "spectrum-center" | "spectrum-plain" | "spectrum-wide" | "circle-spectrum" | "circle-spectrum-spring" | "vantajs-birds";
+type Values = "line-wave" | "line-wave-chill" | "spectrum-center" | "spectrum-plain" | "spectrum-wide" | "circle-spectrum" | "circle-spectrum-spring" | "vantajs-birds" | "vantajs-cells";
 
 interface State {
   mode: Values;
