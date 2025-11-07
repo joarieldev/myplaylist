@@ -8,6 +8,7 @@ import {
   spectrumCenter,
   spectrumPlain,
   spectrumWide,
+  snowflake,
 } from "@/utils/visualizer";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
@@ -71,6 +72,7 @@ export const BgVisualizer = () => {
       "circle-spectrum-spring": circleSpectrumSpring,
       "vantajs-birds": () => {},
       "vantajs-cells": () => {},
+      "snowflake": snowflake,
     };
 
     function draw() {

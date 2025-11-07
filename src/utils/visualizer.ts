@@ -3,7 +3,7 @@ export interface IVisualizer {
   ctx: CanvasRenderingContext2D;
   analyserNode: AnalyserNode;
   bufferLength: number;
-  dataArray: Uint8Array;
+  dataArray:  Uint8Array<ArrayBuffer>;
   capPositions: number[];
 }
 
@@ -16,7 +16,7 @@ export const lineWave = (vis: IVisualizer) => {
 
   vis.ctx.beginPath();
 
-  const sliceWidth = vis.canvas.width / vis.bufferLength;
+  const sliceWidth = vis.canvas.width / (vis.bufferLength-1);
   let x = 0;
 
   for (let i = 0; i < vis.bufferLength; i++) {
@@ -32,7 +32,6 @@ export const lineWave = (vis: IVisualizer) => {
     x += sliceWidth;
   }
 
-  vis.ctx.lineTo(vis.canvas.width, vis.canvas.height / 2);
   vis.ctx.stroke();
 }
 
@@ -44,12 +43,11 @@ export const lineWaveChill = (vis: IVisualizer) => {
   const amplitudeFactor = 0.5;
 
   vis.ctx.beginPath();
-  vis.ctx.moveTo(0, vis.canvas.height / 2);
 
   for (let i = 0; i < vis.bufferLength; i++) {
     const value = vis.dataArray[i] / 256;
     const amplitude = value * amplitudeFactor * vis.canvas.height;
-    const x = (i / vis.bufferLength) * vis.canvas.width;
+    const x = (i / (vis.bufferLength-1)) * vis.canvas.width;
     const y = centerY + Math.sin(x * 0.05 + Date.now() * 0.002) * amplitude;
 
     vis.ctx.lineTo(x, y);
@@ -238,3 +236,83 @@ export const circleSpectrumSpring = (vis: IVisualizer) => {
     vis.ctx.stroke();
   }
 }
+
+const DEG2RAD = Math.PI / 180;
+
+const snowflakes: Snowflake[] = [];
+let frameCount = 0;
+let staticFlakeAccumulator = 0;
+
+class Snowflake {
+  posX: number;
+  posY: number;
+  initialAngle: number;
+  size: number;
+  radius: number;
+  color: string;
+
+  constructor(
+    private canvas: HTMLCanvasElement,
+    private ctx: CanvasRenderingContext2D
+  ) {
+    this.posX = Math.random() * this.canvas.width;
+    this.posY = -10;
+    this.initialAngle = Math.random() * 360;
+    this.size = Math.random() * 2 + 1;
+    this.radius = Math.random() * (this.canvas.width / 2);
+
+    const r = Math.floor(Math.random() * 56 + 200);
+    const g = Math.floor(Math.random() * 56 + 200);
+    const b = Math.floor(Math.random() * 56 + 200);
+    this.color = `rgb(${r}, ${g}, ${b})`;
+  }
+
+  update(time: number) {
+    const angleRad = (this.initialAngle + 15 * time) * DEG2RAD;
+    this.posX = (this.canvas.width / 2) + this.radius * Math.sin(angleRad);
+    this.posY += 2 + this.size * 0.7;
+  }
+
+  display() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath();
+    this.ctx.arc(this.posX, this.posY, this.size, 0, Math.PI * 2);
+    this.ctx.fill();
+  }
+}
+
+export const snowflake = (vis: IVisualizer) => {
+  vis.analyserNode.getByteFrequencyData(vis.dataArray);
+
+  const N = Math.min(80, vis.dataArray.length);
+  const lowFreqs = vis.dataArray.slice(0, N);
+
+  const avg = lowFreqs.reduce((a, b) => a + b, 0) / lowFreqs.length;
+  const norm = avg / 255;
+
+  const flakesPerSecond = 2 + norm * 150;
+  const flakesPerFrame = flakesPerSecond / 80;
+
+  staticFlakeAccumulator += flakesPerFrame;
+
+  while (staticFlakeAccumulator >= 1) {
+    snowflakes.push(new Snowflake(vis.canvas, vis.ctx));
+    staticFlakeAccumulator -= 1;
+  }
+
+  vis.ctx.clearRect(0, 0, vis.canvas.width, vis.canvas.height);
+
+  const time = frameCount / 60;
+  frameCount++;
+
+  let write = 0;
+  for (let i = 0; i < snowflakes.length; i++) {
+    const flake = snowflakes[i];
+    flake.update(time);
+    flake.display();
+    if (flake.posY < vis.canvas.height + 20) {
+      snowflakes[write++] = flake;
+    }
+  }
+  snowflakes.length = write;
+};

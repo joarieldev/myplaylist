@@ -115,6 +115,12 @@ export const ToggleVisualizer = () => {
           >
             vantajs-cells
           </li>
+          <li
+            onClick={() => handleMode("snowflake")}
+            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
+          >
+            snowflake
+          </li>
         </ul>
       </div>
     </div>
