@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from '@clerk/localizations'
 import { dark } from '@clerk/themes'
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,13 +46,14 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={
       localization
-     } 
+     }
     appearance={{baseTheme: dark}}>
       <html lang="es">
         <body
           className={`${inter.variable} ${montserrat.variable} antialiased`}
         >
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
