@@ -57,10 +57,5 @@ export const useAudioContextStore = create<State>((set) => ({
     currentTime: 0,
     bufferTime: 0,
     duration: 0,
-    audioContext: null,
-    audioElement: null,
-    sourceNode: null,
-    gainNode: null,
-    analyserNode: null,
   }),
 }));

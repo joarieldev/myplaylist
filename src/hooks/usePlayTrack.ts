@@ -9,7 +9,6 @@ import { useRef } from "react";
 
 export const usePlayTrack = () => {
   const audioElement = useAudioContextStore((state) => state.audioElement);
-  const audioContext = useAudioContextStore((state) => state.audioContext);
   const setAudioElement = useAudioContextStore((state) => state.setAudioElement);
   const setAudioContext = useAudioContextStore((state) => state.setAudioContext);
   const setSourceNode = useAudioContextStore((state) => state.setSourceNode);
@@ -66,7 +65,7 @@ export const usePlayTrack = () => {
         setLoading(true);
         loadingTimeout = null;
       }, 300);
-      
+
       if(!navigator.onLine) {
         toast.dismiss()
         toast.error(
@@ -234,9 +233,7 @@ export const usePlayTrack = () => {
       audioElement.onplaying = null;
       audioElement.onprogress = null;
     }
-    if (audioContext && audioContext.state !== "closed") {
-      await audioContext.close();
-    }
+
     reset()
   }
 
