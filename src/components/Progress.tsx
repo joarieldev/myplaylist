@@ -10,35 +10,30 @@ export const Progress = () => {
   const buffer = useAudioContextStore((state) => state.buffer);
   const { formatTime } = usePlayTrack();
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const seekTime = parseFloat(e.target.value);
-    if (audioElement) {
-      audioElement.currentTime = seekTime;
-      setCurrentTime(seekTime);
-    }
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioElement) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    audioElement.currentTime = percent * audioElement.duration;
+    setCurrentTime(audioElement.currentTime);
   };
 
   return (
     <div className="size-full flex flex-col justify-center items-center gap-2">
-      <div className={clsx("relative w-full h-2 group", !audioElement && "pointer-events-none")}>
+      <div
+        className={clsx("relative w-full h-2 rounded-full bg-neutral-600 opacity-75 cursor-pointer overflow-hidden", !audioElement || duration === 0 && "pointer-events-none")}
+        onClick={handleSeek}
+      >
         <progress
           max={duration}
           value={buffer}
-          className="absolute w-full h-full opacity-75 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-neutral-600 [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-gray-400"
+          className="absolute w-full h-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-neutral-600 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-gray-400"
         />
         <progress
           max={duration}
           value={currentTime}
-          className="absolute w-full h-full opacity-75 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-gray-200"
-        />
-        <input
-          type="range"
-          min={0}
-          max={duration}
-          step={0.01}
-          value={currentTime}
-          onChange={handleSeek}
-          className="absolute w-full h-full cursor-pointer opacity-0 transition-opacity duration-200 accent-gray-200 group-hover:opacity-75 appearance-none"
+          className="absolute w-full h-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-white"
         />
       </div>
       <p className="flex items-center gap-1 justify-between sm:justify-center w-full text-sm">
