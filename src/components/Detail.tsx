@@ -23,7 +23,7 @@ export const Detail = () => {
   const { playTrack } = usePlayTrack();
   const setTracks = useTracksPlayingStore((state) => state.setTracks);
   const setPlaylist = useTracksPlayingStore((state) => state.setPlaylist);
-  const setIsPaused = useAudioContextStore((state) => state.setIsPaused);
+  const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
 
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 
@@ -32,7 +32,7 @@ export const Detail = () => {
 
     const handleSelect = (track: ITrack) => {
       playTrack(track);
-      setIsPaused(false);
+      setIsPlaying(true);
       setWindow("main");
       window.location.hash = ""
       setTracks(isplaylist.tracks);

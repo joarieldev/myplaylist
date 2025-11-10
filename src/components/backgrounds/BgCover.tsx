@@ -20,7 +20,7 @@ export const BgCover = () => {
         exit={{ opacity: 0.5 }}
         transition={{ duration: 1.5 }}
         key={`bg-cover-${selectedTrack?.id}`}
-        src={selectedTrack?.artwork["150x150"] ?? caratula.src}
+        src={selectedTrack?.artwork["150x150"] || caratula.src}
         className="fixed inset-0 -z-20 w-full h-[65dvh] sm:h-[75dvh] object-cover saturate-200 blur-[110px] sm:blur-[190px]"
         alt={selectedTrack?.title}
         onError={(e) => {

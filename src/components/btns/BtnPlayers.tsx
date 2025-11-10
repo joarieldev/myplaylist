@@ -14,7 +14,7 @@ interface Props {
 
 export const BtnPlayers = ({ setDirection }: Props) => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const isPaused = useAudioContextStore((state) => state.isPaused);
+  const isPlaying = useAudioContextStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
   const tracks = useTracksPlayingStore((state) => state.tracks);
   const loading = useAudioContextStore((state) => state.loading);
@@ -30,7 +30,7 @@ export const BtnPlayers = ({ setDirection }: Props) => {
       >
         <PlayerPrev className="size-7 sm:size-5" />
       </button>
-      {!selectedTrack || isPaused ? (
+      {!selectedTrack || !isPlaying ? (
         <button
           className="p-4 sm:p-2 rounded-full bg-black/75 cursor-pointer active:bg-gray-500/50"
           onClick={() => play()}

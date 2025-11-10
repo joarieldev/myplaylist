@@ -19,13 +19,13 @@ export const Local = () => {
   const setWindow = useWindowStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
-  const setIsPaused = useAudioContextStore((state) => state.setIsPaused);
+  const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
 
   const setTracks = useTracksPlayingStore((state) => state.setTracks);
 
   const handleSelect = (item: ITrack) => {
     playTrack(item);
-    setIsPaused(false)
+    setIsPlaying(true)
     setWindow("main");
     window.location.hash = ""
     setTracks(files);

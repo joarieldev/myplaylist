@@ -17,7 +17,7 @@ interface Props {
 
 export const MiniPlayer = ({ mobile = false }: Props) => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const isPaused = useAudioContextStore((state) => state.isPaused);
+  const isPlaying = useAudioContextStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
   const tracks = useTracksPlayingStore((state) => state.tracks);
   const loading = useAudioContextStore((state) => state.loading);
@@ -81,7 +81,7 @@ export const MiniPlayer = ({ mobile = false }: Props) => {
               >
                 <PlayerPrev className="size-5 sm:size-4" />
               </button>
-              {!selectedTrack || isPaused ? (
+              {!selectedTrack || !isPlaying ? (
                 <button
                   className="p-2 rounded-full cursor-pointer active:bg-neutral-500/25"
                   onClick={(e) => {

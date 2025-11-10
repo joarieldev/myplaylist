@@ -7,7 +7,7 @@ export const Progress = () => {
   const currentTime = useAudioContextStore((state) => state.currentTime);
   const setCurrentTime = useAudioContextStore((state) => state.setCurrentTime);
   const audioElement = useAudioContextStore((state) => state.audioElement);
-  const bufferTime = useAudioContextStore((state) => state.bufferTime);
+  const buffer = useAudioContextStore((state) => state.buffer);
   const { formatTime } = usePlayTrack();
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ export const Progress = () => {
       <div className={clsx("relative w-full h-2 group", !audioElement && "pointer-events-none")}>
         <progress
           max={duration}
-          value={bufferTime}
+          value={buffer}
           className="absolute w-full h-full opacity-75 [&::-webkit-progress-bar]:rounded-lg [&::-webkit-progress-bar]:bg-neutral-600 [&::-webkit-progress-value]:rounded-lg [&::-webkit-progress-value]:bg-gray-400"
         />
         <progress

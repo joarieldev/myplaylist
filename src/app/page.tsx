@@ -17,11 +17,13 @@ const queryClient = new QueryClient({
 export default function Page() {
   const checkFirstVisit = useModalAboutStore((state) => state.checkFirstVisit);
   const setVolume = useAudioContextStore((state) => state.setVolume);
+  const initializeAudio = useAudioContextStore((state) => state.initializeAudio)
 
   useEffect(() => {
     checkFirstVisit();
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
     if (isMobile) setVolume(1);
+    initializeAudio();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
