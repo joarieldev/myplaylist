@@ -66,6 +66,7 @@ export const usePlayTrack = () => {
       if(!currentIsPlaying){
         newAudio.pause()
       }else{
+        audioContext.resume();
         newAudio.play()
       }
       const currentVisualizer = useVisualizerStore.getState().visualizer
@@ -133,6 +134,7 @@ export const usePlayTrack = () => {
       onLineRef.current = true
       toast.dismiss()
     }else{
+      audioContext?.resume();
       audioElement?.play();
       setIsPlaying(true)
     }

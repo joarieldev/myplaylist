@@ -82,42 +82,41 @@ const Windows = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 1.1, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14"
+                className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14"
               >
                 <Library />
               </motion.div>
             )}
             {windowTab === "local" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
                 <Local />
               </div>
             )}
             {windowTab === "trending" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
                 <Trending />
               </div>
             )}
             {windowTab === "search" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
                 <Search />
               </div>
             )}
             {windowTab === "favorites" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
                 <Favorites />
               </div>
             )}
             {windowTab === "detail" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll sm:pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
                 <Detail />
               </div>
             )}
           </AnimatePresence>
-          <MiniPlayer />
-          <footer className="sticky bottom-0 px-3 py-3 z-10 sm:hidden">
-            <nav className="flex flex-col gap-2 bg-neutral-900/95 rounded-3xl">
-              <MiniPlayer mobile={true} />
-              <div className="flex">
+          <footer className="sticky bottom-0 px-3 py-3 sm:px-0 sm:py-0 z-10">
+            <nav>
+              <MiniPlayer />
+              <div className="flex bg-neutral-900/95 rounded-3xl sm:hidden">
                 <button
                   onClick={() => {
                     setWindowTab("library");

@@ -52,7 +52,7 @@ export const useAudioContextStore = create<State>((set, get) => ({
     const state = get();
     if (state.audioContext) return;
 
-    const context = new window.AudioContext();
+    const context = new AudioContext();
     const gain = context.createGain();
     gain.connect(context.destination);
     gain.gain.value = state.volume;

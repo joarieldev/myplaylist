@@ -45,7 +45,7 @@ export const Main = () => {
           <Category />
         </button>
       </nav>
-      <section className="flex flex-col grow">
+      <section className="flex flex-col grow overflow-hidden">
         <AnimatePresence custom={direction} initial={false} mode="wait">
           <Thumbnail key={selectedTrack?.id} selectedTrack={selectedItem} />
         </AnimatePresence>

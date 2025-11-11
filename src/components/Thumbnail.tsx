@@ -56,7 +56,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
                   }}
                 />
               </span>
-            </div>        
+            </div>
           </div>
           <div className="h-full flex flex-col items-center justify-center">
             <motion.div

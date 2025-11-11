@@ -11,11 +11,7 @@ import { Loader2 } from "@/assets/icons/Loader2";
 import { PlayerPause } from "@/assets/icons/PlayerPause";
 import { PlayerNext } from "@/assets/icons/PlayerNext";
 
-interface Props {
-  mobile?: boolean;
-}
-
-export const MiniPlayer = ({ mobile = false }: Props) => {
+export const MiniPlayer = () => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
   const isPlaying = useAudioContextStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
@@ -29,14 +25,11 @@ export const MiniPlayer = ({ mobile = false }: Props) => {
       {windowTab !== "main" && (
         <motion.div
           key="music"
-          initial={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
-          animate={mobile ? { height: 48, opacity: 1 } : { y: 1, opacity: 1 }}
-          exit={mobile ? { height: 0, opacity: 0 } : { y: 25, opacity: 0 }}
+          initial={{ y: 25, opacity: 0 }}
+          animate={{ y: 1, opacity: 1 }}
+          exit={{ y: 25, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className={clsx(
-            !mobile &&
-              "absolute bottom-12 sm:bottom-1 right-2 left-2 bg-neutral-900/95 rounded-3xl max-sm:hidden"
-          )}
+          className="absolute bottom-8 right-3 left-3 rounded-t-3xl sm:bottom-1 sm:right-2 sm:left-2 sm:rounded-3xl -z-10 bg-neutral-900/95"
         >
           <div
             className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl"
@@ -57,10 +50,10 @@ export const MiniPlayer = ({ mobile = false }: Props) => {
               />
               <div className="flex flex-col overflow-hidden">
                 <p className="font-medium text-sm truncate">
-                  {selectedTrack?.title ?? "-"}
+                  {selectedTrack?.title ?? <span className="opacity-75">-</span>}
                 </p>
                 <p className="font-medium text-xs truncate">
-                  {selectedTrack?.user.name ?? "-"}
+                  {selectedTrack?.user.name ?? <span className="opacity-75">-</span>}
                 </p>
               </div>
             </div>
@@ -119,6 +112,7 @@ export const MiniPlayer = ({ mobile = false }: Props) => {
               </button>
             </div>
           </div>
+          <div className="h-8 sm:hidden"></div>
         </motion.div>
       )}
     </AnimatePresence>
