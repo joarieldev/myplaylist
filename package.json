@@ -20,10 +20,10 @@
     "mongoose": "^8.15.0",
     "motion": "^12.11.3",
     "music-metadata": "^11.2.2",
-    "next": "15.3.2",
+    "next": "15.3.6",
     "node-vibrant": "^4.0.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.1.2",
+    "react-dom": "19.1.2",
     "react-file-drop": "^3.1.6",
     "sonner": "^2.0.3",
     "three": "^0.121.0",
@@ -38,7 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.3.2",
+    "eslint-config-next": "15.3.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
