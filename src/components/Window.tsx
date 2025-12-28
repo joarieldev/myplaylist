@@ -82,33 +82,33 @@ const Windows = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 1.1, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14"
+                className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24"
               >
                 <Library />
               </motion.div>
             )}
             {windowTab === "local" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24">
                 <Local />
               </div>
             )}
             {windowTab === "trending" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24">
                 <Trending />
               </div>
             )}
             {windowTab === "search" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24">
                 <Search />
               </div>
             )}
             {windowTab === "favorites" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24">
                 <Favorites />
               </div>
             )}
             {windowTab === "detail" && (
-              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-14">
+              <div className="flex flex-col sm:h-full sm:overflow-hidden sm:overflow-y-auto max-sm:grow layout-scroll pb-24">
                 <Detail />
               </div>
             )}
