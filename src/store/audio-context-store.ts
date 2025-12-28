@@ -8,6 +8,7 @@ interface State {
   currentTime: number;
   isMuted: { muted: boolean, volume: number };
   loading: boolean;
+  isSeeking: boolean;
 
   audioContext: AudioContext | null;
   sourceNode: MediaElementAudioSourceNode | null;
@@ -25,6 +26,7 @@ interface State {
   setCurrentTime: (current: number) => void;
   setIsMuted: (muted: boolean, volume: number) => void;
   setLoading: (loading: boolean) => void
+  setIsSeeking: (seeking: boolean) => void;
 
   setAudioContext: (context: AudioContext | null) => void;
   setSourceNode: (sourceNode: MediaElementAudioSourceNode | null) => void;
@@ -41,6 +43,7 @@ export const useAudioContextStore = create<State>((set, get) => ({
   currentTime: 0,
   isMuted: { muted: false, volume: 0 },
   loading: false,
+  isSeeking: false,
 
   audioContext: null,
   sourceNode: null,
@@ -89,6 +92,7 @@ export const useAudioContextStore = create<State>((set, get) => ({
   setCurrentTime: (currentTime) => set({ currentTime: currentTime }),
   setIsMuted: (muted: boolean, volume: number) => set({ isMuted: { muted: muted, volume: volume } }),
   setLoading: (value) => set({ loading: value}),
+  setIsSeeking: (value) => set({ isSeeking: value}),
 
   setAudioContext: (context) => set({ audioContext: context }),
   setSourceNode: (sourceNode) => set({ sourceNode: sourceNode }),

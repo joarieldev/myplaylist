@@ -57,7 +57,8 @@ export const usePlayTrack = () => {
     }
 
     newAudio.ontimeupdate = () => {
-      setCurrentTime(newAudio.currentTime);
+      const isSeeking = useAudioContextStore.getState().isSeeking;
+      if (!isSeeking) setCurrentTime(newAudio.currentTime);
     }
 
     newAudio.onloadeddata = () => {

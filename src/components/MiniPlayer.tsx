@@ -10,6 +10,7 @@ import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { PlayerPause } from "@/assets/icons/PlayerPause";
 import { PlayerNext } from "@/assets/icons/PlayerNext";
+import { Progress } from "./Progress";
 
 export const MiniPlayer = () => {
   const selectedTrack = useWindowStore((state) => state.selectedTrack);
@@ -29,10 +30,10 @@ export const MiniPlayer = () => {
           animate={{ y: 1, opacity: 1 }}
           exit={{ y: 25, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="absolute bottom-8 right-3 left-3 rounded-t-3xl sm:bottom-1 sm:right-2 sm:left-2 sm:rounded-3xl -z-10 bg-neutral-900/95"
+          className="absolute bottom-8 right-3 left-3 rounded-t-3xl sm:bottom-1 sm:right-2 sm:left-2 sm:rounded-2xl -z-10 bg-neutral-900/95"
         >
           <div
-            className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl"
+            className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl sm:rounded-2xl"
             onClick={() => {
               setWindowTab("main");
               window.location.hash = "";
@@ -111,6 +112,9 @@ export const MiniPlayer = () => {
                 <PlayerNext className="size-5 sm:size-4" />
               </button>
             </div>
+          </div>
+          <div className="size-full px-3 py-2">
+            <Progress showTime={false} />
           </div>
           <div className="h-8 sm:hidden"></div>
         </motion.div>
