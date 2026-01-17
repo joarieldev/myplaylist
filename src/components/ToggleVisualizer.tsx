@@ -5,6 +5,20 @@ import { X } from "@/assets/icons/X";
 import { useVisualizerStore } from "@/store/visualizer-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import clsx from "clsx";
+import { VisualizerMode } from "@/store/bg-visualizer-store";
+
+const VISUALIZER_MODES: VisualizerMode[] = [
+  "line-wave",
+  "line-wave-chill",
+  "spectrum-center",
+  "spectrum-plain",
+  "spectrum-wide",
+  "circle-spectrum",
+  "circle-spectrum-spring",
+  "vantajs-birds",
+  "vantajs-cells",
+  "snowflake",
+];
 
 export const ToggleVisualizer = () => {
   const [showList, setShowList] = useState(false);
@@ -14,7 +28,8 @@ export const ToggleVisualizer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (visualizer === "none") return;
+    if (visualizer === "none" || !showList) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
@@ -24,29 +39,24 @@ export const ToggleVisualizer = () => {
       }
     };
 
-    if (showList) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showList, visualizer]);
 
+  if (visualizer === "none") return null;
+
   return (
-    <div
-      className={clsx("relative w-full", visualizer === "none" && "hidden")}
-      ref={containerRef}
-    >
+    <div className="relative w-full" ref={containerRef}>
       <button
-        className="absolute bg-neutral-900/90 rounded-full flex justify-between items-center transition active:bg-neutral-800/75 py-2 px-2.5 sm:py-1 sm:px-2 w-full z-10"
+        className="absolute bg-neutral-900/90 rounded-full flex justify-between items-center transition-color active:bg-neutral-800/75 py-2 px-2.5 sm:py-1 sm:px-2 w-full z-10 layout-scroll"
         onClick={() => setShowList(!showList)}
+        aria-expanded={showList}
+        aria-haspopup="listbox"
+        aria-label="Seleccionar modo de visualizador"
       >
         <div className="flex gap-2 items-center">
-          <GraphicEq className="size-5" />
-          <span className="text-sm">{mode}</span>
+          <GraphicEq className="text-gray-400 size-5" />
+          <span className="text-sm font-medium truncate">{mode}</span>
         </div>
         {showList ? (
           <X className="size-5" />
@@ -54,75 +64,33 @@ export const ToggleVisualizer = () => {
           <ChevronDown className="size-5" />
         )}
       </button>
-      <div
-        className={clsx(
-          "top-10 sm:top-8 z-10 bg-neutral-900/90 rounded-2xl w-full text-sm",
-          showList ? "absolute" : "hidden"
-        )}
-      >
-        <ul className="cursor-default">
-          <li
-            onClick={() => handleMode("line-wave")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            line-wave
-          </li>
-          <li
-            onClick={() => handleMode("line-wave-chill")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            line-wave-chill
-          </li>
-          <li
-            onClick={() => handleMode("spectrum-center")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            spectrum-center
-          </li>
-          <li
-            onClick={() => handleMode("spectrum-plain")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            spectrum-plain
-          </li>
-          <li
-            onClick={() => handleMode("spectrum-wide")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            spectrum-wide
-          </li>
-          <li
-            onClick={() => handleMode("circle-spectrum")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            circle-spectrum
-          </li>
-          <li
-            onClick={() => handleMode("circle-spectrum-spring")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            circle-spectrum-spring
-          </li>
-          <li
-            onClick={() => handleMode("vantajs-birds")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            vantajs-birds
-          </li>
-          <li
-            onClick={() => handleMode("vantajs-cells")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            vantajs-cells
-          </li>
-          <li
-            onClick={() => handleMode("snowflake")}
-            className="active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-5"
-          >
-            snowflake
-          </li>
-        </ul>
-      </div>
+      {showList && (
+        <div
+          className="top-10 sm:top-8 z-10 bg-neutral-900/90 rounded-2xl w-full text-sm absolute"
+          role="listbox"
+        >
+          <ul className="py-1 max-h-60 overflow-y-auto cursor-default">
+            {VISUALIZER_MODES.map((visualizerMode) => (
+              <li
+                key={visualizerMode}
+                onClick={() => handleMode(visualizerMode)}
+                className={clsx(
+                  "active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-3 flex items-center gap-2",
+                  mode === visualizerMode && "bg-neutral-700/30 font-medium"
+                )}
+                role="option"
+                aria-selected={mode === visualizerMode}
+              >
+                <GraphicEq className={clsx(
+                  "text-gray-400 size-5", mode === visualizerMode && "text-white"
+                )} 
+                />
+                <span className="truncate">{visualizerMode}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

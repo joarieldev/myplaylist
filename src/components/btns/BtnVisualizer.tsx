@@ -4,10 +4,12 @@ import { GraphicEq3 } from "@/assets/icons/GraphicEq3";
 import { GraphicEq4 } from "@/assets/icons/GraphicEq4";
 import { useVisualizer } from "@/hooks/useVisualizer";
 import { useVisualizerStore } from "@/store/visualizer-store";
+import clsx from "clsx";
 import { toast } from "sonner";
 
 const ICON_VISUALIZER = {
-  none: GraphicEq,
+  none:({ className }: { className?: string }) => 
+    <GraphicEq className={clsx("text-gray-400", className)} />,
   active: GraphicEq2,
   middle: GraphicEq3,
   full: GraphicEq4,
@@ -44,7 +46,7 @@ export const BtnVisualizer = () => {
       toast.success("Visualización - Desactivada");
     }
   };
-
+// 9ca3af
   return (
     <button
       onClick={onClickVisualizer}
