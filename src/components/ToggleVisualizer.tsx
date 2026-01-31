@@ -26,6 +26,7 @@ export const ToggleVisualizer = () => {
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
   const mode = useBgVisualizerStore((state) => state.mode);
   const containerRef = useRef<HTMLDivElement>(null);
+  const modeRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if (visualizer === "none" || !showList) return;
@@ -42,6 +43,15 @@ export const ToggleVisualizer = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showList, visualizer]);
+
+  useEffect(() => {
+    if (showList && modeRef.current) {
+      modeRef.current.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+      });
+    }
+  }, [showList]);
 
   if (visualizer === "none") return null;
 
@@ -73,6 +83,7 @@ export const ToggleVisualizer = () => {
             {VISUALIZER_MODES.map((visualizerMode) => (
               <li
                 key={visualizerMode}
+                ref={mode === visualizerMode ? modeRef : null}
                 onClick={() => handleMode(visualizerMode)}
                 className={clsx(
                   "active:bg-neutral-700/30 hover:bg-neutral-700/30 rounded-full py-2 sm:py-1 px-3 flex items-center gap-2",
