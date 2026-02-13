@@ -2,7 +2,9 @@
 
 import { Window } from "@/components/Window";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import { useModalAboutStore } from "@/store/modal-about-store";
+import { myPlaylistConfigStorage } from "@/utils/localStorage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -18,12 +20,17 @@ export default function Page() {
   const checkFirstVisit = useModalAboutStore((state) => state.checkFirstVisit);
   const setVolume = useAudioContextStore((state) => state.setVolume);
   const initializeAudio = useAudioContextStore((state) => state.initializeAudio)
+  const handleMode = useBgVisualizerStore((state) => state.handleMode);
 
   useEffect(() => {
     checkFirstVisit();
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
     if (isMobile) setVolume(1);
     initializeAudio();
+
+    const config = myPlaylistConfigStorage.getConfig();
+    handleMode(config.visualizer);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

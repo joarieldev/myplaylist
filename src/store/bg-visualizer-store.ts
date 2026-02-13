@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { myPlaylistConfigStorage } from '@/utils/localStorage';
 
 export type VisualizerMode = "line-wave" | "line-wave-chill" | "spectrum-center" | "spectrum-plain" | "spectrum-wide" | "circle-spectrum" | "circle-spectrum-spring" | "vantajs-birds" | "vantajs-cells" | "snowflake";
 
@@ -9,5 +10,8 @@ interface State {
 
 export const useBgVisualizerStore = create<State>()((set) => ({
   mode: "line-wave",
-  handleMode: (value: VisualizerMode) => set(() => ({ mode: value })),
+  handleMode: (value: VisualizerMode) => {
+    set(() => ({ mode: value }));
+    myPlaylistConfigStorage.setConfig({ visualizer: value });
+  },
 }));
