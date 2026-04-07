@@ -24,11 +24,18 @@ const globalForMongoose = globalThis as unknown as {
   mongoose: Awaited<MongooseConnection> | undefined
 }
 
-const mongooseConnection = globalForMongoose.mongoose ?? await connectMongooseSingleton()
+let mongooseConnection: Awaited<MongooseConnection> | undefined
+
+try {
+  mongooseConnection = globalForMongoose.mongoose ?? await connectMongooseSingleton()
+} catch {
+  console.warn('MongoDB no disponible al iniciar. Las operaciones que requieran MongoDB fallarán.')
+  mongooseConnection = undefined
+}
 
 export default mongooseConnection
 
-if (process.env.APP_ENV !== 'production') {
-  globalForMongoose.mongoose = globalForMongoose.mongoose = mongooseConnection
+if (process.env.APP_ENV !== 'production' && mongooseConnection) {
+  globalForMongoose.mongoose = mongooseConnection
 }
 

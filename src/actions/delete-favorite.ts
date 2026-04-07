@@ -4,6 +4,10 @@ import connectMongoDB from '@/lib/mongodb'
 import Favorite from '@/models/Favorite'
 
 export async function deleteFavorite(user_id: string, itemId: string) {
+  if (!connectMongoDB) {
+    throw new Error('Error en el servidor al conectar a la base de datos')
+  }
+
   await connectMongoDB
 
   try {

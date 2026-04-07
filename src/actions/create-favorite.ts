@@ -5,6 +5,10 @@ import connectMongoDB from '@/lib/mongodb'
 import Favorite from '@/models/Favorite'
 
 export async function createFavorite(user_id: string, name: string, item: IList) {
+  if (!connectMongoDB) {
+    throw new Error('Error en el servidor al conectar a la base de datos')
+  }
+
   await connectMongoDB
 
   try {
