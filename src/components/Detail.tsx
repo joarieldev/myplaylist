@@ -13,8 +13,11 @@ import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { useUser } from "@clerk/clerk-react";
 
 export const Detail = () => {
+  const { isSignedIn } = useUser();
+
   const playlist = usePlaylistStore((state) => state.playlist);
   const list = useDetailStore((state) => state.list);
   const back = useDetailStore((state) => state.back);
@@ -28,7 +31,13 @@ export const Detail = () => {
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 
   if (isplaylist) {
-    window.location.hash = `#${isplaylist.path}`
+    let playlistPath = isplaylist.path
+
+    if(isplaylist.path === "favorites" && !isSignedIn) {
+      playlistPath = "search"
+    }
+     
+    window.location.hash = `#${playlistPath}`
 
     const handleSelect = (track: ITrack) => {
       playTrack(track);
@@ -41,7 +50,7 @@ export const Detail = () => {
 
     return (
       <>
-        <Nav back={isplaylist.path} list={list} />
+        <Nav back={playlistPath} list={list} />
         {isplaylist.tracks.length === 0 ? (
           <div className="size-full grid place-items-center">
             <p className="text-center text-sm text-gray-300">
