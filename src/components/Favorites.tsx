@@ -1,4 +1,4 @@
-import { useUser, SignInButton, SignedOut } from "@clerk/clerk-react";
+import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { GridList } from "./GridList";
 import { useState } from "react";

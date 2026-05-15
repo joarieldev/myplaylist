@@ -13,7 +13,7 @@ import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useTracksPlayingStore } from "@/store/tracks-playing-store";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 
 export const Detail = () => {
   const { isSignedIn } = useUser();
