@@ -2,12 +2,16 @@ import { VisualizerMode } from "@/store/bg-visualizer-store";
 
 export interface MyPlaylistConfig {
   visualizer: VisualizerMode;
+  volume: number;
+  isMuted: { muted: boolean; volume: number };
 }
 
 const STORAGE_KEY = 'myPlaylistConfig';
 
 const defaultConfig: MyPlaylistConfig = {
   visualizer: 'line-wave',
+  volume: 0.25,
+  isMuted: { muted: false, volume: 0 },
 };
 
 export const myPlaylistConfigStorage = {

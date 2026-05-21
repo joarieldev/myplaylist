@@ -34,12 +34,22 @@ export const BtnVolume = () => {
     }
   };
 
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.05 : 0.05;
+    const newVolume = Math.min(1, Math.max(0, volume + delta));
+    volumeControl(newVolume);
+    if (isMuted.muted && newVolume > 0) {
+      setIsMuted(false, newVolume);
+    }
+  };
+
   return (
     <div
       className="relative flex group"
     >
       <button
-        className="py-1 px-3 rounded-full bg-black/25 cursor-pointer active:bg-gray-500/50"
+        className="py-1 px-3 rounded-full cursor-pointer active:bg-gray-500/50"
         onClick={() => toggleMute()}
       >
         {volume === 0 || isMuted.muted ? (
@@ -48,7 +58,11 @@ export const BtnVolume = () => {
           <Volume className="size-6 sm:size-5" />
         )}
       </button>
-      <div className="absolute bottom-14 -left-[14px] transition-opacity duration-200 -rotate-90 flex pl-2 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto">
+      <div className="absolute inset-x-0 bottom-0 bg-black/25 rounded-2xl transition-all ease-out h-full group-hover:h-28 pointer-events-none"/>
+      <div
+        className="absolute bottom-full flex rounded-2xl overflow-hidden transition-all ease-out h-0 group-hover:h-20 w-full cursor-pointer"
+        onWheel={handleWheel}
+      >
         <input
           id="volume-slider"
           type="range"
@@ -57,7 +71,7 @@ export const BtnVolume = () => {
           value={volume}
           step="0.01"
           onChange={handleChange}
-          className="cursor-pointer w-16 accent-gray-200"
+          className="cursor-pointer w-full accent-gray-200 -rotate-90"
         />
       </div>
     </div>

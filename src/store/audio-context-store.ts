@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { myPlaylistConfigStorage } from '@/utils/localStorage';
 
 interface State {
   isPlaying: boolean;
@@ -86,11 +87,17 @@ export const useAudioContextStore = create<State>((set, get) => ({
   },
 
   setIsPlaying: (playing) => set({ isPlaying: playing }),
-  setVolume: (volume) => set({ volume: volume }),
+  setVolume: (volume) => {
+    set({ volume });
+    myPlaylistConfigStorage.setConfig({ volume });
+  },
   setBuffer: (buffer) => set({ buffer: buffer }),
   setDuration: (duration) => set({ duration: duration }),
   setCurrentTime: (currentTime) => set({ currentTime: currentTime }),
-  setIsMuted: (muted: boolean, volume: number) => set({ isMuted: { muted: muted, volume: volume } }),
+  setIsMuted: (muted: boolean, volume: number) => {
+    set({ isMuted: { muted, volume } });
+    myPlaylistConfigStorage.setConfig({ isMuted: { muted, volume } });
+  },
   setLoading: (value) => set({ loading: value}),
   setIsSeeking: (value) => set({ isSeeking: value}),
 

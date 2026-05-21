@@ -19,16 +19,25 @@ const queryClient = new QueryClient({
 export default function Page() {
   const checkFirstVisit = useModalAboutStore((state) => state.checkFirstVisit);
   const setVolume = useAudioContextStore((state) => state.setVolume);
+  const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const initializeAudio = useAudioContextStore((state) => state.initializeAudio)
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
 
   useEffect(() => {
     checkFirstVisit();
+    
     const isMobile = window.matchMedia("(max-width: 640px)").matches;
     if (isMobile) setVolume(1);
+    
     initializeAudio();
 
     const config = myPlaylistConfigStorage.getConfig();
+    
+    if (!isMobile) {
+      setVolume(config.volume);
+      setIsMuted(config.isMuted.muted, config.isMuted.volume);
+    }
+    
     handleMode(config.visualizer);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
