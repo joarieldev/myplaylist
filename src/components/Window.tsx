@@ -138,7 +138,7 @@ const Windows = () => {
                     windowTab === "search" && "text-white",
                   )}
                 >
-                  <SearchIcon className="size-7 stroke-[4]" />
+                  <SearchIcon className="size-7 stroke-4" />
                 </button>
                 <button
                   onClick={() => {
@@ -150,7 +150,7 @@ const Windows = () => {
                     windowTab === "favorites" && "text-white",
                   )}
                 >
-                  <Heart className="size-7 stroke-[4]" />
+                  <Heart className="size-7 stroke-4" />
                 </button>
                 <span className="py-2 w-full grid place-content-center">
                   <BtnSesion />

@@ -7,7 +7,7 @@ import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Folder } from "@/assets/icons/Folder";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { Tracks } from "./Tracks";
 import { ITrack } from "@/interfaces/Track";
 
@@ -18,9 +18,9 @@ export const Local = () => {
   const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
-  const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
-  const setTracks = useAudioContextStore((state) => state.setTracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
 
   const handleSelect = (item: ITrack) => {
     playTrack(item);

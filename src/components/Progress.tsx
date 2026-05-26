@@ -1,4 +1,5 @@
 import { usePlayTrack } from "@/hooks/usePlayTrack";
+import { useAudioStore } from "@/store/audio-store";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import clsx from "clsx";
 import { useState } from "react";
@@ -8,13 +9,13 @@ interface Props {
 }
 
 export const Progress = ({ showTime = true }: Props) => {
-  const duration = useAudioContextStore((state) => state.duration);
-  const currentTime = useAudioContextStore((state) => state.currentTime);
-  const setCurrentTime = useAudioContextStore((state) => state.setCurrentTime);
   const audioElement = useAudioContextStore((state) => state.audioElement);
-  const buffer = useAudioContextStore((state) => state.buffer);
+  const duration = useAudioStore((state) => state.duration);
+  const currentTime = useAudioStore((state) => state.currentTime);
+  const setCurrentTime = useAudioStore((state) => state.setCurrentTime);
+  const buffer = useAudioStore((state) => state.buffer);
+  const setIsSeeking = useAudioStore((state) => state.setIsSeeking);
   const { formatTime } = usePlayTrack();
-  const setIsSeeking = useAudioContextStore((state) => state.setIsSeeking);
 
   const [seekingTime, setSeekingTime] = useState<number | null>(null);
 

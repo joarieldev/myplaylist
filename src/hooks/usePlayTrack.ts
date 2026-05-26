@@ -1,6 +1,7 @@
 import { getStream } from "@/actions/get-stream";
 import { ITrack } from "@/interfaces/Track";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
 import { toast } from "sonner";
 import { useRef } from "react";
@@ -12,17 +13,18 @@ export const usePlayTrack = () => {
   const audioElement = useAudioContextStore((state) => state.audioElement);
   const setAudioElement = useAudioContextStore((state) => state.setAudioElement);
   const setSourceNode = useAudioContextStore((state) => state.setSourceNode);
-  const tracks = useAudioContextStore((state) => state.tracks);
-  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
-  const loading = useAudioContextStore((state) => state.loading)
-  const setLoading = useAudioContextStore((state) => state.setLoading)
-  const setBuffer = useAudioContextStore((state) => state.setBuffer)
-  const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying)
-  const volume = useAudioContextStore((state) => state.volume)
-  const isMuted = useAudioContextStore((state) => state.isMuted)
-  const setCurrentTime = useAudioContextStore((state) => state.setCurrentTime)
-  const setDuration = useAudioContextStore((state) => state.setDuration)
+
+  const tracks = useAudioStore((state) => state.tracks);
+  const loading = useAudioStore((state) => state.loading)
+  const setLoading = useAudioStore((state) => state.setLoading)
+  const setBuffer = useAudioStore((state) => state.setBuffer)
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying)
+  const volume = useAudioStore((state) => state.volume)
+  const isMuted = useAudioStore((state) => state.isMuted)
+  const setCurrentTime = useAudioStore((state) => state.setCurrentTime)
+  const setDuration = useAudioStore((state) => state.setDuration)
+  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
 
   const onLineRef = useRef<boolean>(true);
 
@@ -55,13 +57,13 @@ export const usePlayTrack = () => {
     }
 
     newAudio.ontimeupdate = () => {
-      const isSeeking = useAudioContextStore.getState().isSeeking;
+      const isSeeking = useAudioStore.getState().isSeeking;
       if (!isSeeking) setCurrentTime(newAudio.currentTime);
     }
 
     newAudio.onloadeddata = () => {
       setDuration(newAudio.duration)
-      const currentIsPlaying = useAudioContextStore.getState().isPlaying
+      const currentIsPlaying = useAudioStore.getState().isPlaying
       if(!currentIsPlaying){
         newAudio.pause()
       }else{
@@ -107,7 +109,7 @@ export const usePlayTrack = () => {
 
   const playNextTrack = () => {
     //obtener valores acutales con getState() y evitar closures en js con .onended
-    const currentTracks = useAudioContextStore.getState().tracks;
+    const currentTracks = useAudioStore.getState().tracks;
     const currentSelectedTrack = useUiStore.getState().selectedTrack;
 
     const nextTrackIndex = currentTracks.findIndex((track) => track.id === currentSelectedTrack?.id) + 1;

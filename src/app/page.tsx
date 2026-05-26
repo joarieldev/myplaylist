@@ -2,6 +2,7 @@
 
 import { Window } from "@/components/Window";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import { useUiStore } from "@/store/ui-store";
 import { myPlaylistConfigStorage } from "@/utils/localStorage";
@@ -18,23 +19,22 @@ const queryClient = new QueryClient({
 
 export default function Page() {
   const checkFirstVisit = useUiStore((state) => state.checkFirstVisit);
-  const setVolume = useAudioContextStore((state) => state.setVolume);
-  const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const initializeAudio = useAudioContextStore((state) => state.initializeAudio)
+  const setVolume = useAudioStore((state) => state.setVolume);
+  const setIsMuted = useAudioStore((state) => state.setIsMuted);
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
 
   useEffect(() => {
     checkFirstVisit();
     
-    const isMobile = window.matchMedia("(max-width: 640px)").matches;
-    if (isMobile) setVolume(1);
-    
-    initializeAudio();
-
     const config = myPlaylistConfigStorage.getConfig();
-    
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const initialVolume = isMobile ? 1 : config.volume;
+
+    initializeAudio(initialVolume);
+    setVolume(initialVolume);
+
     if (!isMobile) {
-      setVolume(config.volume);
       setIsMuted(config.isMuted.muted, config.isMuted.volume);
     }
     

@@ -9,7 +9,7 @@ import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { motion } from "motion/react";
 import { ITrack } from "@/interfaces/Track";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { useUser } from "@clerk/nextjs";
 
@@ -22,9 +22,9 @@ export const Detail = () => {
 
   const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
-  const setTracks = useAudioContextStore((state) => state.setTracks);
-  const setPlaylist = useAudioContextStore((state) => state.setPlaylist);
-  const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setPlaylist = useAudioStore((state) => state.setPlaylist);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   const isplaylist = playlist.find((item) => item.list.id === list.id);
 

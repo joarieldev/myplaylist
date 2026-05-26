@@ -1,5 +1,5 @@
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
@@ -13,10 +13,10 @@ import { Progress } from "./Progress";
 
 export const MiniPlayer = () => {
   const selectedTrack = useUiStore((state) => state.selectedTrack);
-  const isPlaying = useAudioContextStore((state) => state.isPlaying);
+  const isPlaying = useAudioStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
-  const tracks = useAudioContextStore((state) => state.tracks);
-  const loading = useAudioContextStore((state) => state.loading);
+  const tracks = useAudioStore((state) => state.tracks);
+  const loading = useAudioStore((state) => state.loading);
   const windowTab = useUiStore((state) => state.window);
   const setWindowTab = useUiStore((state) => state.setWindow);
 

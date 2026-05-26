@@ -1,13 +1,14 @@
 import { Volume } from "@/assets/icons/Volume";
 import { VolumeOff } from "@/assets/icons/VolumeOff";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 
 export const BtnVolume = () => {
-  const volume = useAudioContextStore((state) => state.volume);
-  const isMuted = useAudioContextStore((state) => state.isMuted);
-  const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const gainNode = useAudioContextStore((state) => state.gainNode);
-  const setVolume = useAudioContextStore((state) => state.setVolume);
+  const volume = useAudioStore((state) => state.volume);
+  const isMuted = useAudioStore((state) => state.isMuted);
+  const setIsMuted = useAudioStore((state) => state.setIsMuted);
+  const setVolume = useAudioStore((state) => state.setVolume);
 
   const volumeControl = (vol: number) => {
     if (gainNode) {

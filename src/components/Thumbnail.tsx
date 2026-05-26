@@ -4,7 +4,7 @@ import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
 import { ITrack } from "@/interfaces/Track";
 import { useContentStore } from "@/store/content-store";
-import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import ScrollText from "./ScrollText";
 
 export const Thumbnail = forwardRef(function Thumbnail(
@@ -14,7 +14,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
   const setWindow = useUiStore((state) => state.setWindow);
   const direction = usePresenceData();
   const setList = useContentStore((state) => state.setList);
-  const playlist = useAudioContextStore((state) => state.playlist);
+  const playlist = useAudioStore((state) => state.playlist);
 
   const handleTabWindow = () => {
     if(selectedTrack && selectedTrack.tags === "local") {

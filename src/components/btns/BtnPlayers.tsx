@@ -4,7 +4,7 @@ import { PlayerPause } from "@/assets/icons/PlayerPause";
 import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { PlayerPrev } from "@/assets/icons/PlayerPrev";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useAudioContextStore } from "@/store/audio-context-store";
+import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
 
 interface Props {
@@ -13,10 +13,10 @@ interface Props {
 
 export const BtnPlayers = ({ setDirection }: Props) => {
   const selectedTrack = useUiStore((state) => state.selectedTrack);
-  const isPlaying = useAudioContextStore((state) => state.isPlaying);
+  const isPlaying = useAudioStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
-  const tracks = useAudioContextStore((state) => state.tracks);
-  const loading = useAudioContextStore((state) => state.loading);
+  const tracks = useAudioStore((state) => state.tracks);
+  const loading = useAudioStore((state) => state.loading);
 
   return (
     <div className="flex flex-row justify-center items-center gap-2 sm:gap-1">
