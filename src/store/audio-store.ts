@@ -25,6 +25,7 @@ interface State {
   setIsSeeking: (seeking: boolean) => void;
   setTracks: (tracks: ITrack[]) => void;
   setPlaylist: (playlist: IList) => void;
+  resetPlayback: () => void;
 }
 
 export const useAudioStore = create<State>()((set) => ({
@@ -55,4 +56,5 @@ export const useAudioStore = create<State>()((set) => ({
   setIsSeeking: (value) => set({ isSeeking: value }),
   setTracks: (tracks) => set({ tracks }),
   setPlaylist: (playlist) => set({ playlist }),
+  resetPlayback: () => set({ currentTime: 0, duration: 0, buffer: 0 }),
 }));

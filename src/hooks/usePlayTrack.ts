@@ -3,6 +3,7 @@ import { ITrack } from "@/interfaces/Track";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
+import { formatTime, updateBuffer } from "@/utils/audio";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -24,16 +25,14 @@ export const usePlayTrack = () => {
   const isMuted = useAudioStore((state) => state.isMuted)
   const setCurrentTime = useAudioStore((state) => state.setCurrentTime)
   const setDuration = useAudioStore((state) => state.setDuration)
+  const resetPlayback = useAudioStore((state) => state.resetPlayback)
   const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
 
   const onLineRef = useRef<boolean>(true);
 
-  const playTrack = (track: ITrack) => {
-    if(!audioContext || !gainNode) return
-
-    stopCurrentAudio()
-    setSelectedTrack(track);
-    setLoading(true)
+  /** Crea el Audio element, lo conecta al grafo de audio y configura el volumen */
+  const createAudioSource = (track: ITrack) => {
+    if (!audioContext || !gainNode) return null;
 
     const url = track.tags === "local" ? track.orig_filename : getStream(track.id);
 
@@ -44,8 +43,13 @@ export const usePlayTrack = () => {
     newSource.connect(gainNode)
     gainNode.gain.value = isMuted.muted ? 0 : volume;
 
+    return { newAudio, newSource };
+  };
+
+  /** Configura todos los event handlers del audio element */
+  const setupEventHandlers = (newAudio: HTMLAudioElement, newSource: MediaElementAudioSourceNode, track: ITrack) => {
     newAudio.onprogress = () => {
-      updateBuffer(newAudio)
+      setBuffer(updateBuffer(newAudio))
     }
 
     newAudio.onplaying = () => {
@@ -67,12 +71,12 @@ export const usePlayTrack = () => {
       if(!currentIsPlaying){
         newAudio.pause()
       }else{
-        audioContext.resume();
+        audioContext?.resume();
         newAudio.play()
       }
       const currentVisualizer = useUiStore.getState().visualizer
       if (currentVisualizer !== "none") {
-        const analyserNode = new AnalyserNode(audioContext);
+        const analyserNode = new AnalyserNode(audioContext!);
         analyserNode.fftSize = 256;
         newSource.connect(analyserNode);
         setAnalyserNode(analyserNode)
@@ -102,6 +106,21 @@ export const usePlayTrack = () => {
       toast.warning(`Error al reproducir pista - ${pista}`, {duration: Infinity})
       pause()
     }
+  }
+
+  const playTrack = (track: ITrack) => {
+    if (!audioContext || !gainNode) return;
+
+    stopCurrentAudio();
+    resetPlayback();
+    setSelectedTrack(track);
+    setLoading(true);
+
+    const source = createAudioSource(track);
+    if (!source) return;
+
+    const { newAudio, newSource } = source;
+    setupEventHandlers(newAudio, newSource, track);
 
     setSourceNode(newSource)
     setAudioElement(newAudio)
@@ -161,50 +180,12 @@ export const usePlayTrack = () => {
     }
   }
 
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  }
-
-  const updateBuffer = (audio: HTMLAudioElement) => {
-    const currentTime = audio.currentTime;
-    const buffered = audio.buffered;
-
-    let bufferedEnd = 0;
-
-    for (let i = 0; i < buffered.length; i++) {
-      const start = buffered.start(i);
-      const end = buffered.end(i);
-
-      // Si el currentTime está dentro de este rango
-      if (currentTime >= start && currentTime <= end) {
-        bufferedEnd = end;
-        break;
-      }
-
-      // Si el currentTime está antes de este rango, usar el inicio
-      if (currentTime < start) {
-        bufferedEnd = currentTime;
-        break;
-      }
-    }
-
-    // Si no encontramos ningún rango, usar currentTime
-    if (bufferedEnd === 0 && buffered.length > 0) {
-      bufferedEnd = currentTime;
-    }
-
-    setBuffer(bufferedEnd);
-  };
-
   return {
     playTrack,
     pause,
     play,
     prev,
     next,
-    formatTime,
     loading,
   };
 };
