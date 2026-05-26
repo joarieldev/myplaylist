@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Tracks } from "./Tracks";
 import { getTracks } from "@/actions/get-tracks";
-import { useUiStore, Windows } from "@/store/ui-store";
+import { Windows } from "@/store/ui-store";
+import { navigateTo, navigateToHash } from "@/utils/navigate";
 import { useContentStore } from "@/store/content-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
@@ -20,7 +21,6 @@ export const Detail = () => {
   const list = useContentStore((state) => state.list);
   const back = useContentStore((state) => state.back);
 
-  const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const setTracks = useAudioStore((state) => state.setTracks);
   const setPlaylist = useAudioStore((state) => state.setPlaylist);
@@ -35,13 +35,12 @@ export const Detail = () => {
       playlistPath = "search"
     }
      
-    window.location.hash = `#${playlistPath}`
+    navigateToHash(playlistPath)
 
     const handleSelect = (track: ITrack) => {
       playTrack(track);
       setIsPlaying(true);
-      setWindow("main");
-      window.location.hash = ""
+      navigateTo("main");
       setTracks(isplaylist.tracks);
       setPlaylist(list);
     }
@@ -73,7 +72,6 @@ export const Detail = () => {
 };
 
 const Nav = ({ back, list }: { back: string; list: IList }) => {
-  const setWindow = useUiStore((state) => state.setWindow);
   const path = {
     search: "Buscar",
     trending: "Tendencias",
@@ -99,8 +97,7 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
       <nav className="space-y-8 sm:space-y-3 relative">
         <button
           onClick={() => {
-            setWindow(back as Windows)
-            window.location.hash = `#${back}`
+            navigateTo(back as Windows)
           }}
           className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
         >

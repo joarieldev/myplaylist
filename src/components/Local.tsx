@@ -2,6 +2,7 @@ import { MusicNotePlus } from "@/assets/icons/MusicNotePlus";
 import { useInputRef } from "@/hooks/useInputRef";
 import { useContentStore } from "@/store/content-store";
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { useEffect } from "react";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Folder } from "@/assets/icons/Folder";
@@ -15,7 +16,6 @@ export const Local = () => {
   const files = useContentStore((state) => state.files);
 
   const selectedTrack = useUiStore((state) => state.selectedTrack);
-  const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
@@ -25,8 +25,7 @@ export const Local = () => {
   const handleSelect = (item: ITrack) => {
     playTrack(item);
     setIsPlaying(true)
-    setWindow("main");
-    window.location.hash = ""
+    navigateTo("main");
     setTracks(files);
   }
 
@@ -47,8 +46,7 @@ export const Local = () => {
         <nav className="space-y-4 sm:space-y-2">
           <button
             onClick={() => {
-              setWindow("library")
-              window.location.hash = "#library"
+              navigateTo("library")
             }}
             className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
           >

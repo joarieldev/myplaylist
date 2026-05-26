@@ -1,4 +1,5 @@
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { BtnPlayers } from "./btns/BtnPlayers";
 import { Progress } from "./Progress";
 import { Thumbnail } from "./Thumbnail";
@@ -13,7 +14,6 @@ import { Category } from "@/assets/icons/Category";
 import clsx from "clsx";
 
 export const Main = () => {
-  const setWindow = useUiStore((state) => state.setWindow);
   const selectedTrack = useUiStore((state) => state.selectedTrack);
 
   const [selectedItem, setSelectedItem] = useState<ITrack | null>(
@@ -36,8 +36,7 @@ export const Main = () => {
         <ToggleVisualizer />
         <button
           onClick={() => {
-            setWindow("library")
-            window.location.hash = "#library"
+            navigateTo("library")
           }}
           className="cursor-pointer text-gray-300 hover:text-white transition-colors max-sm:hidden"
           title="biblioteca"

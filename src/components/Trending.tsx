@@ -4,14 +4,13 @@ import { getTrending } from "@/actions/get-trending";
 import { Reload } from "@/assets/icons/Reload";
 import { useQuery } from "@tanstack/react-query";
 import { IList } from "@/interfaces/List";
-import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
 import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Trending = () => {
   const [change, setChange] = useState<number>(0);
-  const setWindow = useUiStore((state) => state.setWindow);
 
   const {
     isPending: loading,
@@ -30,8 +29,7 @@ export const Trending = () => {
         <nav className="space-y-4 sm:space-y-2">
           <button
             onClick={() => {
-              setWindow("library")
-              window.location.hash = "#library"
+              navigateTo("library")
             }}
             className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
           >

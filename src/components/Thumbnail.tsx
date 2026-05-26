@@ -1,4 +1,5 @@
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
@@ -18,11 +19,10 @@ export const Thumbnail = forwardRef(function Thumbnail(
 
   const handleTabWindow = () => {
     if(selectedTrack && selectedTrack.tags === "local") {
-      window.location.hash = "#local"
-      setWindow("local");
+      navigateTo("local");
     }else{
       setList(playlist);
-      setWindow("detail");
+      navigateTo("detail");
     }
   };
 

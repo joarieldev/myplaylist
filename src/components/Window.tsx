@@ -2,6 +2,7 @@ import { Main } from "./Main";
 import { Toaster } from "sonner";
 import { Upload } from "./Upload";
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { BgVisualizer } from "./backgrounds/BgVisualizer";
 import { BgCover } from "./backgrounds/BgCover";
 import { About } from "./About";
@@ -117,8 +118,7 @@ const Windows = () => {
               <div className="flex bg-neutral-900/95 rounded-3xl sm:hidden">
                 <button
                   onClick={() => {
-                    setWindowTab("library");
-                    window.location.hash = "#library";
+                    navigateTo("library");
                   }}
                   className={clsx(
                     "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
@@ -129,8 +129,7 @@ const Windows = () => {
                 </button>
                 <button
                   onClick={() => {
-                    setWindowTab("search");
-                    window.location.hash = "#search";
+                    navigateTo("search");
                   }}
                   className={clsx(
                     "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",
@@ -141,8 +140,7 @@ const Windows = () => {
                 </button>
                 <button
                   onClick={() => {
-                    setWindowTab("favorites");
-                    window.location.hash = "#favorites";
+                    navigateTo("favorites");
                   }}
                   className={clsx(
                     "py-2 w-full rounded-full grid place-content-center transition active:bg-neutral-500/25 text-gray-400",

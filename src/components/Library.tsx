@@ -3,11 +3,11 @@ import { Heart } from "@/assets/icons/Heart";
 import { Search } from "@/assets/icons/Search";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { InfoCircle } from "@/assets/icons/InfoCircle";
 
 export const Library = () => {
-  const setWindow = useUiStore((state) => state.setWindow);
   const handleModalAbout = useUiStore((state) => state.handleModalAbout);
 
   return (
@@ -16,8 +16,7 @@ export const Library = () => {
         <nav className="space-y-5">
           <button
             onClick={() => {
-              setWindow("main")
-              window.location.hash = ""
+              navigateTo("main")
             }}
             className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 block items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
           >
@@ -32,8 +31,7 @@ export const Library = () => {
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
               onClick={() => {
-                setWindow("local")
-                window.location.hash = "#local"
+                navigateTo("local")
               }}
             >
               <span className="p-1.5 rounded-full bg-blue-700 text-black">
@@ -46,8 +44,7 @@ export const Library = () => {
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
               onClick={() => {
-                setWindow("trending")
-                window.location.hash = "#trending"
+                navigateTo("trending")
               }}
             >
               <span className="p-1.5 rounded-full bg-indigo-700 text-black">
@@ -60,8 +57,7 @@ export const Library = () => {
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
               onClick={() => {
-                setWindow("search")
-                window.location.hash = "#search"
+                navigateTo("search")
               }}
             >
               <span className="p-1.5 rounded-full bg-cyan-700 text-black">
@@ -74,8 +70,7 @@ export const Library = () => {
             <button
               className="cursor-pointer flex items-center gap-3 px-2 py-3 hover:bg-neutral-500/25 active:bg-neutral-500/25 rounded-3xl w-full transition-colors"
               onClick={() => {
-                setWindow("favorites")
-                window.location.hash = "#favorites"
+                navigateTo("favorites")
               }}
             >
               <span className="p-1.5 rounded-full bg-purple-700 text-black">

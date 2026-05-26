@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SearchForm } from "./SearchForm";
 import { getSearch } from "@/actions/get-search";
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import { IList } from "@/interfaces/List";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Loader2 } from "@/assets/icons/Loader2";
@@ -12,7 +13,6 @@ import { Loader2 } from "@/assets/icons/Loader2";
 export const Search = () => {
   const [change, setChange] = useState<number>(0);
   const searchText = useUiStore((state) => state.searchText);
-  const setWindow = useUiStore((state) => state.setWindow);
 
   const {
     error: error,
@@ -32,8 +32,7 @@ export const Search = () => {
         <nav className="space-y-4 sm:space-y-2">
           <button
             onClick={() => {
-              setWindow("library")
-              window.location.hash = "#library"
+              navigateTo("library")
             }}
             className="cursor-pointer py-1.5 px-2.5 sm:py-0.5 sm:px-2 rounded-full border border-neutral-500 flex gap-1 items-center bg-black/75 hover:bg-neutral-900/75 active:bg-neutral-900/75 transition-colors"
           >

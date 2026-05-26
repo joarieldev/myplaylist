@@ -1,6 +1,7 @@
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
+import { navigateTo } from "@/utils/navigate";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
 import caratula from "@/assets/caratula-vacia.webp";
@@ -18,7 +19,6 @@ export const MiniPlayer = () => {
   const tracks = useAudioStore((state) => state.tracks);
   const loading = useAudioStore((state) => state.loading);
   const windowTab = useUiStore((state) => state.window);
-  const setWindowTab = useUiStore((state) => state.setWindow);
 
   return (
     <AnimatePresence mode="wait">
@@ -34,8 +34,7 @@ export const MiniPlayer = () => {
           <div
             className="flex justify-between items-center gap-4 px-3 h-12 active:[&:not(:has(button:active))]:bg-neutral-500/25 rounded-3xl sm:rounded-2xl"
             onClick={() => {
-              setWindowTab("main");
-              window.location.hash = "";
+              navigateTo("main");
             }}
           >
             <div className="flex gap-2 items-center justify-cente pointer-events-none overflow-hidden">
