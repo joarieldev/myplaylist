@@ -1,4 +1,3 @@
-import { useUiStore } from "@/store/ui-store";
 import { navigateTo } from "@/utils/navigate";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
@@ -12,7 +11,6 @@ export const Thumbnail = forwardRef(function Thumbnail(
   { selectedTrack }: { selectedTrack?: ITrack | null },
   ref: React.Ref<HTMLDivElement>
 ) {
-  const setWindow = useUiStore((state) => state.setWindow);
   const direction = usePresenceData();
   const setList = useContentStore((state) => state.setList);
   const playlist = useAudioStore((state) => state.playlist);
@@ -36,7 +34,7 @@ export const Thumbnail = forwardRef(function Thumbnail(
         transition: { duration: 0.1 },
       }}
       exit={{ opacity: 0, x: direction * -50 }}
-      className="flex justify-center items-center h-full sm:h-[350px] flex-col"
+      className="flex justify-center items-center h-full sm:h-87.5 flex-col"
     >
       {selectedTrack ? (
         <>

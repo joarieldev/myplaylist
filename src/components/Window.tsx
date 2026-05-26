@@ -66,7 +66,7 @@ const Windows = () => {
 
   return (
     <IsMovingMouse>
-      <main className="sm:p-2 sm:bg-black/50 rounded-md h-full w-full sm:h-[520px] sm:w-[456px] overflow-hidden">
+      <main className="sm:p-2 sm:bg-black/50 rounded-md h-full w-full sm:h-130 sm:w-114 overflow-hidden">
         <div className="flex flex-col h-full max-sm:overflow-hidden max-sm:overflow-y-auto layout-scroll relative">
           <AnimatePresence mode="wait">
             {windowTab === "main" && (

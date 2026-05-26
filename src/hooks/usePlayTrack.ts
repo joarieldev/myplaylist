@@ -3,7 +3,7 @@ import { ITrack } from "@/interfaces/Track";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useAudioStore } from "@/store/audio-store";
 import { useUiStore } from "@/store/ui-store";
-import { formatTime, updateBuffer } from "@/utils/audio";
+import { updateBuffer } from "@/utils/audio";
 import { toast } from "sonner";
 import { useRef } from "react";
 
