@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { myPlaylistConfigStorage } from '@/utils/localStorage';
+import { ITrack } from '@/interfaces/Track';
+import { IList } from '@/interfaces/List';
 
 interface State {
   isPlaying: boolean;
@@ -16,6 +18,10 @@ interface State {
   gainNode: GainNode | null;
   analyserNode: AnalyserNode | null;
   audioElement: HTMLAudioElement | null;
+
+  // tracks-playing-store merge
+  tracks: ITrack[];
+  playlist: IList;
 
   initializeAudio: () => void;
   stopCurrentAudio: () => void;
@@ -34,6 +40,10 @@ interface State {
   setGainNode: (gainNode: GainNode | null) => void;
   setAnalyserNode: (analyserNode: AnalyserNode | null) => void;
   setAudioElement: (element: HTMLAudioElement | null) => void;
+
+  // tracks-playing-store actions
+  setTracks: (tracks: ITrack[]) => void;
+  setPlaylist: (playlist: IList) => void;
 }
 
 export const useAudioContextStore = create<State>((set, get) => ({
@@ -101,9 +111,16 @@ export const useAudioContextStore = create<State>((set, get) => ({
   setLoading: (value) => set({ loading: value}),
   setIsSeeking: (value) => set({ isSeeking: value}),
 
+  // tracks-playing-store merge
+  tracks: [],
+  playlist: {} as IList,
+
   setAudioContext: (context) => set({ audioContext: context }),
   setSourceNode: (sourceNode) => set({ sourceNode: sourceNode }),
   setGainNode: (gainNode) => set({ gainNode: gainNode }),
   setAnalyserNode: (analyserNode) => set({ analyserNode: analyserNode }),
   setAudioElement: (element) => set({ audioElement: element }),
+
+  setTracks: (tracks) => set({ tracks }),
+  setPlaylist: (playlist) => set({ playlist }),
 }));

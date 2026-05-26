@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import CELLS from "vanta/dist/vanta.cells.min";
 import * as THREE from "three";
 import { motion } from "motion/react";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { Vibrant } from "node-vibrant/browser";
-import { useCellsColorsStore } from "@/store/cells-colors-store";
+import { useContentStore } from "@/store/content-store";
 
 export const BgVantaCells = () => {
   const animationRef = useRef<number>(null);
@@ -16,9 +16,9 @@ export const BgVantaCells = () => {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
   const vantaRef = useRef<HTMLDivElement>(null);
 
-  const colors = useCellsColorsStore((state)=> state.colors);
-  const setColor = useCellsColorsStore((state)=> state.setColor);
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const colors = useContentStore((state)=> state.colors);
+  const setColor = useContentStore((state)=> state.setColor);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
 
   useEffect(() => {
     if (!selectedTrack) return;

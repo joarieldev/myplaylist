@@ -2,14 +2,13 @@ import { Folder } from "@/assets/icons/Folder";
 import { Heart } from "@/assets/icons/Heart";
 import { Search } from "@/assets/icons/Search";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { InfoCircle } from "@/assets/icons/InfoCircle";
-import { useModalAboutStore } from "@/store/modal-about-store";
 
 export const Library = () => {
-  const setWindow = useWindowStore((state) => state.setWindow);
-  const handleModalAbout = useModalAboutStore((state) => state.handleModalAbout);
+  const setWindow = useUiStore((state) => state.setWindow);
+  const handleModalAbout = useUiStore((state) => state.handleModalAbout);
 
   return (
     <>

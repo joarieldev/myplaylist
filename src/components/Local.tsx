@@ -1,27 +1,26 @@
 import { MusicNotePlus } from "@/assets/icons/MusicNotePlus";
 import { useInputRef } from "@/hooks/useInputRef";
-import { useFilesStore } from "@/store/files-store";
-import { useWindowStore } from "@/store/window-store";
+import { useContentStore } from "@/store/content-store";
+import { useUiStore } from "@/store/ui-store";
 import { useEffect } from "react";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Folder } from "@/assets/icons/Folder";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
+import { useAudioContextStore } from "@/store/audio-context-store";
 import { Tracks } from "./Tracks";
 import { ITrack } from "@/interfaces/Track";
-import { useAudioContextStore } from "@/store/audio-context-store";
 
 export const Local = () => {
-  const files = useFilesStore((state) => state.files);
+  const files = useContentStore((state) => state.files);
 
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
   const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
 
-  const setTracks = useTracksPlayingStore((state) => state.setTracks);
+  const setTracks = useAudioContextStore((state) => state.setTracks);
 
   const handleSelect = (item: ITrack) => {
     playTrack(item);

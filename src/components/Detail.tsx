@@ -1,31 +1,29 @@
 import { useEffect, useState } from "react";
 import { Tracks } from "./Tracks";
 import { getTracks } from "@/actions/get-tracks";
-import { useWindowStore, Windows } from "@/store/window-store";
-import { useDetailStore } from "@/store/detail-store";
-import { usePlaylistStore } from "@/store/playlist-store";
+import { useUiStore, Windows } from "@/store/ui-store";
+import { useContentStore } from "@/store/content-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { motion } from "motion/react";
 import { ITrack } from "@/interfaces/Track";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
-import { Loader2 } from "@/assets/icons/Loader2";
 import { useAudioContextStore } from "@/store/audio-context-store";
+import { Loader2 } from "@/assets/icons/Loader2";
 import { useUser } from "@clerk/nextjs";
 
 export const Detail = () => {
   const { isSignedIn } = useUser();
 
-  const playlist = usePlaylistStore((state) => state.playlist);
-  const list = useDetailStore((state) => state.list);
-  const back = useDetailStore((state) => state.back);
+  const playlist = useContentStore((state) => state.playlist);
+  const list = useContentStore((state) => state.list);
+  const back = useContentStore((state) => state.back);
 
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const setWindow = useUiStore((state) => state.setWindow);
   const { playTrack } = usePlayTrack();
-  const setTracks = useTracksPlayingStore((state) => state.setTracks);
-  const setPlaylist = useTracksPlayingStore((state) => state.setPlaylist);
+  const setTracks = useAudioContextStore((state) => state.setTracks);
+  const setPlaylist = useAudioContextStore((state) => state.setPlaylist);
   const setIsPlaying = useAudioContextStore((state) => state.setIsPlaying);
 
   const isplaylist = playlist.find((item) => item.list.id === list.id);
@@ -75,7 +73,7 @@ export const Detail = () => {
 };
 
 const Nav = ({ back, list }: { back: string; list: IList }) => {
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const setWindow = useUiStore((state) => state.setWindow);
   const path = {
     search: "Buscar",
     trending: "Tendencias",
@@ -131,9 +129,9 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
 const DetailNoStored = () => {
   const [loadingTracks, setLoadingTracks] = useState<boolean>(false);
   const [errorTracks, setErrorTracks] = useState<string | null>(null);
-  const list = useDetailStore((state) => state.list);
-  const back = useDetailStore((state) => state.back);
-  const setPlaylist = usePlaylistStore((state) => state.setPlaylist);
+  const list = useContentStore((state) => state.list);
+  const back = useContentStore((state) => state.back);
+  const setPlaylist = useContentStore((state) => state.setPlaylist);
 
   useEffect(() => {
     setLoadingTracks(true);

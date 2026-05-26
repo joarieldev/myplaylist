@@ -1,7 +1,6 @@
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
 import caratula from "@/assets/caratula-vacia.webp";
@@ -13,13 +12,13 @@ import { PlayerNext } from "@/assets/icons/PlayerNext";
 import { Progress } from "./Progress";
 
 export const MiniPlayer = () => {
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
   const isPlaying = useAudioContextStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
-  const tracks = useTracksPlayingStore((state) => state.tracks);
+  const tracks = useAudioContextStore((state) => state.tracks);
   const loading = useAudioContextStore((state) => state.loading);
-  const windowTab = useWindowStore((state) => state.window);
-  const setWindowTab = useWindowStore((state) => state.setWindow);
+  const windowTab = useUiStore((state) => state.window);
+  const setWindowTab = useUiStore((state) => state.setWindow);
 
   return (
     <AnimatePresence mode="wait">

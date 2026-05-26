@@ -1,8 +1,8 @@
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { BtnFavorite } from "./btns/BtnFavorite";
-import { useWindowStore } from "@/store/window-store";
-import { useDetailStore } from "@/store/detail-store";
+import { useUiStore } from "@/store/ui-store";
+import { useContentStore } from "@/store/content-store";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 
@@ -13,10 +13,10 @@ interface Props {
 }
 
 export const GridList = ({ list, nameWindow, setChange }: Props) => {
-  const setWindow = useWindowStore((state) => state.setWindow);
-  const setList = useDetailStore((state) => state.setList);
-  const setBack = useDetailStore((state) => state.setBack);
-  const listDetail = useDetailStore((state) => state.list);
+  const setWindow = useUiStore((state) => state.setWindow);
+  const setList = useContentStore((state) => state.setList);
+  const setBack = useContentStore((state) => state.setBack);
+  const listDetail = useContentStore((state) => state.list);
 
   const handleDetail = (item: IList) => {
     setList(item);

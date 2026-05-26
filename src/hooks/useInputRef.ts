@@ -1,7 +1,7 @@
 import { ITrack } from "@/interfaces/Track";
 import { extractAudioMetadata } from "@/lib/get-metadata";
-import { useFilesStore } from "@/store/files-store";
-import { useWindowStore } from "@/store/window-store";
+import { useContentStore } from "@/store/content-store";
+import { useUiStore } from "@/store/ui-store";
 import { emptyTrack } from "@/utils/emptyTrack";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -10,9 +10,9 @@ import caratula from "@/assets/caratula-vacia.webp";
 
 export const useInputRef = () => {
 
-  const addFiles = useFilesStore(state => state.addFiles);
+  const addFiles = useContentStore(state => state.addFiles);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const setWindow = useWindowStore(state => state.setWindow);
+  const setWindow = useUiStore(state => state.setWindow);
 
   const handleFileChange = async () => {
     const files = fileInputRef.current?.files;

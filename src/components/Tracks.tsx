@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import clsx from "clsx";
 import { ITrack } from "@/interfaces/Track";
 import bgcover from "@/assets/caratula-vacia.webp";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Tracks = ({ tracks, handleSelect }: Props) => {
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
 
   useEffect(() => {
     if (!selectedTrack) return;

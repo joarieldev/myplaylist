@@ -1,4 +1,4 @@
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { BtnPlayers } from "./btns/BtnPlayers";
 import { Progress } from "./Progress";
 import { Thumbnail } from "./Thumbnail";
@@ -13,8 +13,8 @@ import { Category } from "@/assets/icons/Category";
 import clsx from "clsx";
 
 export const Main = () => {
-  const setWindow = useWindowStore((state) => state.setWindow);
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const setWindow = useUiStore((state) => state.setWindow);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
 
   const [selectedItem, setSelectedItem] = useState<ITrack | null>(
     selectedTrack

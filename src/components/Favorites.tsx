@@ -4,7 +4,7 @@ import { GridList } from "./GridList";
 import { useState } from "react";
 import { Reload } from "@/assets/icons/Reload";
 import { getFavorite } from "@/actions/get-favorite";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Heart } from "@/assets/icons/Heart";
 import { Loader2 } from "@/assets/icons/Loader2";
@@ -102,7 +102,7 @@ export const Favorites = () => {
 };
 
 const Nav = () => {
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const setWindow = useUiStore((state) => state.setWindow);
 
   return (
     <header className="px-3 pt-3 sm:px-0 sm:pt-0 pb-2">

@@ -1,20 +1,20 @@
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
 import { ITrack } from "@/interfaces/Track";
-import { useDetailStore } from "@/store/detail-store";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
+import { useContentStore } from "@/store/content-store";
+import { useAudioContextStore } from "@/store/audio-context-store";
 import ScrollText from "./ScrollText";
 
 export const Thumbnail = forwardRef(function Thumbnail(
   { selectedTrack }: { selectedTrack?: ITrack | null },
   ref: React.Ref<HTMLDivElement>
 ) {
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const setWindow = useUiStore((state) => state.setWindow);
   const direction = usePresenceData();
-  const setList = useDetailStore((state) => state.setList);
-  const playlist = useTracksPlayingStore((state) => state.playlist);
+  const setList = useContentStore((state) => state.setList);
+  const playlist = useAudioContextStore((state) => state.playlist);
 
   const handleTabWindow = () => {
     if(selectedTrack && selectedTrack.tags === "local") {

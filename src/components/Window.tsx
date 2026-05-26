@@ -1,8 +1,7 @@
 import { Main } from "./Main";
-import { useWindowStore } from "@/store/window-store";
 import { Toaster } from "sonner";
 import { Upload } from "./Upload";
-import { useVisualizerStore } from "@/store/visualizer-store";
+import { useUiStore } from "@/store/ui-store";
 import { BgVisualizer } from "./backgrounds/BgVisualizer";
 import { BgCover } from "./backgrounds/BgCover";
 import { About } from "./About";
@@ -14,7 +13,7 @@ import { Search } from "./Search";
 import { Favorites } from "./Favorites";
 import { Detail } from "./Detail";
 import { useEffect } from "react";
-import { Windows as WindowTabType } from "@/store/window-store";
+import { Windows as WindowTabType } from "@/store/ui-store";
 import { motion } from "motion/react";
 import { useIsMoving } from "@/hooks/useIsMoving";
 import clsx from "clsx";
@@ -48,8 +47,8 @@ const VALID_WINDOWTAB = new Set<WindowTabType>([
 ]);
 
 const Windows = () => {
-  const windowTab = useWindowStore((state) => state.window);
-  const setWindowTab = useWindowStore((state) => state.setWindow);
+  const windowTab = useUiStore((state) => state.window);
+  const setWindowTab = useUiStore((state) => state.setWindow);
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
@@ -166,7 +165,7 @@ const Windows = () => {
 };
 
 const Visualizers = () => {
-  const visualizer = useVisualizerStore((state) => state.visualizer);
+  const visualizer = useUiStore((state) => state.visualizer);
 
   if (visualizer === "none") return null;
 

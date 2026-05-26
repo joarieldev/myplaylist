@@ -5,18 +5,17 @@ import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { PlayerPrev } from "@/assets/icons/PlayerPrev";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 
 interface Props {
   setDirection: React.Dispatch<React.SetStateAction<1 | -1>>;
 }
 
 export const BtnPlayers = ({ setDirection }: Props) => {
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
   const isPlaying = useAudioContextStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
-  const tracks = useTracksPlayingStore((state) => state.tracks);
+  const tracks = useAudioContextStore((state) => state.tracks);
   const loading = useAudioContextStore((state) => state.loading);
 
   return (

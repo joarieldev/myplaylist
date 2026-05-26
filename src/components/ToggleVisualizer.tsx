@@ -2,7 +2,7 @@ import { ChevronDown } from "@/assets/icons/ChevronDown";
 import { GraphicEq } from "@/assets/icons/GraphicEq";
 import { useEffect, useRef, useState } from "react";
 import { X } from "@/assets/icons/X";
-import { useVisualizerStore } from "@/store/visualizer-store";
+import { useUiStore } from "@/store/ui-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 import clsx from "clsx";
 import { VisualizerMode } from "@/store/bg-visualizer-store";
@@ -22,7 +22,7 @@ const VISUALIZER_MODES: VisualizerMode[] = [
 
 export const ToggleVisualizer = () => {
   const [showList, setShowList] = useState(false);
-  const visualizer = useVisualizerStore((state) => state.visualizer);
+  const visualizer = useUiStore((state) => state.visualizer);
   const handleMode = useBgVisualizerStore((state) => state.handleMode);
   const mode = useBgVisualizerStore((state) => state.mode);
   const containerRef = useRef<HTMLDivElement>(null);

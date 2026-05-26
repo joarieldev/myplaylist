@@ -3,7 +3,7 @@
 import { Window } from "@/components/Window";
 import { useAudioContextStore } from "@/store/audio-context-store";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
-import { useModalAboutStore } from "@/store/modal-about-store";
+import { useUiStore } from "@/store/ui-store";
 import { myPlaylistConfigStorage } from "@/utils/localStorage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 });
 
 export default function Page() {
-  const checkFirstVisit = useModalAboutStore((state) => state.checkFirstVisit);
+  const checkFirstVisit = useUiStore((state) => state.checkFirstVisit);
   const setVolume = useAudioContextStore((state) => state.setVolume);
   const setIsMuted = useAudioContextStore((state) => state.setIsMuted);
   const initializeAudio = useAudioContextStore((state) => state.initializeAudio)

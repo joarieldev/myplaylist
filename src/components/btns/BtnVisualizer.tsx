@@ -3,7 +3,7 @@ import { GraphicEq2 } from "@/assets/icons/GraphicEq2";
 import { GraphicEq3 } from "@/assets/icons/GraphicEq3";
 import { GraphicEq4 } from "@/assets/icons/GraphicEq4";
 import { useVisualizer } from "@/hooks/useVisualizer";
-import { useVisualizerStore } from "@/store/visualizer-store";
+import { useUiStore } from "@/store/ui-store";
 import clsx from "clsx";
 import { toast } from "sonner";
 
@@ -16,8 +16,8 @@ const ICON_VISUALIZER = {
 };
 
 export const BtnVisualizer = () => {
-  const visualizer = useVisualizerStore((state) => state.visualizer);
-  const handleVisualizer = useVisualizerStore(
+  const visualizer = useUiStore((state) => state.visualizer);
+  const handleVisualizer = useUiStore(
     (state) => state.handleVisualizer
   );
   const { sendAnalyser, removeAnalyser } = useVisualizer();

@@ -1,11 +1,11 @@
 import { GitHub } from "@/assets/icons/GitHub";
 import { X } from "@/assets/icons/X";
-import { useModalAboutStore } from "@/store/modal-about-store"
+import { useUiStore } from "@/store/ui-store"
 import { AnimatePresence, motion } from "motion/react";
 
 export const About = () => {
-  const showModalAbout = useModalAboutStore((state) => state.showModalAbout);
-  const { dismissModalAbout } = useModalAboutStore();
+  const showModalAbout = useUiStore((state) => state.showModalAbout);
+  const { dismissModalAbout } = useUiStore();
 
   return (
     <AnimatePresence>{showModalAbout && (

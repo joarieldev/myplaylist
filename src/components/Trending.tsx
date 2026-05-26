@@ -4,14 +4,14 @@ import { getTrending } from "@/actions/get-trending";
 import { Reload } from "@/assets/icons/Reload";
 import { useQuery } from "@tanstack/react-query";
 import { IList } from "@/interfaces/List";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { TrendingUp } from "@/assets/icons/TrendingUp";
 import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Trending = () => {
   const [change, setChange] = useState<number>(0);
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const setWindow = useUiStore((state) => state.setWindow);
 
   const {
     isPending: loading,

@@ -1,13 +1,12 @@
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import caratula from "@/assets/caratula-vacia.webp";
 import { motion } from "motion/react";
-import { useVisualizerStore } from "@/store/visualizer-store";
 import clsx from "clsx";
 import { useBgVisualizerStore } from "@/store/bg-visualizer-store";
 
 export const BgCover = () => {
-  const selectedTrack = useWindowStore((state) => state.selectedTrack);
-  const visualizer = useVisualizerStore((state) => state.visualizer);
+  const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const visualizer = useUiStore((state) => state.visualizer);
   const mode = useBgVisualizerStore((state) => state.mode);
 
   if (mode === "vantajs-cells" && visualizer !== "none") return null;

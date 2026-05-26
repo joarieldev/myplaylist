@@ -1,6 +1,6 @@
 import { Search } from "@/assets/icons/Search";
 import { X } from "@/assets/icons/X";
-import { useSearchStore } from "@/store/search-store";
+import { useUiStore } from "@/store/ui-store";
 import { useRef } from "react";
 
 const genres = ['rock', 'lofi', 'dance', 'jazz', 'pop'];
@@ -10,8 +10,8 @@ interface Props {
 }
 
 export const SearchForm = ({ fetchSearch }: Props) => {
-  const searchText = useSearchStore((state) => state.searchText);
-  const setSearchText = useSearchStore((state) => state.setSearchText);
+  const searchText = useUiStore((state) => state.searchText);
+  const setSearchText = useUiStore((state) => state.setSearchText);
   const inputRef = useRef<HTMLInputElement>(null);
 
 

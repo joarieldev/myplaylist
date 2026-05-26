@@ -4,16 +4,15 @@ import { Reload } from "@/assets/icons/Reload";
 import { useQuery } from "@tanstack/react-query";
 import { SearchForm } from "./SearchForm";
 import { getSearch } from "@/actions/get-search";
-import { useSearchStore } from "@/store/search-store";
+import { useUiStore } from "@/store/ui-store";
 import { IList } from "@/interfaces/List";
-import { useWindowStore } from "@/store/window-store";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Search = () => {
   const [change, setChange] = useState<number>(0);
-  const searchText = useSearchStore((state) => state.searchText);
-  const setWindow = useWindowStore((state) => state.setWindow);
+  const searchText = useUiStore((state) => state.searchText);
+  const setWindow = useUiStore((state) => state.setWindow);
 
   const {
     error: error,

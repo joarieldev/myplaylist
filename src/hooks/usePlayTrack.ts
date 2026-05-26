@@ -1,9 +1,7 @@
 import { getStream } from "@/actions/get-stream";
 import { ITrack } from "@/interfaces/Track";
 import { useAudioContextStore } from "@/store/audio-context-store";
-import { useVisualizerStore } from "@/store/visualizer-store";
-import { useTracksPlayingStore } from "@/store/tracks-playing-store";
-import { useWindowStore } from "@/store/window-store";
+import { useUiStore } from "@/store/ui-store";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -14,8 +12,8 @@ export const usePlayTrack = () => {
   const audioElement = useAudioContextStore((state) => state.audioElement);
   const setAudioElement = useAudioContextStore((state) => state.setAudioElement);
   const setSourceNode = useAudioContextStore((state) => state.setSourceNode);
-  const tracks = useTracksPlayingStore((state) => state.tracks);
-  const setSelectedTrack = useWindowStore((state) => state.setSelectedTrack);
+  const tracks = useAudioContextStore((state) => state.tracks);
+  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
   const setAnalyserNode = useAudioContextStore((state) => state.setAnalyserNode);
   const loading = useAudioContextStore((state) => state.loading)
   const setLoading = useAudioContextStore((state) => state.setLoading)
@@ -70,7 +68,7 @@ export const usePlayTrack = () => {
         audioContext.resume();
         newAudio.play()
       }
-      const currentVisualizer = useVisualizerStore.getState().visualizer
+      const currentVisualizer = useUiStore.getState().visualizer
       if (currentVisualizer !== "none") {
         const analyserNode = new AnalyserNode(audioContext);
         analyserNode.fftSize = 256;
@@ -109,8 +107,8 @@ export const usePlayTrack = () => {
 
   const playNextTrack = () => {
     //obtener valores acutales con getState() y evitar closures en js con .onended
-    const currentTracks = useTracksPlayingStore.getState().tracks;
-    const currentSelectedTrack = useWindowStore.getState().selectedTrack;
+    const currentTracks = useAudioContextStore.getState().tracks;
+    const currentSelectedTrack = useUiStore.getState().selectedTrack;
 
     const nextTrackIndex = currentTracks.findIndex((track) => track.id === currentSelectedTrack?.id) + 1;
 
@@ -129,7 +127,7 @@ export const usePlayTrack = () => {
 
   const play = () => {
     if(!onLineRef.current) {
-      const currentSelectedTrack = useWindowStore.getState().selectedTrack;
+      const currentSelectedTrack = useUiStore.getState().selectedTrack;
       playTrack(currentSelectedTrack!)
       setIsPlaying(true)
       onLineRef.current = true
