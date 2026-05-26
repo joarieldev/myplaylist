@@ -40,8 +40,7 @@ export default function Page() {
     
     handleMode(config.visualizer);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [checkFirstVisit, initializeAudio, setVolume, setIsMuted, handleMode]);
 
   return (
     <div className="sm:grid sm:grid-rows-[1fr] items-center justify-items-center h-dvh font-inter">

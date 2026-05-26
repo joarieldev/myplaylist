@@ -61,8 +61,7 @@ const Windows = () => {
       setWindowTab(hash as WindowTabType);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setWindowTab]);
 
   return (
     <IsMovingMouse>
