@@ -4,6 +4,8 @@ import { useUiStore } from "@/store/ui-store";
 import clsx from "clsx";
 import { ITrack } from "@/interfaces/Track";
 import bgcover from "@/assets/caratula-vacia.webp";
+import { formatTime } from "../utils/audio";
+import { Clef } from "@/assets/icons/Clef";
 
 interface Props {
   tracks: ITrack[];
@@ -57,6 +59,10 @@ export const Tracks = ({ tracks, handleSelect }: Props) => {
             >
               <h1 className="text-lg sm:text-sm font-bold truncate max-sm:leading-5">{track.title}</h1>
               <p className="text-xs max-sm:font-bold truncate">{track.user.name}</p>
+              <p className="text-[11px] font-bold text-gray-400 flex gap-0.5 items-center">
+                <Clef className="size-3" />
+                {formatTime(track.duration)}
+              </p>
             </motion.div>
           </article>
         </li>
