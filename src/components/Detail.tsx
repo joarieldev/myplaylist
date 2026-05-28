@@ -12,6 +12,7 @@ import { ITrack } from "@/interfaces/Track";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioStore } from "@/store/audio-store";
 import { Loader2 } from "@/assets/icons/Loader2";
+import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { useUser } from "@clerk/nextjs";
 
 export const Detail = () => {
@@ -45,9 +46,18 @@ export const Detail = () => {
       setPlaylist(list);
     }
 
+    const handlePlay = () => {
+      if (isplaylist.tracks.length === 0) return;
+
+      playTrack(isplaylist.tracks[0]);
+      setIsPlaying(true);
+      setTracks(isplaylist.tracks);
+      setPlaylist(list);
+    }
+
     return (
       <>
-        <Nav back={playlistPath} list={list} />
+        <Nav back={playlistPath} list={list} onPlay={handlePlay} />
         {isplaylist.tracks.length === 0 ? (
           <div className="size-full grid place-items-center">
             <p className="text-center text-sm text-gray-300">
@@ -65,13 +75,13 @@ export const Detail = () => {
 
   return (
     <>
-      <Nav back={back} list={list} />
+      <Nav back={back} list={list} onPlay={()=>{}} />
       <DetailNoStored />
     </>
   );
 };
 
-const Nav = ({ back, list }: { back: string; list: IList }) => {
+const Nav = ({ back, list, onPlay }: { back: string; list: IList; onPlay: () => void }) => {
   const path = {
     search: "Buscar",
     trending: "Tendencias",
@@ -106,7 +116,7 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
             {path[back as keyof typeof path]}
           </span>
         </button>
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-0.5 relative">
           <p className="w-max py-0.5 px-2 rounded-full bg-black/75 font-semibold text-lg sm:text-base">
             {list.playlist_name}
           </p>
@@ -117,6 +127,12 @@ const Nav = ({ back, list }: { back: string; list: IList }) => {
             <BrandNeteaseMusic className="size-4 sm:size-3" />
             <span>{list.track_count} pistas</span>
           </p>
+          <button
+              onClick={onPlay}
+              className="p-2 rounded-full cursor-pointer bg-black/75 active:bg-neutral-500/25 absolute right-2 bottom-0"
+            >
+              <PlayerPlay className="size-6 sm:size-5" />
+            </button>
         </div>
       </nav>
     </header>
