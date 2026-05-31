@@ -3,7 +3,7 @@ import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from '@clerk/localizations'
-import { dark } from '@clerk/themes'
+import { dark } from '@clerk/ui/themes'
 import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({
@@ -44,18 +44,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={
-      localization
-     }
-    appearance={{baseTheme: dark}}>
       <html lang="es">
         <body
           className={`${inter.variable} ${montserrat.variable} antialiased`}
         >
-          {children}
-          <Analytics />
+          <ClerkProvider localization={localization} appearance={{ theme: dark }}>
+            {children}
+            <Analytics />
+          </ClerkProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

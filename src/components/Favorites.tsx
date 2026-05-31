@@ -1,4 +1,4 @@
-import { SignedOut, SignInButton, useUser } from "@clerk/nextjs";
+import { Show, SignInButton, useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { GridList } from "./GridList";
 import { useState } from "react";
@@ -43,13 +43,13 @@ export const Favorites = () => {
         <div className="h-full grid place-items-center">
           <p className="text-center flex flex-row gap-1 text-gray-300 text-sm">
             Para ver tus favoritos debes
-            <SignedOut>
+            <Show when="signed-out">
               <SignInButton mode="modal">
                 <button className="hover:underline cursor-pointer font-bold text-gray-200">
                   Iniciar sesión.
                 </button>
               </SignInButton>
-            </SignedOut>
+            </Show>
           </p>
         </div>
       </>

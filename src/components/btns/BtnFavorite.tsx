@@ -2,7 +2,7 @@ import { createFavorite } from "@/actions/create-favorite";
 import { deleteFavorite } from "@/actions/delete-favorite";
 import { Heart } from "@/assets/icons/Heart";
 import { IList } from "@/interfaces/List";
-import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
+import { Show, SignInButton, useUser } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
@@ -86,7 +86,7 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
 
   return (
     <>
-      <SignedOut>
+      <Show when="signed-out">
         <SignInButton mode="modal">
           <button
             className="cursor-pointer text-red-500 hover:text-red-400"
@@ -97,8 +97,8 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
             <Heart className="size-5 sm:size-4" />
           </button>
         </SignInButton>
-      </SignedOut>
-      <SignedIn>
+      </Show>
+      <Show when="signed-in">
         {favorites?.some((fav) => fav.id === item.id) ?? false ? (
           <button
             className={clsx(
@@ -122,7 +122,7 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
             <Heart className="size-5 sm:size-4" />
           </button>
         )}
-      </SignedIn>
+      </Show>
     </>
   );
 };
