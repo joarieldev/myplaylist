@@ -1,22 +1,20 @@
 "use server";
 
-import { appName } from "./shared";
+import { apiUrl } from "./shared";
 
 export const getTrending = async () => {
   try {
-    const res = await fetch(`https://api.audius.co/v1/full/playlists/trending?app_name=${appName}`)
+    const res = await fetch(`${apiUrl}/playlists/trending`)
 
     if (!res.ok) {
-      throw new Error("Trending: Algo salió mal");
+      throw new Error("Algo salió mal");
     }
 
     const result = await res.json();
-
     return result.data
 
   } catch (error) {
-    console.error("Error action getTrending: ", error);
-    const message = error instanceof Error ? error.message : "Error desconocido"
-    throw new Error(message);
+    console.error("Error actions getTrending: ", error);
+    throw error;
   }
 }

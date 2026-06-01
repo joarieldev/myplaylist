@@ -32,6 +32,7 @@ export const useInputRef = () => {
             ...emptyTrack,
             id: uuidv4(),
             title: metadata.title,
+            duration: metadata.duration,
             user: {
               ...emptyTrack.user,
               name: metadata.artist
@@ -40,6 +41,7 @@ export const useInputRef = () => {
               "150x150": metadata.cover || caratula.src,
               "480x480": metadata.cover || caratula.src,
               "1000x1000": metadata.cover || caratula.src,
+              mirrors: []
             },
             orig_filename: URL.createObjectURL(file),
             tags: "local"

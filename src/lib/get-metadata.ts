@@ -5,13 +5,7 @@ export async function extractAudioMetadata(file: File) {
 
   const title = metadata.common.title || file.name.split('.')[0];
   const artist = metadata.common.artist || 'Desconocido';
-  const isDuration = metadata.format.duration;
-  let duration = '00:00';
-  if (isDuration !== undefined) {
-    const minutes = Math.floor(isDuration / 60);
-    const seconds = Math.floor(isDuration % 60);
-    duration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }
+  const duration = metadata.format.duration || 0;
   const album = metadata.common.album || 'Desconocido';
 
   let cover = null;

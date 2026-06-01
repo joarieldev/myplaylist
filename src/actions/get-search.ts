@@ -1,21 +1,20 @@
 "use server";
 
-// import { appName } from "./shared";
+import { apiUrl } from "./shared";
 
 export const getSearch = async (query: string) => {
   try {
-    const res = await fetch(`https://discoveryprovider.audius.co/v1/playlists/search?query=${query}`)
+    const res = await fetch(`${apiUrl}/playlists/search?query=${query}`)
 
     if (!res.ok) {
-      throw new Error("Search: Algo salió mal");
+      throw new Error("Algo salió mal");
     }
 
     const result = await res.json();
-
     return result.data
 
   } catch (error) {
-    console.error("Error en getSearch: ", error);
-    return error instanceof Error ? error.message : "Error desconocido"
+    console.error("Error actions getSearch: ", error);
+    throw error
   }
 }

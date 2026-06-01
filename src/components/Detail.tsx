@@ -14,6 +14,7 @@ import { useAudioStore } from "@/store/audio-store";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { PlayerPlay } from "@/assets/icons/PlayerPlay";
 import { useUser } from "@clerk/nextjs";
+import { Reload } from "@/assets/icons/Reload";
 
 export const Detail = () => {
   const { isSignedIn } = useUser();
@@ -146,25 +147,38 @@ const DetailNoStored = () => {
   const back = useContentStore((state) => state.back);
   const setPlaylist = useContentStore((state) => state.setPlaylist);
 
-  useEffect(() => {
+  const handleGetTracks = () => {
     setLoadingTracks(true);
     getTracks(list.id)
-      .then(({ ok, data, message }) => {
-        if (!ok) {
-          setErrorTracks(message ?? null);
-          return;
-        }
+      .then(data => {
         setPlaylist({ list: list, path: back, tracks: data });
+      })
+      .catch(error => {
+        setErrorTracks(error.message);
       })
       .finally(() => {
         setLoadingTracks(false);
       });
-  }, [list, setPlaylist, back]);
+  }
+
+  useEffect(() => {
+    handleGetTracks();
+  }, []);
 
   return (
     <div className="h-full grid place-items-center text-sm text-gray-300">
       {loadingTracks && <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />}
-      {errorTracks && <p>{errorTracks}</p>}
+      {!loadingTracks && errorTracks && (
+        <p className="flex justify-center items-center flex-col gap-1">
+          {errorTracks}
+          <button
+            onClick={handleGetTracks}
+            className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
+          >
+            <Reload />
+          </button>
+        </p>
+      )}
     </div>
   );
 };

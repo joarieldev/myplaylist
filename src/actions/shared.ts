@@ -1,1 +1,1 @@
-export const appName = process.env.APP_NAME
+export const apiUrl = process.env.NEXT_PUBLIC_AUDIUS_API_URL

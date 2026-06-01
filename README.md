@@ -1,7 +1,7 @@
 # My Playlist
 
 ## 📝 Descripción del proyecto: 
-**MyPlaylist** es una aplicacion web para escuchar las mejores playlist sin interrupciones. creada con [Nextjs](https://nextjs.org/),  [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/) y [Api Audius](https://audius.org/en/api) .
+**MyPlaylist** es una aplicacion web para escuchar las mejores playlist sin interrupciones. creada con [Nextjs](https://nextjs.org/),  [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/) y [Audius](https://docs.audius.co/) .
 
 ## 🚀 Enlace a la demo:
 Accede a la app desplegada en Vercel: https://myplaylist-kappa.vercel.app/

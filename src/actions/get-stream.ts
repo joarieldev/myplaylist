@@ -1,5 +1,5 @@
-import { appName } from "./shared";
+import { apiUrl } from "./shared";
 
 export const getStream = (id: string) => {
-  return `https://discoveryprovider.audius.co/v1/tracks/${id}/stream?app_name=${appName}`
+  return `${apiUrl}/tracks/${id}/stream`
 }
