@@ -1,9 +1,62 @@
 import { Search } from "@/assets/icons/Search";
 import { X } from "@/assets/icons/X";
 import { useUiStore } from "@/store/ui-store";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const genres = ['rock', 'lofi', 'dance', 'jazz', 'pop'];
+const genres = [
+  'electronic',
+  'rock',
+  'metal',
+  'lofi',
+  'alternative',
+  'hip-hop/rap',
+  'experimental',
+  'punk',
+  'folk',
+  'pop',
+  'ambient',
+  'soundtrack',
+  'world',
+  'jazz',
+  'acoustic',
+  'funk',
+  'r&b/soul',
+  'devotional',
+  'classical',
+  'reggae',
+  'podcasts',
+  'country',
+  'spoken word',
+  'comedy',
+  'blues',
+  'kids',
+  'audiobooks',
+  'latin',
+  'lo-fi',
+  'hyperpop',
+  'dancehall',
+  'techno',
+  'trap',
+  'house',
+  'tech house',
+  'deep house',
+  'disco',
+  'electro',
+  'jungle',
+  'progressive house',
+  'hardstyle',
+  'glitch hop',
+  'trance',
+  'future bass',
+  'future house',
+  'tropical house',
+  'downtempo',
+  'drum & bass',
+  'dubstep',
+  'jersey club',
+  'vaporwave',
+  'moombahton',
+];
 
 interface Props {
   fetchSearch: () => void;
@@ -13,6 +66,7 @@ export const SearchForm = ({ fetchSearch }: Props) => {
   const searchText = useUiStore((state) => state.searchText);
   const setSearchText = useUiStore((state) => state.setSearchText);
   const inputRef = useRef<HTMLInputElement>(null);
+  const genresRef = useRef<HTMLDivElement>(null);
 
 
   const clearInput = () => {
@@ -29,6 +83,21 @@ export const SearchForm = ({ fetchSearch }: Props) => {
     setSearchText(genre);
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    const el = genresRef.current;
+    if (!el) return;
+    
+    const handler = (e: WheelEvent) => {
+      if (el.scrollWidth > el.clientWidth) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+    
+    el.addEventListener('wheel', handler, { passive: false });
+    return () => el.removeEventListener('wheel', handler);
+  }, []);
 
   return (
     <form
@@ -63,13 +132,16 @@ export const SearchForm = ({ fetchSearch }: Props) => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div 
+        ref={genresRef}
+        className="flex overflow-x-auto overflow-y-hidden flex-nowrap gap-2 genres-scroll"
+      >
         {genres.map((genre) => (
           <button
             key={genre}
             type="submit"
             onClick={() => handleGenreClick(genre)}
-            className="px-3 py-1 hover:bg-neutral-800/90 bg-neutral-900/90 rounded-full text-sm max-sm:font-semibold font-sans transition-colors capitalize"
+            className="px-3 py-1 hover:bg-neutral-800/90 bg-neutral-900/90 rounded-full text-sm max-sm:font-semibold font-sans transition-colors capitalize text-nowrap"
           >
             {genre}
           </button>

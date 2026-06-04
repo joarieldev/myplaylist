@@ -24,3 +24,26 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #717171 transparent;
 }
+
+.genres-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  overscroll-behavior-x: contain;
+}
+
+.genres-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.genres-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.genres-scroll:hover {
+  scrollbar-color: #717171 transparent;
+}
+
+.genres-scroll:hover::-webkit-scrollbar-thumb {
+  background: #717171;
+}
