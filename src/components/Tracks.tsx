@@ -6,13 +6,15 @@ import { ITrack } from "@/interfaces/Track";
 import bgcover from "@/assets/caratula-vacia.webp";
 import { formatTime } from "../utils/audio";
 import { Clef } from "@/assets/icons/Clef";
+import { X } from "@/assets/icons/X";
 
 interface Props {
   tracks: ITrack[];
-  handleSelect: (track: ITrack) => void
+  handleSelect: (track: ITrack) => void;
+  onDelete?: (track: ITrack) => void;
 }
 
-export const Tracks = ({ tracks, handleSelect }: Props) => {
+export const Tracks = ({ tracks, handleSelect, onDelete }: Props) => {
   const selectedTrack = useUiStore((state) => state.selectedTrack);
 
   useEffect(() => {
@@ -64,6 +66,14 @@ export const Tracks = ({ tracks, handleSelect }: Props) => {
                 {formatTime(track.duration)}
               </p>
             </motion.div>
+            {onDelete && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onDelete(track); }}
+                className="p-2 sm:p-1 active:bg-black/75 hover:bg-neutral-500/25 rounded-full transition-colors cursor-pointer"
+              >
+                <X className="size-5 sm:size-4" />
+              </button>
+            )}
           </article>
         </li>
       ))}

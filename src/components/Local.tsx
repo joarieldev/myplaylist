@@ -9,24 +9,67 @@ import { Folder } from "@/assets/icons/Folder";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioStore } from "@/store/audio-store";
+import { useAudioContextStore } from "@/store/audio-context-store";
 import { Tracks } from "./Tracks";
 import { ITrack } from "@/interfaces/Track";
 
 export const Local = () => {
   const files = useContentStore((state) => state.files);
+  const removeFile = useContentStore((state) => state.removeFile);
+  const clearAllFiles = useContentStore((state) => state.clearFiles);
 
   const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
-
+  const audioTracks = useAudioStore((state) => state.tracks);
   const setTracks = useAudioStore((state) => state.setTracks);
+  const stopCurrentAudio = useAudioContextStore((state) => state.stopCurrentAudio);
 
   const handleSelect = (item: ITrack) => {
     playTrack(item);
     setIsPlaying(true)
     navigateTo("main");
     setTracks(files);
+  }
+
+  const handleDelete = (track: ITrack) => {
+    removeFile(track.id);
+    URL.revokeObjectURL(track.orig_filename);
+
+    if (track.tags !== "local") return;
+
+    const deletedIndex = audioTracks.findIndex(t => t.id === track.id);
+    if (deletedIndex === -1) return;
+
+    const updatedTracks = audioTracks.toSpliced(deletedIndex, 1);
+    setTracks(updatedTracks);
+
+    if (selectedTrack?.id === track.id) {
+      const nextTrack = updatedTracks[deletedIndex];
+
+      if (nextTrack) {
+        playTrack(nextTrack);
+        setIsPlaying(true);
+      } else {
+        stopCurrentAudio();
+        setSelectedTrack(null);
+        setIsPlaying(false);
+      }
+    }
+  }
+
+  const handleClearAll = () => {
+    files.forEach(f => URL.revokeObjectURL(f.orig_filename));
+    clearAllFiles();
+
+    if (selectedTrack?.tags === "local") {
+      stopCurrentAudio();
+      setTracks([]);
+      setSelectedTrack(null);
+      setIsPlaying(false);
+    }
   }
 
   useEffect(() => {
@@ -53,7 +96,7 @@ export const Local = () => {
             <CornerUpLeft className="size-5 max-sm:stroke-3" />
             <span className="font-sans text-sm">Biblioteca</span>
           </button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 relative">
             <span className="p-1.5 rounded-full bg-blue-700 text-black">
               <Folder className="max-sm:size-8 max-sm:stroke-3" />
             </span>
@@ -64,6 +107,14 @@ export const Local = () => {
                 {files.length} pistas
               </span>
             </div>
+            {files.length > 0 && 
+              <button
+                onClick={handleClearAll}
+                className="ml-2 px-2 py-0.5 text-[11px] rounded-full bg-black/75 active:bg-neutral-500/25 transition-colors absolute right-2 bottom-0 cursor-pointer"
+              >
+                Eliminar todo
+              </button>
+            }
           </div>
         </nav>
       </header>
@@ -75,6 +126,12 @@ export const Local = () => {
           </button>
           <p className="text-sm text-gray-300">
             Haga clic para cargar o arrastre y suelte
+          </p>
+          <p className="mt-2 text-xs text-gray-500 text-center mx-2">
+            Los archivos se almacenan en tu navegador y no se suben a internet.
+          </p>
+          <p className="text-xs text-gray-500 text-center mx-2">
+            Máximo 20 canciones locales.
           </p>
           <input
             onChange={handleFileChange}
@@ -90,7 +147,7 @@ export const Local = () => {
 
       {files.length > 0 && (
         <div className="grow">
-          <Tracks tracks={files} handleSelect={handleSelect} />
+          <Tracks tracks={files} handleSelect={handleSelect} onDelete={handleDelete} />
         </div>
       )}
     </>

@@ -32,6 +32,8 @@ interface State {
   setList: (list: IList) => void;
   setBack: (back: string) => void;
   addFiles: (files: ITrack[]) => void;
+  removeFile: (id: string) => void;
+  clearFiles: () => void;
   setPlaylist: (newList: IListCustom) => void;
   setColor: (trackId: string, colors: RGB) => void;
 }
@@ -54,6 +56,8 @@ export const useContentStore = create<State>()((set) => ({
   setList: (list) => set({ list }),
   setBack: (back) => set({ back }),
   addFiles: (files) => set((state) => ({ files: [...state.files, ...files] })),
+  removeFile: (id) => set((state) => ({ files: state.files.filter((f) => f.id !== id) })),
+  clearFiles: () => set({ files: [] }),
   setPlaylist: (newList) =>
     set((state) => ({
       playlist: state.playlist.find((item) => item.list.id === newList.list.id)

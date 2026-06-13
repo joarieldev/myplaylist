@@ -13,6 +13,7 @@ export const useInputRef = () => {
   const addFiles = useContentStore(state => state.addFiles);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setWindow = useUiStore(state => state.setWindow);
+  const MAX_FILES = 20;
 
   const handleFileChange = async () => {
     const files = fileInputRef.current?.files;
@@ -23,6 +24,9 @@ export const useInputRef = () => {
       if (!item.type.startsWith("audio"))
         return toast.warning("Solo se pueden cargar archivos de audio");
     }
+
+    if (useContentStore.getState().files.length + files.length > MAX_FILES)
+      return toast.warning(`Máximo ${MAX_FILES} canciones permitidas`);
 
     const promise = () => new Promise<ITrack[]>(async (resolve) => {
       const newFiles: ITrack[] = await Promise.all(
