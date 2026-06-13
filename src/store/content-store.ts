@@ -59,11 +59,10 @@ export const useContentStore = create<State>()((set) => ({
   removeFile: (id) => set((state) => ({ files: state.files.filter((f) => f.id !== id) })),
   clearFiles: () => set({ files: [] }),
   setPlaylist: (newList) =>
-    set((state) => ({
-      playlist: state.playlist.find((item) => item.list.id === newList.list.id)
-        ? [...state.playlist]
-        : [...state.playlist, newList],
-    })),
+    set((state) => {
+      if (state.playlist.some((item) => item.list.id === newList.list.id)) return {};
+      return { playlist: [...state.playlist, newList] };
+    }),
   setColor: (trackId, colors) =>
     set((state) => ({
       colors: { ...state.colors, [trackId]: colors },

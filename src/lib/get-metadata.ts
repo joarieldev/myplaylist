@@ -10,9 +10,11 @@ export async function extractAudioMetadata(file: File) {
 
   let cover = null;
   if (metadata.common.picture && metadata.common.picture.length > 0) {
-    const coverData = metadata.common.picture[0].data;
-    const uint8Array = new Uint8Array(coverData);
-    cover = URL.createObjectURL(new Blob([uint8Array]));
+    const pic = metadata.common.picture[0];
+    const bytes = new Uint8Array(pic.data);
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    cover = `data:${pic.format};base64,${btoa(binary)}`;
   }
 
   return {
