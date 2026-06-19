@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GridList } from "./GridList";
 import { Reload } from "@/assets/icons/Reload";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { SearchForm } from "./SearchForm";
 import { getSearch } from "@/actions/get-search";
 import { useUiStore } from "@/store/ui-store";
@@ -13,6 +13,7 @@ import { Loader2 } from "@/assets/icons/Loader2";
 export const Search = () => {
   const [change, setChange] = useState<number>(0);
   const searchText = useUiStore((state) => state.searchText);
+  const queryClient = useQueryClient();
 
   const {
     error: error,
@@ -20,11 +21,17 @@ export const Search = () => {
     refetch: refetchSearch,
     data: searches,
   } = useQuery<IList[]>({
-    queryKey: ["querySearch"],
+    queryKey: ["querySearch", searchText],
     queryFn: () => getSearch(searchText),
     retry: false,
     enabled: false,
   });
+
+  const handleFetch = () => {
+    const cached = queryClient.getQueryData(["querySearch", searchText]);
+    if (cached) return;
+    refetchSearch();
+  };
 
   return (
     <>
@@ -39,7 +46,7 @@ export const Search = () => {
             <CornerUpLeft className="size-5 max-sm:stroke-3" />
             <span className="max-sm:font-semibold font-sans text-sm">Biblioteca</span>
           </button>
-          <SearchForm fetchSearch={refetchSearch} />
+          <SearchForm fetchSearch={handleFetch} />
         </nav>
       </header>
       {fetching && (
