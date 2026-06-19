@@ -53,6 +53,7 @@ export const usePlayTrack = () => {
     }
 
     newAudio.onplaying = () => {
+      toast.dismiss("audio-error")
       setLoading(false)
     }
 
@@ -89,22 +90,18 @@ export const usePlayTrack = () => {
 
     newAudio.onerror = () => {
       //Ignorar audio abortado (cambio de pista)
-      if (newAudio.error?.message === 'MEDIA_ELEMENT_ERROR: Empty src attribute') return
+      if (newAudio.dataset.stopped !== undefined) return
 
-      if(!navigator.onLine) {
-        toast.dismiss()
-        toast.error(
-          "Error de red. Verifica tu conexión a internet.",
-          {duration: Infinity}
-        )
+      setIsPlaying(false)
+
+      if (!navigator.onLine) {
         onLineRef.current = false
-        setIsPlaying(false)
+        toast.error("Error de red. Verifica tu conexión.", {id: "audio-error", duration: Infinity})
         return
       }
 
-      const pista = track.title.length > 16 ? `${track.title.slice(0, 16)}...`: track.title
-      toast.warning(`Error al reproducir pista - ${pista}`, {duration: Infinity})
-      pause()
+      const pista = track.title.length > 16 ? `${track.title.slice(0, 16)}...` : track.title
+      toast.warning(`Error al reproducir "${pista}"`, {id: "audio-error", duration: Infinity})
     }
   }
 

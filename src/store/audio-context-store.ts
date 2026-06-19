@@ -50,6 +50,7 @@ export const useAudioContextStore = create<State>()((set, get) => ({
     }
 
     if (state.audioElement) {
+      state.audioElement.dataset.stopped = "";
       state.audioElement.pause();
       state.audioElement.src = "";
     }
