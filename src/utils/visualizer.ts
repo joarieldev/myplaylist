@@ -239,9 +239,13 @@ export const circleSpectrumSpring = (vis: IVisualizer) => {
 
 const DEG2RAD = Math.PI / 180;
 
-const snowflakes: Snowflake[] = [];
-let frameCount = 0;
-let staticFlakeAccumulator = 0;
+interface SnowflakeState {
+  snowflakes: Snowflake[];
+  frameCount: number;
+  staticFlakeAccumulator: number;
+}
+
+const snowflakeStates = new WeakMap<HTMLCanvasElement, SnowflakeState>();
 
 class Snowflake {
   posX: number;
@@ -284,6 +288,14 @@ class Snowflake {
 export const snowflake = (vis: IVisualizer) => {
   vis.analyserNode.getByteFrequencyData(vis.dataArray);
 
+  let state = snowflakeStates.get(vis.canvas);
+  if (!state) {
+    state = { snowflakes: [], frameCount: 0, staticFlakeAccumulator: 0 };
+    snowflakeStates.set(vis.canvas, state);
+  }
+
+  const { snowflakes } = state;
+
   const N = Math.min(80, vis.dataArray.length);
   const lowFreqs = vis.dataArray.slice(0, N);
 
@@ -293,17 +305,17 @@ export const snowflake = (vis: IVisualizer) => {
   const flakesPerSecond = 2 + norm * 150;
   const flakesPerFrame = flakesPerSecond / 80;
 
-  staticFlakeAccumulator += flakesPerFrame;
+  state.staticFlakeAccumulator += flakesPerFrame;
 
-  while (staticFlakeAccumulator >= 1) {
+  while (state.staticFlakeAccumulator >= 1) {
     snowflakes.push(new Snowflake(vis.canvas, vis.ctx));
-    staticFlakeAccumulator -= 1;
+    state.staticFlakeAccumulator -= 1;
   }
 
   vis.ctx.clearRect(0, 0, vis.canvas.width, vis.canvas.height);
 
-  const time = frameCount / 60;
-  frameCount++;
+  const time = state.frameCount / 60;
+  state.frameCount++;
 
   let write = 0;
   for (let i = 0; i < snowflakes.length; i++) {

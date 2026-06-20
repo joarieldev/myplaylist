@@ -5,7 +5,7 @@ import BIRDS from "vanta/dist/vanta.birds.min";
 import * as THREE from "three";
 import { motion } from "motion/react";
 
-export const BgVanta = () => {
+export const BgVantaBirds = () => {
   const animationRef = useRef<number>(null);
   const analyserNode = useAudioContextStore((state) => state.analyserNode);
   const mode = useBgVisualizerStore((state) => state.mode);
