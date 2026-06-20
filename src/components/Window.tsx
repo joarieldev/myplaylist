@@ -57,7 +57,7 @@ const Windows = () => {
     if (
       hash &&
       VALID_WINDOWTAB.has(hash as WindowTabType) &&
-      hash !== "#detail"
+      hash !== "detail"
     ) {
       setWindowTab(hash as WindowTabType);
     }
