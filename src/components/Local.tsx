@@ -122,16 +122,13 @@ export const Local = () => {
       {files.length === 0 && (
         <div className="flex size-full flex-col items-center justify-center">
           <button onClick={onTargetClick} className="cursor-pointer">
-            <MusicNotePlus className="text-gray-400" />
+            <MusicNotePlus className="text-gray-300" />
           </button>
           <p className="text-sm text-gray-300">
             Haga clic para cargar o arrastre y suelte
           </p>
-          <p className="mt-2 text-xs text-gray-500 text-center mx-2">
-            Los archivos se almacenan en tu navegador y no se suben a internet.
-          </p>
-          <p className="text-xs text-gray-500 text-center mx-2">
-            Máximo 20 canciones locales.
+          <p className="mt-2 text-xs text-gray-400 text-center mx-8 text-pretty">
+            Máximo 20 canciones locales. Los archivos se almacenan en tu navegador y no se suben a internet.
           </p>
           <input
             onChange={handleFileChange}

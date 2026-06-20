@@ -71,7 +71,7 @@ export const Search = () => {
         <>
           {!searches ? (
             <div className="size-full grid place-items-center">
-              <p className="text-center text-sm text-gray-300">Lista vacía</p>
+              <p className="text-center text-sm text-gray-300">Sin playlists para mostrar</p>
             </div>
           ) : (
             <div className="grow">
