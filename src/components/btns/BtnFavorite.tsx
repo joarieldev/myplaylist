@@ -1,22 +1,27 @@
 import { createFavorite } from "@/actions/create-favorite";
 import { deleteFavorite } from "@/actions/delete-favorite";
+import { getFavorite } from "@/actions/get-favorite";
 import { Heart } from "@/assets/icons/Heart";
 import { IList } from "@/interfaces/List";
 import { Show, SignInButton, useUser } from "@clerk/nextjs";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface Props {
   item: IList;
-  setChange: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const BtnFavorite = ({ item, setChange }: Props) => {
+export const BtnFavorite = ({ item }: Props) => {
   const { user } = useUser();
   const queryClient = useQueryClient();
-  const favorites = queryClient.getQueryData<IList[]>(["queryFavorite"]);
+  const { data: favorites } = useQuery({
+    queryKey: ["queryFavorite"],
+    queryFn: () => getFavorite(user?.id ?? ""),
+    enabled: !!user?.id,
+    staleTime: 5 * 60 * 1000,
+  });
   const [btnDisabled, setBtnDisabled] = useState(false);
 
   const handleAddFavorite = async (
@@ -38,15 +43,6 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
           if (old?.some((fav) => fav.id === item.id)) return old;
           return old ? [...old, item] : [item];
         });
-        queryClient.setQueryData<IList[]>(["queryTrending"], (old) => {
-          if (old?.some((fav) => fav.id === item.id)) return old;
-          return old ? [...old, item] : [item];
-        });
-        queryClient.setQueryData<IList[]>(["querySearch"], (old) => {
-          if (old?.some((fav) => fav.id === item.id)) return old;
-          return old ? [...old, item] : [item];
-        });
-        setChange((prev) => prev + 1);
         toast.success("Añadido a Favoritos");
       })
       .catch(() => {
@@ -73,7 +69,6 @@ export const BtnFavorite = ({ item, setChange }: Props) => {
           ["queryFavorite"],
           (old) => old?.filter((fav) => fav.id !== item.id) ?? []
         );
-        setChange((prev) => prev + 1);
         toast.success("Eliminado de Favoritos");
       })
       .catch(() => {

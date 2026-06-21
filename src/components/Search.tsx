@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GridList } from "./GridList";
 import { Reload } from "@/assets/icons/Reload";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,7 +10,6 @@ import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Search = () => {
-  const [change, setChange] = useState<number>(0);
   const searchText = useUiStore((state) => state.searchText);
   const queryClient = useQueryClient();
 
@@ -75,11 +73,9 @@ export const Search = () => {
             </div>
           ) : (
             <div className="grow">
-              <label className="sr-only">{change}</label>
               <GridList
                 list={searches}
                 nameWindow="search"
-                setChange={setChange}
               />
             </div>
           )}

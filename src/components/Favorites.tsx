@@ -1,7 +1,6 @@
 import { Show, SignInButton, useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import { GridList } from "./GridList";
-import { useState } from "react";
 import { Reload } from "@/assets/icons/Reload";
 import { getFavorite } from "@/actions/get-favorite";
 import { navigateTo } from "@/utils/navigate";
@@ -11,8 +10,6 @@ import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Favorites = () => {
   const { isSignedIn, user, isLoaded } = useUser();
-
-  const [change, setChange] = useState<number>(0);
 
   const {
     isPending: loading,
@@ -87,11 +84,9 @@ export const Favorites = () => {
             </div>
           ) : (
             <div className="grow">
-              <label className="sr-only">{change}</label>
               <GridList
                 list={favorites ?? []}
                 nameWindow="favorites"
-                setChange={setChange}
               />
             </div>
           )}

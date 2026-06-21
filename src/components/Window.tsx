@@ -13,6 +13,9 @@ import { Trending } from "./Trending";
 import { Search } from "./Search";
 import { Favorites } from "./Favorites";
 import { Detail } from "./Detail";
+import { useUser } from "@clerk/nextjs";
+import { useQueryClient } from "@tanstack/react-query";
+import { getFavorite } from "@/actions/get-favorite";
 import { useEffect } from "react";
 import { Windows as WindowTabType } from "@/store/ui-store";
 import { motion } from "motion/react";
@@ -29,12 +32,29 @@ export const Window = () => {
     <>
       <BgCover />
       <Visualizers />
+      <PrefetchFavorites />
       <Windows />
       <Upload />
       <About />
       <Toaster position="bottom-center" />
     </>
   );
+};
+
+const PrefetchFavorites = () => {
+  const { isSignedIn, user, isLoaded } = useUser();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !user?.id) return;
+    queryClient.prefetchQuery({
+      queryKey: ["queryFavorite"],
+      queryFn: () => getFavorite(user.id),
+      staleTime: 5 * 60 * 1000,
+    });
+  }, [isLoaded, isSignedIn, user?.id, queryClient]);
+
+  return null;
 };
 
 const VALID_WINDOWTAB = new Set<WindowTabType>([

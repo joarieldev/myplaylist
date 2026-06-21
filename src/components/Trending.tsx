@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GridList } from "./GridList";
 import { getTrending } from "@/actions/get-trending";
 import { Reload } from "@/assets/icons/Reload";
@@ -10,8 +9,6 @@ import { TrendingUp } from "@/assets/icons/TrendingUp";
 import { Loader2 } from "@/assets/icons/Loader2";
 
 export const Trending = () => {
-  const [change, setChange] = useState<number>(0);
-
   const {
     isPending: loading,
     error,
@@ -68,11 +65,9 @@ export const Trending = () => {
       )}
       {!loading && !error && (
         <div className="grow">
-          <label className="sr-only">{change}</label>
           <GridList
             list={trending}
             nameWindow="trending"
-            setChange={setChange}
           />
         </div>
       )}

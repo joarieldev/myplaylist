@@ -9,10 +9,9 @@ import { useEffect } from "react";
 interface Props {
   list: IList[];
   nameWindow: string;
-  setChange: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const GridList = ({ list, nameWindow, setChange }: Props) => {
+export const GridList = ({ list, nameWindow }: Props) => {
   const setWindow = useUiStore((state) => state.setWindow);
   const setList = useContentStore((state) => state.setList);
   const setBack = useContentStore((state) => state.setBack);
@@ -69,7 +68,7 @@ export const GridList = ({ list, nameWindow, setChange }: Props) => {
                   <BrandNeteaseMusic className="size-4 sm:size-3" />
                   {item.track_count}
                 </p>
-                <BtnFavorite item={item} setChange={setChange} />
+                <BtnFavorite item={item} />
               </div>
             </div>
           </div>
