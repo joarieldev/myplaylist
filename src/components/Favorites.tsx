@@ -20,6 +20,7 @@ export const Favorites = () => {
     queryKey: ["queryFavorite"],
     queryFn: () => getFavorite(user?.id ?? ""),
     enabled: isLoaded && isSignedIn && !!user?.id,
+    staleTime: 5 * 60 * 1000,
     retry: false,
   });
 

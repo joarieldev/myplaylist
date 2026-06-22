@@ -14,14 +14,17 @@ export async function createFavorite(user_id: string, name: string, item: IList)
     const favorite = await Favorite.find({ uid: user_id })
 
     if (favorite.length !== 0) {
+      const exists = favorite[0].list.some((fav: IList) => fav.id === item.id)
+      if (exists) {
+        return { ok: false, message: 'Ya está en favoritos' }
+      }
       favorite[0].list.push(item)
       await favorite[0].save()
       return { ok: true, message: 'Añadido a Favoritos' }
     }
-    if (favorite.length === 0) {
-      await Favorite.create({ uid: user_id, name, list: [item] })
-      return { ok: true, message: 'Guardado en Favoritos' }
-    }
+
+    await Favorite.create({ uid: user_id, name, list: [item] })
+    return { ok: true, message: 'Guardado en Favoritos' }
   } catch (e) {
     console.error("Error en createFavorite: ", e)
     return { ok: false, error: e }
