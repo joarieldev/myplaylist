@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
 import { BtnFavorite } from "./btns/BtnFavorite";
-import { useUiStore } from "@/store/ui-store";
-import { useContentStore } from "@/store/content-store";
+import { useAudioStore } from "@/store/audio-store";
+import { navigateTo } from "@/utils/navigate";
 import { motion } from "motion/react";
-import { useEffect } from "react";
 
 interface Props {
   list: IList[];
@@ -12,25 +12,17 @@ interface Props {
 }
 
 export const GridList = ({ list, nameWindow }: Props) => {
-  const setWindow = useUiStore((state) => state.setWindow);
-  const setList = useContentStore((state) => state.setList);
-  const setBack = useContentStore((state) => state.setBack);
-  const listDetail = useContentStore((state) => state.list);
+  const listDetail = useAudioStore((state) => state.playlist);
 
   const handleDetail = (item: IList) => {
-    setList(item);
-    setBack(nameWindow);
-    setWindow("detail");
+    navigateTo("detail", { list: item, back: nameWindow });
   };
 
   useEffect(() => {
-    if (!listDetail) return;
-    const selectedId = `list-${listDetail.id}`;
-    if (selectedId) {
-      const el = document.getElementById(`list-${listDetail.id}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "auto", block: "center" });
-      }
+    if (!listDetail.id) return;
+    const el = document.getElementById(`list-${listDetail.id}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "auto", block: "center" });
     }
   }, [listDetail]);
 

@@ -13,7 +13,7 @@ import { PlayerNext } from "@/assets/icons/PlayerNext";
 import { Progress } from "./Progress";
 
 export const MiniPlayer = () => {
-  const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const selectedTrack = useAudioStore((state) => state.selectedTrack);
   const isPlaying = useAudioStore((state) => state.isPlaying);
   const { play, pause, prev, next } = usePlayTrack();
   const tracks = useAudioStore((state) => state.tracks);

@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import { Tracks } from "./Tracks";
 import { getTracks } from "@/actions/get-tracks";
-import { Windows } from "@/store/ui-store";
-import { navigateTo, navigateToHash } from "@/utils/navigate";
-import { useContentStore } from "@/store/content-store";
+import { useQuery } from "@tanstack/react-query";
+import { navigateTo } from "@/utils/navigate";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
 import { IList } from "@/interfaces/List";
 import { BrandNeteaseMusic } from "@/assets/icons/BrandNeteaseMusic";
@@ -13,71 +11,78 @@ import { usePlayTrack } from "@/hooks/usePlayTrack";
 import { useAudioStore } from "@/store/audio-store";
 import { Loader2 } from "@/assets/icons/Loader2";
 import { PlayerPlay } from "@/assets/icons/PlayerPlay";
-import { useUser } from "@clerk/nextjs";
 import { Reload } from "@/assets/icons/Reload";
+import { useUiStore, Windows } from "@/store/ui-store";
 
 export const Detail = () => {
-  const { isSignedIn } = useUser();
+  const viewingPlaylist = useUiStore((state) => state.viewingPlaylist);
+  const back = useUiStore((state) => state.back);
 
-  const playlist = useContentStore((state) => state.playlist);
-  const list = useContentStore((state) => state.list);
-  const back = useContentStore((state) => state.back);
+  const { data: tracks, isLoading, error, refetch } = useQuery({
+    queryKey: ["tracks", viewingPlaylist.id],
+    queryFn: () => getTracks(viewingPlaylist.id),
+    enabled: !!viewingPlaylist.id,
+    staleTime: 5 * 60 * 1000,
+  });
 
   const { playTrack } = usePlayTrack();
   const setTracks = useAudioStore((state) => state.setTracks);
   const setPlaylist = useAudioStore((state) => state.setPlaylist);
+  const setPlaybackOrigin = useAudioStore((state) => state.setPlaybackOrigin);
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
-  const isplaylist = playlist.find((item) => item.list.id === list.id);
+  const handleSelect = (track: ITrack) => {
+    if (!tracks) return;
+    playTrack(track);
+    setIsPlaying(true);
+    setTracks(tracks);
+    setPlaylist(viewingPlaylist);
+    setPlaybackOrigin(back);
+    navigateTo("main");
+  };
 
-  if (isplaylist) {
-    let playlistPath = isplaylist.path
-
-    if(isplaylist.path === "favorites" && !isSignedIn) {
-      playlistPath = "search"
-    }
-     
-    navigateToHash(playlistPath)
-
-    const handleSelect = (track: ITrack) => {
-      playTrack(track);
-      setIsPlaying(true);
-      navigateTo("main");
-      setTracks(isplaylist.tracks);
-      setPlaylist(list);
-    }
-
-    const handlePlay = () => {
-      if (isplaylist.tracks.length === 0) return;
-
-      playTrack(isplaylist.tracks[0]);
-      setIsPlaying(true);
-      setTracks(isplaylist.tracks);
-      setPlaylist(list);
-    }
-
-    return (
-      <>
-        <Nav back={playlistPath} list={list} onPlay={handlePlay} />
-        {isplaylist.tracks.length === 0 ? (
-          <div className="size-full grid place-items-center">
-            <p className="text-center text-sm text-gray-300">
-              No se encontraron tracks
-            </p>
-          </div>
-        ):(
-          <div className="grow">
-            <Tracks tracks={isplaylist.tracks} handleSelect={handleSelect} />
-          </div>
-        )}
-      </>
-    );
-  }
+  const handlePlay = () => {
+    if (!tracks || tracks.length === 0) return;
+    playTrack(tracks[0]);
+    setIsPlaying(true);
+    setTracks(tracks);
+    setPlaylist(viewingPlaylist);
+    setPlaybackOrigin(back);
+  };
 
   return (
     <>
-      <Nav back={back} list={list} onPlay={()=>{}} />
-      <DetailNoStored />
+      <Nav back={back} list={viewingPlaylist} onPlay={handlePlay} />
+      {isLoading && (
+        <div className="size-full grid place-items-center">
+          <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />
+        </div>
+      )}
+      {error && (
+        <div className="size-full grid place-items-center">
+          <p className="flex justify-center items-center flex-col gap-1 text-sm text-gray-300">
+            {error.message}
+            <button
+              onClick={() => refetch()}
+              className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full"
+            >
+              <Reload />
+            </button>
+          </p>
+        </div>
+      )}
+      {tracks && tracks.length === 0 && (
+        <div className="size-full grid place-items-center">
+          <p className="text-center text-sm text-gray-300">
+            No se encontraron tracks
+          </p>
+        </div>
+      )}
+      {tracks && tracks.length > 0 && (
+        <div className="grow">
+          <Tracks tracks={tracks} handleSelect={handleSelect} />
+        </div>
+      )}
     </>
   );
 };
@@ -140,45 +145,3 @@ const Nav = ({ back, list, onPlay }: { back: string; list: IList; onPlay: () => 
   );
 };
 
-const DetailNoStored = () => {
-  const [loadingTracks, setLoadingTracks] = useState<boolean>(false);
-  const [errorTracks, setErrorTracks] = useState<string | null>(null);
-  const list = useContentStore((state) => state.list);
-  const back = useContentStore((state) => state.back);
-  const setPlaylist = useContentStore((state) => state.setPlaylist);
-
-  const handleGetTracks = () => {
-    setLoadingTracks(true);
-    getTracks(list.id)
-      .then(data => {
-        setPlaylist({ list: list, path: back, tracks: data });
-      })
-      .catch(error => {
-        setErrorTracks(error.message);
-      })
-      .finally(() => {
-        setLoadingTracks(false);
-      });
-  }
-
-  useEffect(() => {
-    handleGetTracks();
-  }, []);
-
-  return (
-    <div className="h-full grid place-items-center text-sm text-gray-300">
-      {loadingTracks && <Loader2 className="max-sm:size-7 max-sm:stroke-3 animate-spin" />}
-      {!loadingTracks && errorTracks && (
-        <p className="flex justify-center items-center flex-col gap-1">
-          {errorTracks}
-          <button
-            onClick={handleGetTracks}
-            className="cursor-pointer p-1 hover:bg-gray-500/40 rounded-full "
-          >
-            <Reload />
-          </button>
-        </p>
-      )}
-    </div>
-  );
-};

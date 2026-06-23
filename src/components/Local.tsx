@@ -1,7 +1,6 @@
 import { MusicNotePlus } from "@/assets/icons/MusicNotePlus";
 import { useInputRef } from "@/hooks/useInputRef";
 import { useContentStore } from "@/store/content-store";
-import { useUiStore } from "@/store/ui-store";
 import { navigateTo } from "@/utils/navigate";
 import { useEffect } from "react";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
@@ -18,8 +17,8 @@ export const Local = () => {
   const removeFile = useContentStore((state) => state.removeFile);
   const clearAllFiles = useContentStore((state) => state.clearFiles);
 
-  const selectedTrack = useUiStore((state) => state.selectedTrack);
-  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
+  const selectedTrack = useAudioStore((state) => state.selectedTrack);
+  const setSelectedTrack = useAudioStore((state) => state.setSelectedTrack);
   const { playTrack } = usePlayTrack();
   const { fileInputRef, handleFileChange, onTargetClick } = useInputRef();
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);

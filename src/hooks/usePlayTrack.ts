@@ -26,7 +26,7 @@ export const usePlayTrack = () => {
   const setCurrentTime = useAudioStore((state) => state.setCurrentTime)
   const setDuration = useAudioStore((state) => state.setDuration)
   const resetPlayback = useAudioStore((state) => state.resetPlayback)
-  const setSelectedTrack = useUiStore((state) => state.setSelectedTrack);
+  const setSelectedTrack = useAudioStore((state) => state.setSelectedTrack);
 
   const onLineRef = useRef<boolean>(true);
 
@@ -126,7 +126,7 @@ export const usePlayTrack = () => {
   const playNextTrack = () => {
     //obtener valores acutales con getState() y evitar closures en js con .onended
     const currentTracks = useAudioStore.getState().tracks;
-    const currentSelectedTrack = useUiStore.getState().selectedTrack;
+    const currentSelectedTrack = useAudioStore.getState().selectedTrack;
 
     const nextTrackIndex = currentTracks.findIndex((track) => track.id === currentSelectedTrack?.id) + 1;
 
@@ -144,8 +144,19 @@ export const usePlayTrack = () => {
   }
 
   const play = () => {
+    // Check when refresh the webpage
+    if (!audioElement) {
+      const currentTrack = useAudioStore.getState().selectedTrack;
+      if (currentTrack) {
+        setLoading(true);
+        playTrack(currentTrack);
+        setIsPlaying(true);
+      }
+      return;
+    }
+
     if(!onLineRef.current) {
-      const currentSelectedTrack = useUiStore.getState().selectedTrack;
+      const currentSelectedTrack = useAudioStore.getState().selectedTrack;
       playTrack(currentSelectedTrack!)
       setIsPlaying(true)
       onLineRef.current = true

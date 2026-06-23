@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import CELLS from "vanta/dist/vanta.cells.min";
 import * as THREE from "three";
 import { motion } from "motion/react";
-import { useUiStore } from "@/store/ui-store";
+import { useAudioStore } from "@/store/audio-store";
 import { Vibrant } from "node-vibrant/browser";
 import { useContentStore } from "@/store/content-store";
 
@@ -18,7 +18,7 @@ export const BgVantaCells = () => {
 
   const colors = useContentStore((state)=> state.colors);
   const setColor = useContentStore((state)=> state.setColor);
-  const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const selectedTrack = useAudioStore((state) => state.selectedTrack);
 
   useEffect(() => {
     if (!selectedTrack) return;

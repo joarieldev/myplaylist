@@ -1,4 +1,4 @@
-import { useUiStore } from "@/store/ui-store";
+import { useAudioStore } from "@/store/audio-store";
 import { navigateTo } from "@/utils/navigate";
 import { BtnPlayers } from "./btns/BtnPlayers";
 import { Progress } from "./Progress";
@@ -14,7 +14,7 @@ import { Category } from "@/assets/icons/Category";
 import clsx from "clsx";
 
 export const Main = () => {
-  const selectedTrack = useUiStore((state) => state.selectedTrack);
+  const selectedTrack = useAudioStore((state) => state.selectedTrack);
 
   const [selectedItem, setSelectedItem] = useState<ITrack | null>(
     selectedTrack

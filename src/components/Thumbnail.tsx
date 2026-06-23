@@ -3,8 +3,8 @@ import caratula from "@/assets/caratula-vacia.webp";
 import { motion, usePresenceData } from "motion/react";
 import { forwardRef } from "react";
 import { ITrack } from "@/interfaces/Track";
-import { useContentStore } from "@/store/content-store";
 import { useAudioStore } from "@/store/audio-store";
+import { useUser } from "@clerk/nextjs";
 import ScrollText from "./ScrollText";
 
 export const Thumbnail = forwardRef(function Thumbnail(
@@ -12,15 +12,16 @@ export const Thumbnail = forwardRef(function Thumbnail(
   ref: React.Ref<HTMLDivElement>
 ) {
   const direction = usePresenceData();
-  const setList = useContentStore((state) => state.setList);
+  const { isSignedIn } = useUser();
   const playlist = useAudioStore((state) => state.playlist);
+  const playbackOrigin = useAudioStore((state) => state.playbackOrigin);
 
   const handleTabWindow = () => {
     if(selectedTrack && selectedTrack.tags === "local") {
       navigateTo("local");
     }else{
-      setList(playlist);
-      navigateTo("detail");
+      const back = playbackOrigin === "favorites" && !isSignedIn ? "search" : playbackOrigin;
+      navigateTo("detail", { list: playlist, back });
     }
   };
 

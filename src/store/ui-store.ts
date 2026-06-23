@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ITrack } from "@/interfaces/Track";
+import { IList } from "@/interfaces/List";
 
 export type Windows = "main" | "library" | "local" | "trending" | "search" | "favorites" | "detail";
 
@@ -8,7 +8,10 @@ type VisualizerDisplay = "none" | "active" | "middle" | "full";
 interface State {
   // window-store
   window: Windows;
-  selectedTrack: ITrack | null;
+
+  // window-back-store
+  viewingPlaylist: IList;
+  back: string;
 
   // visualizer-store
   visualizer: VisualizerDisplay;
@@ -25,7 +28,8 @@ interface State {
 
   // Actions
   setWindow: (window: Windows) => void;
-  setSelectedTrack: (track: ITrack | null) => void;
+  setViewingPlaylist: (list: IList) => void;
+  setBack: (back: string) => void;
   handleVisualizer: (value: VisualizerDisplay) => void;
   setIsMoving: (isMoving: boolean) => void;
   setMovingTimer: (timer: NodeJS.Timeout | null) => void;
@@ -38,7 +42,10 @@ interface State {
 export const useUiStore = create<State>()((set) => ({
   // window-store
   window: "main",
-  selectedTrack: null,
+
+  // window-back-store
+  viewingPlaylist: {} as IList,
+  back: "",
 
   // visualizer-store
   visualizer: "none",
@@ -55,7 +62,8 @@ export const useUiStore = create<State>()((set) => ({
 
   // Actions
   setWindow: (window) => set({ window }),
-  setSelectedTrack: (track) => set({ selectedTrack: track }),
+  setViewingPlaylist: (list) => set({ viewingPlaylist: list }),
+  setBack: (back) => set({ back }),
   handleVisualizer: (value) => set({ visualizer: value }),
   setIsMoving: (isMoving) => set({ isMoving }),
   setMovingTimer: (timer) => set({ movingTimer: timer }),
