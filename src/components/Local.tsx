@@ -1,6 +1,6 @@
 import { MusicNotePlus } from "@/assets/icons/MusicNotePlus";
 import { useInputRef } from "@/hooks/useInputRef";
-import { useContentStore } from "@/store/content-store";
+import { useFilesStore } from "@/store/files-store";
 import { navigateTo } from "@/utils/navigate";
 import { useEffect } from "react";
 import { CornerUpLeft } from "@/assets/icons/CornerUpLeft";
@@ -13,9 +13,9 @@ import { Tracks } from "./Tracks";
 import { ITrack } from "@/interfaces/Track";
 
 export const Local = () => {
-  const files = useContentStore((state) => state.files);
-  const removeFile = useContentStore((state) => state.removeFile);
-  const clearAllFiles = useContentStore((state) => state.clearFiles);
+  const files = useFilesStore((state) => state.files);
+  const removeFile = useFilesStore((state) => state.removeFile);
+  const clearAllFiles = useFilesStore((state) => state.clearFiles);
 
   const selectedTrack = useAudioStore((state) => state.selectedTrack);
   const setSelectedTrack = useAudioStore((state) => state.setSelectedTrack);
@@ -106,13 +106,22 @@ export const Local = () => {
                 {files.length} pistas
               </span>
             </div>
-            {files.length > 0 && 
-              <button
-                onClick={handleClearAll}
-                className="ml-2 px-2 py-0.5 text-[11px] rounded-full bg-black/75 active:bg-neutral-500/25 transition-colors absolute right-2 bottom-0 cursor-pointer"
-              >
-                Eliminar todo
-              </button>
+            {files.length > 0 &&
+              <div className="absolute right-2 bottom-0 flex gap-2 items-center">
+                <button 
+                  onClick={onTargetClick}    
+                  className="px-2 py-0.5 rounded-full bg-black/75 active:bg-neutral-500/25 transition-colors cursor-pointer"
+                  title="Cargar archivos"
+                  >
+                  <MusicNotePlus className="text-gray-300 size-4" />
+                </button>
+                <button
+                  onClick={handleClearAll}
+                  className="px-2 py-0.5 text-[11px] rounded-full bg-black/75 active:bg-neutral-500/25 transition-colors  cursor-pointer"
+                >
+                  Eliminar todo
+                </button>
+              </div>
             }
           </div>
         </nav>
@@ -129,17 +138,18 @@ export const Local = () => {
           <p className="mt-2 text-xs text-gray-400 text-center mx-8 text-pretty">
             Máximo 20 canciones locales. Los archivos se almacenan en tu navegador y no se suben a internet.
           </p>
-          <input
-            onChange={handleFileChange}
-            ref={fileInputRef}
-            type="file"
-            className="hidden"
-            name="file"
-            multiple
-            accept="audio/*"
-          />
         </div>
       )}
+
+      <input
+        onChange={handleFileChange}
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        name="file"
+        multiple
+        accept="audio/*"
+      />
 
       {files.length > 0 && (
         <div className="grow">

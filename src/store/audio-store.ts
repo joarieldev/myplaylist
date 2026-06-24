@@ -86,8 +86,8 @@ export const useAudioStore = create<State>()(
     {
       name: "myPlaylistQueue",
       partialize: (state) => ({
-        tracks: state.tracks,
-        selectedTrack: state.selectedTrack,
+        tracks: state.tracks.filter((t) => t.tags !== "local"),
+        selectedTrack: state.selectedTrack?.tags === "local" ? null : state.selectedTrack,
         playlist: state.playlist,
         playbackOrigin: state.playbackOrigin,
       }),

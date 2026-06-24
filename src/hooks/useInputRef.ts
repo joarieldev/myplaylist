@@ -1,7 +1,7 @@
 import { ITrack } from "@/interfaces/Track";
 import { extractAudioMetadata } from "@/lib/get-metadata";
-import { useContentStore } from "@/store/content-store";
-import { useUiStore } from "@/store/ui-store";
+import { useFilesStore } from "@/store/files-store";
+import { navigateTo } from "@/utils/navigate";
 import { emptyTrack } from "@/utils/emptyTrack";
 import { useRef } from "react";
 import { toast } from "sonner";
@@ -10,9 +10,8 @@ import caratula from "@/assets/caratula-vacia.webp";
 
 export const useInputRef = () => {
 
-  const addFiles = useContentStore(state => state.addFiles);
+  const addFiles = useFilesStore(state => state.addFiles);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const setWindow = useUiStore(state => state.setWindow);
   const MAX_FILES = 20;
 
   const handleFileChange = async () => {
@@ -25,7 +24,7 @@ export const useInputRef = () => {
         return toast.warning("Solo se pueden cargar archivos de audio");
     }
 
-    if (useContentStore.getState().files.length + files.length > MAX_FILES)
+    if (useFilesStore.getState().files.length + files.length > MAX_FILES)
       return toast.warning(`Máximo ${MAX_FILES} canciones permitidas`);
 
     const promise = () => new Promise<ITrack[]>(async (resolve) => {
@@ -64,7 +63,7 @@ export const useInputRef = () => {
       error: 'Algo salió mal',
     });
 
-    setWindow("local");
+    navigateTo("local");
   };
 
   const onTargetClick = () => {

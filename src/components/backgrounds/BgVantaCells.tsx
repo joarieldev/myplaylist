@@ -6,7 +6,6 @@ import * as THREE from "three";
 import { motion } from "motion/react";
 import { useAudioStore } from "@/store/audio-store";
 import { Vibrant } from "node-vibrant/browser";
-import { useContentStore } from "@/store/content-store";
 
 export const BgVantaCells = () => {
   const animationRef = useRef<number>(null);
@@ -16,8 +15,8 @@ export const BgVantaCells = () => {
   const [vantaEffect, setVantaEffect] = useState<any>(null);
   const vantaRef = useRef<HTMLDivElement>(null);
 
-  const colors = useContentStore((state)=> state.colors);
-  const setColor = useContentStore((state)=> state.setColor);
+  const colors = useBgVisualizerStore((state)=> state.colors);
+  const setColor = useBgVisualizerStore((state)=> state.setColor);
   const selectedTrack = useAudioStore((state) => state.selectedTrack);
 
   useEffect(() => {
